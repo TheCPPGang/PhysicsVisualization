@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FullScreen from './FullScreen';
-import { Physics, Render, ControlConstraint, DeviceGravity } from '../Matter';
+import { Physics, Render, ControlConstraint } from '../Matter';
 import Logo from './Logo';
 import Cage from './Cage';
 
