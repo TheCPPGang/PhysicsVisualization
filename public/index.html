@@ -1,31 +1,85 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Doodle Doodle</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <head>
+        
+        <link rel="stylesheet" href="index.css">
+        
+        <script src="PhysicsVisualizer.js"></script>
+        
+        <title>Physics Visualizer</title>
+    
+    </head>
+    
+    <body>
+        
+        <div id="topBar">
+        
+            <h1 id="title">See Physics</h1> 
+            
+        </div>
+        
+        <div id="welcome">
+        
+            <h3>Visualize physics online - for free!</h3>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+            <p>Choose any of the topics below to get started!</p>
+            
+        </div>
+        
+        <div id="topics">
+        
+            <ul class="nav" id="rotationalMotion"> <u>Rotational Motion</u>
+            
+                <li>Preset</li>
+            
+                <li>Preset</li>
+            
+                <li>Preset</li>
+            
+            </ul>
+            
+            <ul class="nav" id="fluids"> <u>Fluids</u>
+            
+                <li>Preset</li>
+                
+                <li>Preset</li>
+                
+                <li>Preset</li>
+                
+            </ul>
+            
+            <ul class="nav" id="magneticFields"><u>Magnetic Fields</u>
+            
+                <li>Preset</li>
+                
+                <li>Preset</li>
+                
+                <li>Preset</li>
+                
+            </ul>
+            
+        </div>
+         
+        <div id="problemDescription">
+        
+            This is where the problem description will go
+            
+            <p>using color as reference for the size</p>
+            
+        </div>
+        
+        <div id="diagram">diagram</div>
+        
+        <div id="equations">equations</div>
+    
+    </body>
+    
+    <hr>
+    
+    <footer>
+    
+        <a href="">References</a>
+    
+    </footer>
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
-  </body>
 </html>

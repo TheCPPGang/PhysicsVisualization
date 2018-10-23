@@ -1,5 +1,5 @@
 {
-  "name": "doodle-doodle",
+  "name": "physics-visualizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
