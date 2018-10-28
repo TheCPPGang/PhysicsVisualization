@@ -1,3 +1,5 @@
+var canvas = document.getElementById('diagram');
+
 // module aliases
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -5,24 +7,26 @@ var Engine = Matter.Engine,
     Bodies = Matter.Bodies;
 
 // create an engine
-var engine = Engine.create();
-
-// create a renderer
-var render = Render.create( {
-    element: document.body,
-    engine: engine
-} );
+var engine = Engine.create(canvas, 
+{
+    render: 
+	{
+        element: canvas,
+        options:
+		{
+            width: 700,
+            height: 400,
+        }
+    }
+});
 
 // create two boxes and a ground
-var boxA = Bodies.circle( 400, 200, 80, 80 );
+var boxA = Bodies.rectangle( 400, 200, 80, 80 );
 var boxB = Bodies.rectangle( 450, 50, 80, 80 );
-var ground = Bodies.rectangle( 400, 610, 810, 60, { isStatic: true } );
+var ground = Bodies.rectangle( 400, 400, 810, 60, { isStatic: true } );
 
 // add all of the bodies to the world
 World.add( engine.world, [boxA, boxB, ground] );
 
 // run the engine
-Engine.run(engine);
-
-// run the renderer
-Render.run(render);
+Engine.run( engine );
