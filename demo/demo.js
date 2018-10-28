@@ -23,10 +23,14 @@ var engine = Engine.create(canvas,
 // create two boxes and a ground
 var boxA = Bodies.rectangle( 400, 200, 80, 80 );
 var boxB = Bodies.rectangle( 450, 50, 80, 80 );
-var ground = Bodies.rectangle( 400, 400, 810, 60, { isStatic: true } );
+var ceiling = Bodies.rectangle( 400, 0, 810, 5, { isStatic: true } );
+var floor = Bodies.rectangle( 400, 400, 810, 5, { isStatic: true } );
+var left = Bodies.rectangle( 0, 200, 5, 400, { isStatic: true } );
+var right = Bodies.rectangle( 700, 200, 5, 400, { isStatic: true } );
 
 // add all of the bodies to the world
-World.add( engine.world, [boxA, boxB, ground] );
+World.add( engine.world, [boxA, boxB, ceiling, floor, left, right] );
 
 // run the engine
 Engine.run( engine );
+
