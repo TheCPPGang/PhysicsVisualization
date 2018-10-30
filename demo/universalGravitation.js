@@ -35,8 +35,8 @@ var render = Render.create({
     engine: engine,
     options:
     {
-        width: 700,
-        height: 400,
+        width: demoVariables.width,
+        height: demoVariables.height,
         background: 'white',
         wireframeBackground: '#222',
         enabled: true,

@@ -13,19 +13,25 @@ var Engine = Matter.Engine,
     Bodies = Matter.Bodies;
 
 // create an engine
-var engine = Engine.create(canvas, 
-{
-    render: 
-	{
-        element: canvas,
-        options:
-		{
-            width: 700,
-            height: 400,
-        }
+var engine = Engine.create();
+
+var render = Render.create({
+    element: canvas,
+    engine: engine,
+    options:
+    {
+        width: demoVariables.width,
+        height: demoVariables.height,
+        background: 'white',
+        wireframeBackground: '#222',
+        enabled: true,
+        wireframes: false,
+        showVelocity: true,
+        showAngleIndicator: true,
+        showCollisions: false,
+        pixelRatio: 1
     }
 });
-
 // create two boxes and a ground
 var boxA = Bodies.rectangle( 400, 200, 80, 80 );
 var boxB = Bodies.rectangle( 450, 50, 80, 80 );
@@ -50,3 +56,5 @@ World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall] );
 
 // run the engine
 Engine.run( engine );
+
+Render.run( render );
