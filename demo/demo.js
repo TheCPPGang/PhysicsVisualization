@@ -33,4 +33,3 @@ World.add( engine.world, [boxA, boxB, ceiling, floor, left, right] );
 
 // run the engine
 Engine.run( engine );
-
