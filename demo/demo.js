@@ -1,5 +1,11 @@
 var canvas = document.getElementById('diagram');
 
+var demoVariables = {
+    width: 700,
+    height: 400,
+    offset: 25
+}
+
 // module aliases
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -23,13 +29,24 @@ var engine = Engine.create(canvas,
 // create two boxes and a ground
 var boxA = Bodies.rectangle( 400, 200, 80, 80 );
 var boxB = Bodies.rectangle( 450, 50, 80, 80 );
-var ceiling = Bodies.rectangle( 400, 0, 810, 5, { isStatic: true } );
-var floor = Bodies.rectangle( 400, 400, 810, 5, { isStatic: true } );
-var left = Bodies.rectangle( 0, 200, 5, 400, { isStatic: true } );
-var right = Bodies.rectangle( 700, 200, 5, 400, { isStatic: true } );
+
+function createWall(x, y, width, height){
+    return Bodies.rectangle(x, y, width, height, {
+        isStatic: true,
+        render: {
+            restitution: 1,
+            fillStyle: 'white',
+            strokeStyle: 'black'
+        }
+    });
+}
+var ceiling = createWall(400, -demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
+var floor = createWall(400, demoVariables.height + demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
+var leftWall = createWall(-demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
+var rightWall = createWall(demoVariables.width + demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
 
 // add all of the bodies to the world
-World.add( engine.world, [boxA, boxB, ceiling, floor, left, right] );
+World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall] );
 
 // run the engine
 Engine.run( engine );

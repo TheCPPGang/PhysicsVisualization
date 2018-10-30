@@ -27,6 +27,9 @@ var Engine = Matter.Engine,
 // create an engine
 var engine = Engine.create();
 
+engine.velocityIterations = 4;
+engine.positionIterations = 6;
+
 var render = Render.create({
     element: canvas,
     engine: engine,
@@ -37,10 +40,11 @@ var render = Render.create({
         background: 'white',
         wireframeBackground: '#222',
         enabled: true,
-        wireframe: false,
+        wireframes: false,
         showVelocity: true,
         showAngleIndicator: true,
-        showCollisions: false
+        showCollisions: false,
+        pixelRatio: 1
     }
 });
 // create two boxes and a ground
