@@ -98,13 +98,13 @@ document.getElementById("scaleBoxB").onclick = function()
 	Body.scale( boxB, 1.0, scale ); 
 }
 
-document.getElementById("xBoxAScaleSlider").oninput = function()
+document.getElementById("boxAScaleXSlider").oninput = function()
 {
     scaleX(boxA, demoVariables.currentAXScale, this.value);
     demoVariables.currentAXScale = this.value;
 }
 
-document.getElementById("xBoxBScaleSlider").oninput = function()
+document.getElementById("boxBScaleXSlider").oninput = function()
 {
     scaleX(boxB, demoVariables.currentBXScale, this.value);
     demoVariables.currentBXScale = this.value;
