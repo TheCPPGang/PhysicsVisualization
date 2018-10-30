@@ -11,6 +11,7 @@ var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
+	Body = Matter.Body;
 
 // create an engine
 var engine = Engine.create();
@@ -60,6 +61,7 @@ function createWall(x, y, width, height){
         }
     });
 }
+
 var ceiling = createWall(400, -demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
 var floor = createWall(400, demoVariables.height + demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
 var leftWall = createWall(-demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
@@ -72,3 +74,18 @@ World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall, mouse
 Engine.run( engine );
 
 Render.run( render );
+
+
+// Potato code 
+
+document.getElementById("scaleBoxA").onclick = function()
+{   
+	scale = document.getElementById("scaleEnteredBoxA").value;
+	Body.scale( boxA, 1.0, scale ); 
+}
+
+document.getElementById("scaleBoxB").onclick = function()
+{   
+	scale = document.getElementById("scaleEnteredBoxB").value;
+	Body.scale( boxB, 1.0, scale ); 
+}
