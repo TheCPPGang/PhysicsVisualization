@@ -32,6 +32,20 @@ var render = Render.create({
         pixelRatio: 1
     }
 });
+
+// Create mouse constraint
+var mouseConstraint = Matter.MouseConstraint.create( engine, {
+	element: canvas,
+	constraint: 
+	{
+		render: 
+		{
+			visible: false
+		},
+		stiffness: 0.8
+	}
+});
+
 // create two boxes and a ground
 var boxA = Bodies.rectangle( 400, 200, 80, 80 );
 var boxB = Bodies.rectangle( 450, 50, 80, 80 );
@@ -52,7 +66,7 @@ var leftWall = createWall(-demoVariables.offset, 300, 50, demoVariables.height *
 var rightWall = createWall(demoVariables.width + demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
 
 // add all of the bodies to the world
-World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall] );
+World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall, mouseConstraint] );
 
 // run the engine
 Engine.run( engine );
