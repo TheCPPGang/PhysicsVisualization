@@ -48,15 +48,19 @@
 		<div id="equations" style="text-align:center">
 			<p>Equations</p>
 			
-			<p>
-				Box A Y-Scale: <input type="text" id="scaleEnteredBoxA">			
+			<div style="text-align: center">
+				Box A Y-Scale: <input type="text" id="scaleEnteredBoxA">
 				<button id="scaleBoxA">Apply</button>
-			</p>
-					
-			<p>
+				<br><br>
 				Box B Y-Scale: <input type="text" id="scaleEnteredBoxB">
 				<button id="scaleBoxB">Apply</button>
-			</p>
+				<br><br>
+				Box A X-Scale: 
+				<input type="range" min="1" max="2" value="1" step="0.1" class="slider" id="xBoxAScaleSlider">
+								<br><br>
+				Box B X-Scale: 
+				<input type="range" min="1" max="2" value="1" step="0.1" class="slider" id="xBoxBScaleSlider">
+			</div>
 		</div>
     </body>
     <hr>

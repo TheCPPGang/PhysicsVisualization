@@ -3,7 +3,9 @@ var canvas = document.getElementById('diagram');
 var demoVariables = {
     width: 700,
     height: 400,
-    offset: 25
+    offset: 25,
+    currentAXScale: 1,
+    currentBXScale: 1
 }
 
 // module aliases
@@ -75,6 +77,12 @@ Engine.run( engine );
 
 Render.run( render );
 
+function scaleX(box, currentXScale, newXScale)
+{
+    normalize = 1.0/currentXScale;
+    Body.scale( box, normalize, 1.0);
+    Body.scale( box, newXScale, 1.0);
+}
 
 // Potato code 
 
@@ -88,4 +96,16 @@ document.getElementById("scaleBoxB").onclick = function()
 {   
 	scale = document.getElementById("scaleEnteredBoxB").value;
 	Body.scale( boxB, 1.0, scale ); 
+}
+
+document.getElementById("xBoxAScaleSlider").oninput = function()
+{
+    scaleX(boxA, demoVariables.currentAXScale, this.value);
+    demoVariables.currentAXScale = this.value;
+}
+
+document.getElementById("xBoxBScaleSlider").oninput = function()
+{
+    scaleX(boxB, demoVariables.currentBXScale, this.value);
+    demoVariables.currentBXScale = this.value;
 }
