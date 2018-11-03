@@ -1,6 +1,6 @@
 var canvas = document.getElementById('diagram');
 
-var demoVariables = {
+var demVar = {
     width: 700,
     height: 400,
     gravity: 0.001,
@@ -10,33 +10,33 @@ var demoVariables = {
     frictionAir: 0,
     restitution: 0.5,
     velocityVector: true,
-    offset: 25
+    offset: 25,
+    lastTimeStamp: 0,
+    objects: []
 }
 
 function resetSettings(){
-    demoVariables.gravity = 0.001;
-    demoVariables.friction = 0;
+    demVar.gravity = 0.001;
+    demVar.friction = 0;
 }
 
 // module aliases
 var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
+    Events = Matter.Events,
     Bodies = Matter.Bodies;
 
 // create an engine
 var engine = Engine.create();
-
-engine.velocityIterations = 4;
-engine.positionIterations = 6;
 
 var render = Render.create({
     element: canvas,
     engine: engine,
     options:
     {
-        width: demoVariables.width,
-        height: demoVariables.height,
+        width: demVar.width,
+        height: demVar.height,
         background: 'white',
         wireframeBackground: '#222',
         enabled: true,
@@ -47,9 +47,29 @@ var render = Render.create({
         pixelRatio: 1
     }
 });
-// create two boxes and a ground
-var boxA = Bodies.rectangle( 400, 200, 80, 80 );
-var boxB = Bodies.rectangle( 450, 50, 80, 80 );
+
+function addObjectInEnviroment(x, y, r, sides, Vx, Vy, isStatic){
+    var index = demVar.objects.length;
+    demVar.objects.push(
+        Bodies.polygon(x, y, sides,r, {
+            friction: demVar.friction,
+            frictionStatic: demVar.frictionStatic,
+            frictionAir: demVar.frictionAir,
+            restitution: demVar.restitution,
+            render: {
+                fillStyle: randomColor(),
+                strokeStyle: 'black',
+                lineWidth: 3
+            }
+        })
+    );
+
+    Matter.Body.setVelocity(demVar.objects[index], {
+        x: Vx,
+        y: Vy
+    });
+    World.add(engine.world, demVar.objects[index]);
+}
 
 function createWall(x, y, width, height){
     return Bodies.rectangle(x, y, width, height, {
@@ -61,19 +81,43 @@ function createWall(x, y, width, height){
         }
     });
 }
-var ceiling = createWall(400, -demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
-var floor = createWall(400, demoVariables.height + demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
-var leftWall = createWall(-demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
-var rightWall = createWall(demoVariables.width + demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
 
-// add all of the bodies to the world
-World.add( engine.world, [
-    ceiling,
-    floor,
-    rightWall,
-    leftWall,
-    boxA,
-    boxB] );
+function simpleOrbit(){
+  resetSettings();
+  World.clear(engine.world, true);
+  demVar.objects = [];
+  addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
+  addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 1, 0, 0, 6);
+}
+
+function gravity() {
+  var length = demVar.objects.length;
+  for (var i = 0; i < length; i++) {
+    for (var j = 0; j < length; j++) {
+      if (i != j) {
+        var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
+        var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
+        var force = (engine.timing.timestamp-demVar.lastTimeStamp)*demVar.gravity * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
+        var angle = Math.atan2(Dy, Dx);
+        demVar.objects[i].force.x += force * Math.cos(angle);
+        demVar.objects[i].force.y += force * Math.sin(angle);
+      }
+    }
+  }
+  demVar.lastTimeStamp = engine.timing.timestamp;
+}
+
+engine.velocityIterations = 4;
+engine.positionIterations = 6;
+engine.world.gravity.y = 0;
+
+simpleOrbit()
+
+World.add( engine.world, [] );
+
+Events.on( engine, "beforeTick", function(event) {
+  gravity();
+} );
 
 // run the engine
 Engine.run( engine );
