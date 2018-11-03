@@ -48,7 +48,7 @@ var render = Render.create({
     }
 });
 
-function addObjectInEnviroment(x, y, r, sides, Vx, Vy, isStatic){
+function addObjectInEnviroment(x, y, r, sides, Vx, Vy){
     var index = demVar.objects.length;
     demVar.objects.push(
         Bodies.polygon(x, y, sides,r, {
@@ -87,12 +87,12 @@ function simpleOrbit(){
   World.clear(engine.world, true);
   demVar.objects = [];
   addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
-  addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 1, 0, 0, 6);
+  addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
 }
 
 function gravity() {
   var length = demVar.objects.length;
-  for (var i = 0; i < length; i++) {
+  for (var i = 1; i < length; i++) {
     for (var j = 0; j < length; j++) {
       if (i != j) {
         var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
