@@ -60,7 +60,7 @@ Example.circularMotion = function(){
 		 demVar.objects.push( constraint = Constraint.create( {
 				pointA: { x: 350, y: 200 },
 				bodyB: body,
-				length: radius
+				length: radius,
 				render: 
 				{
 					lineWidth: 5.5,
