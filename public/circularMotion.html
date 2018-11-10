@@ -1,0 +1,75 @@
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="index.css">
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../libraries/matter.js"></script>
+        <title>Physics Visualizer</title>
+    
+    </head>
+   
+    <body>
+        <div id="topBar">
+            <!-- eyes-->
+            <section class="move-area"> 
+                
+              <div class='.container'>
+                <h1 id="title">S<div class='eye'></div>
+                <div class='eye'></div> Physics</h1> 
+              </div>
+                
+            </section>
+            
+        </div>
+        
+        <div id="welcome">
+            <h3>Visualize physics online - for free!</h3>
+            <p>Choose any of the topics below to get started!</p>
+        </div>
+        
+        <div id="topics">
+            <ul class="nav" id="rotationalMotion"> <u>Rotational Motion</u>
+                <li>Preset</li>
+                <li>Preset</li>
+                <li>Preset</li>
+            </ul>
+            
+            <ul class="nav" id="fluids"> <u>Fluids</u>
+                <li>Preset</li>
+                <li>Preset</li>
+                <li>Preset</li>
+            </ul>
+            
+            <ul class="nav" id="magneticFields"><u>Magnetic Fields</u>
+                <li>Preset</li>
+                <li>Preset</li>
+                <li>Preset</li>
+            </ul>
+            
+        </div>
+         
+        <div id="problemDescription" style="text-align:center">
+            	<p>Rotational Motion</p>		
+        </div>
+        
+        <div id="diagram"></div>
+		
+		<div id="equations" style="text-align:center">
+			<p>Equations</p>
+			
+			<div style="text-align: center">
+				Radius: <input type="text" id="radiusInput">
+				<button id="radius">Apply</button>
+			</div>
+		</div>
+    </body>
+    <hr>
+
+    <footer>
+        <a href="">References</a>
+    </footer>
+    
+    <script language="javascript" type="text/javascript" src="../demo/eyes.js"></script>
+	<script language="javascript" type="text/javascript" src="../demo/circularMotion.js"></script>
+</html>
