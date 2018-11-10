@@ -39,7 +39,8 @@ var render = Render.create({
 var mouse = Mouse.create( render.canvas ),
 	mouseConstraint = MouseConstraint.create( engine, {
 		mouse: mouse,
-		constraint: {
+		constraint: 
+		{
 			// allow bodies on mouse to rotate
 			angularStiffness: 0,
 			render: {
@@ -51,14 +52,19 @@ var mouse = Mouse.create( render.canvas ),
 function createCircularMotion( radius )
 {
 	// add revolute constraint
-	 demVar.objects.push( body = Bodies.circle( 400, 100, 25 ) );
-	
-	 demVar.objects.push( constraint = Constraint.create( {
-			pointA: { x: 350, y: 200 },
-			bodyB: body,
-			length: radius
-		} )
-	);
+	demVar.objects.push( body = Bodies.circle( 400, 100, 25 ) );
+
+	demVar.objects.push( constraint = Constraint.create( 
+	{
+		pointA: { x: 350, y: 200 },
+		bodyB: body,
+		length: radius,
+		render: 
+		{
+			lineWidth: 5.5,
+			strokeStyle: '#666'
+		}
+	}) );
 	
 	World.add( engine.world, demVar.objects );
 }
