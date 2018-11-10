@@ -51,7 +51,7 @@ var mouse = Mouse.create( render.canvas ),
 function createCircularMotion( radius )
 {
 	// add revolute constraint
-	 demVar.objects.push( body = Bodies.circle( 400, 100, 50 ) );
+	 demVar.objects.push( body = Bodies.circle( 400, 100, 25 ) );
 	
 	 demVar.objects.push( constraint = Constraint.create( {
 			pointA: { x: 350, y: 200 },
