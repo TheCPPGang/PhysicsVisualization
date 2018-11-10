@@ -3,10 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="index.css">
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script language="javascript" type="text/javascript" src="../libraries/matter.js"></script>
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+        <script src="../libraries/matter-tools.gui.js"></script>
+        <script src="../libraries/matter-tools.inspector.js"></script>
+        <script src="../libraries/matter-tools.demo.js"></script>
+        <script language="javascript" type="text/javascript" src="../demo/universalGravitation.js"></script>
+        <script language="javascript" type="text/javascript" src="../demo/circularMotion.js"></script>
+        <script language="javascript" type="text/javascript" src="../demo/demo1.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
         <title>Physics Visualizer</title>
-    
     </head>
    
     <body>
@@ -56,21 +66,6 @@
         <div id="diagram"></div>
 		
 		<div id="equations" style="text-align:center">
-			<p>Equations</p>
-			
-			<div style="text-align: center">
-				Box A Y-Scale: <input type="text" id="scaleEnteredBoxA">
-				<button id="scaleBoxA">Apply</button>
-				<br><br>
-				Box B Y-Scale: <input type="text" id="scaleEnteredBoxB">
-				<button id="scaleBoxB">Apply</button>
-				<br><br>
-				Box A X-Scale: 
-				<input type="range" min="1" max="2" value="1" step="0.1" class="slider" id="boxAScaleXSlider">
-				<br><br>
-				Box B X-Scale: 
-				<input type="range" min="1" max="2" value="1" step="0.1" class="slider" id="boxBScaleXSlider">
-			</div>
 		</div>
     </body>
     <hr>
