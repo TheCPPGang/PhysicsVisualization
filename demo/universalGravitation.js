@@ -133,7 +133,7 @@ Example.universalGravitation = function(){
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
         <div style="text-align:center">
-            <button> Test #3 </button>
+            <button> Test Final Test</button>
         </div>
     `;
 
