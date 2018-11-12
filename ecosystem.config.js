@@ -10,7 +10,7 @@ module.exports = {
       key: "D:/Users/Gippy/Downloads/physics2/test/seephysics.pem",
       ref: "origin/master",
       repo: "git@github.com:TheCPPGang/PhysicsVisualization.git",
-      path: "/home/ec2-user/server",
+      path: "~/home/ec2-user/server",
       "post-deploy": "npm install && pm2 startOrRestart ecosystem.config.js"
     }
   }
