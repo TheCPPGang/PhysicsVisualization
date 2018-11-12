@@ -7,7 +7,7 @@ module.exports = {
     production: {
       user: "ec2-user",
       host: "ec2-18-216-89-167.us-east-2.compute.amazonaws.com",
-      key: "~/.ssh/seephysics.pem",
+      key: "../seephysics.pem",
       ref: "origin/master",
       repo: "git@github.com:TheCPPGang/PhysicsVisualization.git",
       path: "/home/ec2-user/server",
