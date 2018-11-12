@@ -39,7 +39,12 @@
         ],
 	});
 
-    document.body.appendChild(demo.dom.root);
-
+    document.getElementById('topBar').appendChild(demo.dom.root);
+    document.getElementById('physics-logo').innerHTML = `
+        <div class='.container'>
+        <h1 id="title">S<div class='eye'></div>
+        <div class='eye'></div> Physics</h1> 
+        </div>
+    `;
     MatterTools.Demo.start(demo);
 })();

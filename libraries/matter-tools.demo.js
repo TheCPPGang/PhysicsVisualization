@@ -240,7 +240,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    demo.dom.exampleSelect.value = example.id;
-	    demo.dom.buttonSource.href = example.sourceLink || demo.url || '#';
 
 	    setTimeout(function () {
 	      if (demo.tools.inspector) {
@@ -433,74 +432,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  root.innerHTML = `
 	      <div class="matter-header-outer">
+	      	<div id="physics-logo"></div>
 	        <header class="matter-header">
-	          <div class="matter-header-inner">
-	            <h1 class="matter-demo-title">
-	            </h1>
 	            <div class="matter-toolbar">
 	              <div class="matter-select-wrapper">
 	                <select class="matter-example-select matter-select">
 	                  ${exampleOptions}
 	                </select>
 	              </div>
-	              <button class="matter-btn matter-btn-reset" title="Reset">
-	              </button>
-	              <a href="#" class="matter-btn matter-btn-source" title="Source" target="_blank">{ }</a>
-	              <button class="matter-btn matter-btn-tools" title="Tools">
-	              </button>
-	              <button class="matter-btn matter-btn-inspect" title="Inspect">
-	              <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-	                <path d="M0 0h24v24H0z" fill="none"/>
-	                <path d="M11 4.07V2.05c-2.01.2-3.84 1-5.32 2.21L7.1 5.69c1.11-.86 2.44-1.44 3.9-1.62zm7.32.19C16.84 3.05 15.01 2.25 13 2.05v2.02c1.46.18 2.79.76 3.9 1.62l1.42-1.43zM19.93 11h2.02c-.2-2.01-1-3.84-2.21-5.32L18.31 7.1c.86 1.11 1.44 2.44 1.62 3.9zM5.69 7.1L4.26 5.68C3.05 7.16 2.25 8.99 2.05 11h2.02c.18-1.46.76-2.79 1.62-3.9zM4.07 13H2.05c.2 2.01 1 3.84 2.21 5.32l1.43-1.43c-.86-1.1-1.44-2.43-1.62-3.89zM15 12c0-1.66-1.34-3-3-3s-3 1.34-3 3 1.34 3 3 3 3-1.34 3-3zm3.31 4.9l1.43 1.43c1.21-1.48 2.01-3.32 2.21-5.32h-2.02c-.18 1.45-.76 2.78-1.62 3.89zM13 19.93v2.02c2.01-.2 3.84-1 5.32-2.21l-1.43-1.43c-1.1.86-2.43 1.44-3.89 1.62zm-7.32-.19C7.16 20.95 9 21.75 11 21.95v-2.02c-1.46-.18-2.79-.76-3.9-1.62l-1.42 1.43z"/>
-	              </svg>
-	              </button>
-	              <button class="matter-btn matter-btn-fullscreen" title="Fullscreen">
-	              </button>
 	            </div>
-	            <a class="matter-link" href="${Demo._matterLink}" title="matter.js" target="_blank">
-	            </a>
-	          </div>
 	        </header>
 	      </div>
 	  `;
 	  var dom = {
 	    root: root.firstElementChild,
-	    title: root.querySelector('.matter-demo-title'),
 	    header: root.querySelector('.matter-header'),
 	    exampleSelect: root.querySelector('.matter-example-select'),
-	    buttonReset: root.querySelector('.matter-btn-reset'),
-	    buttonSource: root.querySelector('.matter-btn-source'),
-	    buttonTools: root.querySelector('.matter-btn-tools'),
-	    buttonInspect: root.querySelector('.matter-btn-inspect'),
-	    buttonFullscreen: root.querySelector('.matter-btn-fullscreen')
 	  };
 
-	  if (!options.toolbar.title) {
-	    ToolsCommon.domRemove(dom.title);
-	  }
 
 	  if (!options.toolbar.exampleSelect) {
 	    ToolsCommon.domRemove(dom.exampleSelect.parentElement);
-	  }
-
-	  if (!options.toolbar.reset) {
-	    ToolsCommon.domRemove(dom.buttonReset);
-	  }
-
-	  if (!options.toolbar.source) {
-	    ToolsCommon.domRemove(dom.buttonSource);
-	  }
-
-	  if (!options.toolbar.inspector) {
-	    ToolsCommon.domRemove(dom.buttonInspect);
-	  }
-
-	  if (!options.toolbar.tools) {
-	    ToolsCommon.domRemove(dom.buttonTools);
-	  }
-
-	  if (!options.toolbar.fullscreen) {
-	    ToolsCommon.domRemove(dom.buttonFullscreen);
 	  }
 
 	  return dom;
@@ -576,8 +528,428 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = "/*\n*\tMatterTools.Demo\n*/\n\n.matter-demo {\n  font-family: Helvetica, Arial, sans-serif;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  background: #14151f;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  height: 100vh;\n}\n\n.matter-demo canvas {\n  border-radius: 8px;\n  max-width: 100%;\n  max-height: 100%;\n}\n\n.matter-demo.matter-demo-inline canvas {\n  max-height: calc(100% - 50px);\n}\n\n@media screen and (min-width: 900px) and (min-height: 600px) {\n  .matter-demo.matter-demo-inline canvas {\n    max-height: calc(100% - 100px);\n  }\n}\n\n.matter-is-fullscreen .matter-demo {\n  width: 100%;\n}\n\n.matter-is-fullscreen .dg.ac,\n.matter-is-fullscreen .ins-container {\n  display: none;\n}\n\n.matter-header-outer {\n  position: fixed;\n  z-index: 100;\n  top: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.2);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-transition: background 400ms ease;\n  -o-transition: background 400ms ease;\n  transition: background 400ms ease;\n}\n\n.matter-header-outer:hover {\n  background: rgba(0, 0, 0, 0.7);\n}\n\n.matter-demo-inline .matter-header-outer {\n  position: static;\n  background: transparent;\n  z-index: 0;\n  width: 100%;\n}\n\n.matter-header {\n  width: 100%;\n  padding: 7px 20px 8px 20px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n\n.matter-demo-inline .matter-header {\n  padding: 10px;\n}\n\nbody .ins-container,\nbody .dg .dg.main,\nbody .dg .dg.main.a {\n  padding-top: 52px;\n}\n\n@media screen and (min-width: 500px) {\n  .matter-demo-inline .matter-header {\n    padding: 10px 30px 16px 30px;\n  }\n}\n\n@media screen and (min-width: 900px) and (min-height: 600px) {\n  .matter-demo-inline .matter-header {\n    padding: 10px 30px 36px 30px;\n  }\n}\n\n.matter-header-inner {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  max-width: 960px;\n  width: 100%;\n}\n\n.matter-header h1 {\n  display: none;\n  margin: 0;\n  width: 18px;\n  overflow: hidden;\n}\n\n.matter-header h1 a {\n  color: #f2f2f5;\n  font-size: 15px;\n  font-weight: 400;\n  font-family: Helvetica, Arial, sans-serif;\n  display: block;\n  text-decoration: none;\n  padding: 8px 0 3px 0;\n  border-bottom: 2px solid transparent;\n  white-space: nowrap;\n  float: right;\n}\n\n@media screen and (min-width: 300px) {\n  .matter-header h1 {\n    display: inline;\n  }\n}\n\n@media screen and (min-width: 600px) {\n  .matter-header h1 {\n    width: auto;\n    overflow: visible;\n  }\n}\n\n.btn-home {\n  display: none;\n}\n\n.matter-demo-title svg {\n  fill: #fff;\n  width: 16px;\n  height: 16px;\n  margin: 0px 0 -2px 4px;\n}\n\n.matter-header h1 a:hover {\n  border-bottom: 2px solid #F5B862;\n}\n\n.matter-link {\n  font-family: Helvetica, Arial, sans-serif;\n  text-decoration: none;\n  line-height: 13px;\n  margin: 0 -10px 0 0;\n}\n\n.matter-logo {\n  height: 33px;\n  width: 52px;\n}\n\n.matter-logo #m-triangle {\n  -webkit-transform-origin: 14px 856px;\n      -ms-transform-origin: 14px 856px;\n          transform-origin: 14px 856px;\n  -webkit-transition: -webkit-transform 400ms ease;\n  transition: -webkit-transform 400ms ease;\n  -o-transition: transform 400ms ease;\n  transition: transform 400ms ease;\n  transition: transform 400ms ease, -webkit-transform 400ms ease;\n}\n\n.matter-logo:hover #m-triangle {\n  -webkit-transform: rotate(-30deg) translate(-98px, -25px);\n      -ms-transform: rotate(-30deg) translate(-98px, -25px);\n          transform: rotate(-30deg) translate(-98px, -25px);\n}\n\n.matter-logo #m-circle {\n  -webkit-transition: -webkit-transform 200ms ease;\n  transition: -webkit-transform 200ms ease;\n  -o-transition: transform 200ms ease;\n  transition: transform 200ms ease;\n  transition: transform 200ms ease, -webkit-transform 200ms ease;\n  -webkit-transition-delay: 300ms;\n       -o-transition-delay: 300ms;\n          transition-delay: 300ms;\n}\n\n.matter-logo #m-square {\n  -webkit-transition: -webkit-transform 150ms ease;\n  transition: -webkit-transform 150ms ease;\n  -o-transition: transform 150ms ease;\n  transition: transform 150ms ease;\n  transition: transform 150ms ease, -webkit-transform 150ms ease;\n  -webkit-transition-delay: 400ms;\n       -o-transition-delay: 400ms;\n          transition-delay: 400ms;\n}\n\n.matter-logo:hover #m-circle {\n  -webkit-transform: translate(18px, -33px);\n      -ms-transform: translate(18px, -33px);\n          transform: translate(18px, -33px);\n}\n\n.matter-logo:hover #m-square {\n  -webkit-transform: translate(47px, -2px);\n      -ms-transform: translate(47px, -2px);\n          transform: translate(47px, -2px);\n}\n\n.matter-toolbar {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n\n.matter-select {\n  background: transparent;\n  color: #fff;\n  font-size: 15px;\n  height: 30px;\n  width: 100%;\n  outline: none;\n  padding: 0 7px;\n  margin: 0;\n  border: 0;\n  border-radius: 0;\n  appearance: none;\n  -moz-appearance: none;\n  -webkit-appearance: none;\n}\n\n.prevent-zoom-ios .matter-select {\n  font-size: 16px;\n}\n\n.matter-select-wrapper {\n  width: 20%;\n  min-width: 100px;\n  max-width: 200px;\n  position: relative;\n  display: inline-block;\n  margin: 1px 6% 0 0;\n}\n\n.matter-select-wrapper:hover:after svg {\n  fill: #fff;\n}\n\n.matter-select-wrapper svg {\n  display: block;\n  pointer-events: none;\n  fill: #cecece;\n  width: 22px;\n  height: 22px;\n  position: absolute;\n  top: 4px;\n  right: 5px;\n}\n\n.prevent-zoom-ios .matter-select-wrapper:after {\n  top: 4px;\n}\n\n.matter-btn {\n  font-family: Helvetica, Arial, sans-serif;\n  border: 0;\n  background: rgba(0,0,0,0.1);\n  padding: 2px 0 0 0;\n  width: 40px;\n  height: 33px;\n  border-radius: 2px;\n  display: inline-block;\n  font-size: 16px;\n  line-height: 1;\n  color: #c2cad4;\n  text-decoration: none;\n  text-align: center;\n}\n\n.matter-btn svg {\n  fill: #fff;\n  width: 16px;\n  height: 16px;\n  margin: 2px 0 0 0;\n}\n\n.matter-demo-inline .matter-btn {\n  background: #0f0f13;\n}\n\n.matter-btn:focus {\n  outline: 0;\n}\n\n.matter-btn:hover {\n  -webkit-transform: translate(0px, -1px);\n      -ms-transform: translate(0px, -1px);\n          transform: translate(0px, -1px);\n}\n\n.matter-btn:active {\n  -webkit-transform: translate(0px, 1px);\n      -ms-transform: translate(0px, 1px);\n          transform: translate(0px, 1px);\n}\n\n.matter-btn:hover {\n  background: #212a3a;\n}\n\n.matter-btn-reset:active svg {\n  fill: #76F09B;\n}\n\n.matter-btn-tools {\n  display: none;\n  font-size: 15px;\n  padding-right: 3px;\n}\n\n.matter-gui-active .matter-btn-tools svg {\n  fill: #F55F5F;\n}\n\n.matter-btn-inspect {\n  display: none;\n}\n\n.matter-inspect-active .matter-btn-inspect svg {\n  fill: #fff036;\n}\n\n.matter-btn-source {\n  display: none;\n  font-size: 12px;\n  text-align: center;\n  line-height: 31px;\n}\n\n.matter-btn-source:active {\n  color: #F5B862;\n}\n\n.matter-btn-fullscreen {\n  font-size: 18px;\n}\n\n.matter-btn-source:active svg {\n  fill: #F5B862;\n}\n\n.matter-is-fullscreen .matter-btn-tools,\n.matter-is-fullscreen .matter-btn-inspect {\n  display: none;\n}\n\n.matter-is-fullscreen .matter-btn-fullscreen svg {\n  fill: #76F09B;\n}\n\n.ins-container,\nbody .dg {\n  display: none;\n}\n\n@media screen and (min-width: 500px) {\n  .ins-container,\n  body .dg,\n  .matter-btn-tools,\n  .matter-btn-inspect,\n  .matter-btn-source {\n    display: block;\n  }\n}"
+	module.exports = `
+	/*
+	*	MatterTools.Demo
+	*/
 
+	.matter-demo {
+	  font-family: Helvetica, Arial, sans-serif;
+	  display: -webkit-box;
+	  display: -ms-flexbox;
+	  display: flex;
+	  background: #14151f;
+	  -webkit-box-align: center;
+	      -ms-flex-align: center;
+	          align-items: center;
+	  -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	  -webkit-box-orient: vertical;
+	  -webkit-box-direction: normal;
+	      -ms-flex-direction: column;
+	          flex-direction: column;
+	  height: 100vh;
+	}
+
+	.matter-demo canvas {
+	  border-radius: 8px;
+	  max-width: 100%;
+	  max-height: 100%;
+	}
+
+	.matter-demo.matter-demo-inline canvas {
+	  max-height: calc(100% - 50px);
+	}
+
+	@media screen and (min-width: 900px) and (min-height: 600px) {
+	  .matter-demo.matter-demo-inline canvas {
+	    max-height: calc(100% - 100px);
+	  }
+	}
+
+	.matter-is-fullscreen .matter-demo {
+	  width: 100%;
+	}
+
+	.matter-is-fullscreen .dg.ac,
+	.matter-is-fullscreen .ins-container {
+	  display: none;
+	}
+
+	.matter-header-outer {
+	  position: fixed;
+	  z-index: 100;
+	  height: 100px;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  background: rgba(0, 98, 183, 1);
+	  display: -webkit-box;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-align: center;
+	      -ms-flex-align: center;
+	          align-items: center;
+	  -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	  -webkit-transition: background 400ms ease;
+	  -o-transition: background 400ms ease;
+	  transition: background 400ms ease;
+	}
+
+	.matter-header-outer:hover {
+	  background: rgba(0, 0, 0, 0.7);
+	}
+
+	.matter-demo-inline .matter-header-outer {
+	  position: static;
+	  background: transparent;
+	  z-index: 0;
+	  width: 100%;
+	}
+
+	.matter-header {
+	  width: 100%;
+	  padding: 7px 20px 8px 20px;
+	  display: -webkit-box;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-align: center;
+	      -ms-flex-align: center;
+	          align-items: center;
+	  -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	}
+
+	.matter-demo-inline .matter-header {
+	  padding: 10px;
+	}
+
+	body .ins-container,
+	body .dg .dg.main,
+	body .dg .dg.main.a {
+	  padding-top: 52px;
+	}
+
+	@media screen and (min-width: 500px) {
+	  .matter-demo-inline .matter-header {
+	    padding: 10px 30px 16px 30px;
+	  }
+	}
+
+	@media screen and (min-width: 900px) and (min-height: 600px) {
+	  .matter-demo-inline .matter-header {
+	    padding: 10px 30px 36px 30px;
+	  }
+	}
+
+	.matter-header-inner {
+	  display: -webkit-box;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-align: center;
+	      -ms-flex-align: center;
+	          align-items: center;
+	  -webkit-box-pack: justify;
+	      -ms-flex-pack: justify;
+	          justify-content: space-between;
+	  max-width: 960px;
+	  width: 100%;
+	}
+
+	.matter-header h1 {
+	  display: none;
+	  margin: 0;
+	  width: 18px;
+	  overflow: hidden;
+	}
+
+	.matter-header h1 a {
+	  color: #f2f2f5;
+	  font-size: 15px;
+	  font-weight: 400;
+	  font-family: Helvetica, Arial, sans-serif;
+	  display: block;
+	  text-decoration: none;
+	  padding: 8px 0 3px 0;
+	  border-bottom: 2px solid transparent;
+	  white-space: nowrap;
+	  float: right;
+	}
+
+	@media screen and (min-width: 300px) {
+	  .matter-header h1 {
+	    display: inline;
+	  }
+	}
+
+	@media screen and (min-width: 600px) {
+	  .matter-header h1 {
+	    width: auto;
+	    overflow: visible;
+	  }
+	}
+
+	.btn-home {
+	  display: none;
+	}
+
+	.matter-demo-title svg {
+	  fill: #fff;
+	  width: 16px;
+	  height: 16px;
+	  margin: 0px 0 -2px 4px;
+	}
+
+	.matter-header h1 a:hover {
+	  border-bottom: 2px solid #F5B862;
+	}
+
+	.matter-link {
+	  font-family: Helvetica, Arial, sans-serif;
+	  text-decoration: none;
+	  line-height: 13px;
+	  margin: 0 -10px 0 0;
+	}
+
+	.matter-logo {
+	  height: 33px;
+	  width: 52px;
+	}
+
+	.matter-logo #m-triangle {
+	  -webkit-transform-origin: 14px 856px;
+	      -ms-transform-origin: 14px 856px;
+	          transform-origin: 14px 856px;
+	  -webkit-transition: -webkit-transform 400ms ease;
+	  transition: -webkit-transform 400ms ease;
+	  -o-transition: transform 400ms ease;
+	  transition: transform 400ms ease;
+	  transition: transform 400ms ease, -webkit-transform 400ms ease;
+	}
+
+	.matter-logo:hover #m-triangle {
+	  -webkit-transform: rotate(-30deg) translate(-98px, -25px);
+	      -ms-transform: rotate(-30deg) translate(-98px, -25px);
+	          transform: rotate(-30deg) translate(-98px, -25px);
+	}
+
+	.matter-logo #m-circle {
+	  -webkit-transition: -webkit-transform 200ms ease;
+	  transition: -webkit-transform 200ms ease;
+	  -o-transition: transform 200ms ease;
+	  transition: transform 200ms ease;
+	  transition: transform 200ms ease, -webkit-transform 200ms ease;
+	  -webkit-transition-delay: 300ms;
+	       -o-transition-delay: 300ms;
+	          transition-delay: 300ms;
+	}
+
+	.matter-logo #m-square {
+	  -webkit-transition: -webkit-transform 150ms ease;
+	  transition: -webkit-transform 150ms ease;
+	  -o-transition: transform 150ms ease;
+	  transition: transform 150ms ease;
+	  transition: transform 150ms ease, -webkit-transform 150ms ease;
+	  -webkit-transition-delay: 400ms;
+	       -o-transition-delay: 400ms;
+	          transition-delay: 400ms;
+	}
+
+	.matter-logo:hover #m-circle {
+	  -webkit-transform: translate(18px, -33px);
+	      -ms-transform: translate(18px, -33px);
+	          transform: translate(18px, -33px);
+	}
+
+	.matter-logo:hover #m-square {
+	  -webkit-transform: translate(47px, -2px);
+	      -ms-transform: translate(47px, -2px);
+	          transform: translate(47px, -2px);
+	}
+
+	.matter-toolbar {
+	  -webkit-box-flex: 1;
+	      -ms-flex-positive: 1;
+	          flex-grow: 1;
+	  display: -webkit-box;
+	  display: -ms-flexbox;
+	  display: flex;
+	  -webkit-box-align: center;
+	      -ms-flex-align: center;
+	          align-items: center;
+	  -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	          justify-content: center;
+	}
+
+	.matter-select {
+	  background: transparent;
+	  color: #fff;
+	  font-size: 15px;
+	  height: 100%;
+	  width: 100%;
+	  outline: none;
+	  padding: 0 7px;
+	  margin: 0;
+	  border: 0;
+	  border-radius: 0;
+	  appearance: none;
+	  -moz-appearance: none;
+	  -webkit-appearance: none;
+	}
+
+	.matter-example-select {
+		width: 200px;
+		text-align: center;
+	}
+
+	.prevent-zoom-ios .matter-select {
+	  font-size: 16px;
+	}
+
+	.matter-select-wrapper {
+	  width: 20%;
+	  min-width: 100px;
+	  max-width: 200px;
+	  position: relative;
+	  display: inline-block;
+	  margin: 1px 6% 0 0;
+	}
+
+	.matter-select-wrapper:hover:after svg {
+	  fill: #fff;
+	}
+
+	.matter-select-wrapper svg {
+	  display: block;
+	  pointer-events: none;
+	  fill: #cecece;
+	  width: 22px;
+	  height: 22px;
+	  position: absolute;
+	  top: 4px;
+	  right: 5px;
+	}
+
+	.prevent-zoom-ios .matter-select-wrapper:after {
+	  top: 4px;
+	}
+
+	.matter-btn {
+	  font-family: Helvetica, Arial, sans-serif;
+	  border: 0;
+	  background: rgba(0,0,0,0.1);
+	  padding: 2px 0 0 0;
+	  width: 40px;
+	  height: 33px;
+	  border-radius: 2px;
+	  display: inline-block;
+	  font-size: 16px;
+	  line-height: 1;
+	  color: #c2cad4;
+	  text-decoration: none;
+	  text-align: center;
+	}
+
+	.matter-btn svg {
+	  fill: #fff;
+	  width: 16px;
+	  height: 16px;
+	  margin: 2px 0 0 0;
+	}
+
+	.matter-demo-inline .matter-btn {
+	  background: #0f0f13;
+	}
+
+	.matter-btn:focus {
+	  outline: 0;
+	}
+
+	.matter-btn:hover {
+	  -webkit-transform: translate(0px, -1px);
+	      -ms-transform: translate(0px, -1px);
+	          transform: translate(0px, -1px);
+	}
+
+	.matter-btn:active {
+	  -webkit-transform: translate(0px, 1px);
+	      -ms-transform: translate(0px, 1px);
+	          transform: translate(0px, 1px);
+	}
+
+	.matter-btn:hover {
+	  background: #212a3a;
+	}
+
+	.matter-btn-reset:active svg {
+	  fill: #76F09B;
+	}
+
+	.matter-btn-tools {
+	  display: none;
+	  font-size: 15px;
+	  padding-right: 3px;
+	}
+
+	.matter-gui-active .matter-btn-tools svg {
+	  fill: #F55F5F;
+	}
+
+	.matter-btn-inspect {
+	  display: none;
+	}
+
+	.matter-inspect-active .matter-btn-inspect svg {
+	  fill: #fff036;
+	}
+
+	.matter-btn-source {
+	  display: none;
+	  font-size: 12px;
+	  text-align: center;
+	  line-height: 31px;
+	}
+
+	.matter-btn-source:active {
+	  color: #F5B862;
+	}
+
+	.matter-btn-fullscreen {
+	  font-size: 18px;
+	}
+
+	.matter-btn-source:active svg {
+	  fill: #F5B862;
+	}
+
+	.matter-is-fullscreen .matter-btn-tools,
+	.matter-is-fullscreen .matter-btn-inspect {
+	  display: none;
+	}
+
+	.matter-is-fullscreen .matter-btn-fullscreen svg {
+	  fill: #76F09B;
+	}
+
+	.ins-container,
+	body .dg {
+	  display: none;
+	}
+
+	@media screen and (min-width: 500px) {
+	  .ins-container,
+	  body .dg,
+	  .matter-btn-tools,
+	  .matter-btn-inspect,
+	  .matter-btn-source {
+	    display: block;
+	  }
+	}`
 /***/ }
 /******/ ])
 });

@@ -2,10 +2,13 @@ var Example = Example || {};
 
 Example.circularMotion = function(){
 
-	var canvas = document.getElementById('diagram');
+    var canvas = document.getElementById('diagram');
 
-var demVar = {
-    objects: []
+var demVar = 
+{
+    objects: [],
+        lastTimeStamp: 0,
+    timeInPeriod: 0
 }
 
 // module aliases
@@ -13,10 +16,10 @@ var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
-	Body = Matter.Body;
-	Constraint = Matter.Constraint;
-	Mouse = Matter.Mouse;
-	MouseConstraint = Matter.MouseConstraint;
+    Body = Matter.Body;
+    Constraint = Matter.Constraint;
+    Mouse = Matter.Mouse;
+    MouseConstraint = Matter.MouseConstraint;
     Events = Matter.Events,
     Vector = Matter.Vector;
 
@@ -44,16 +47,16 @@ var render = Render.create({
 
  // add mouse control
 var mouse = Mouse.create( render.canvas ),
-	mouseConstraint = MouseConstraint.create( engine, {
-		mouse: mouse,
-		constraint: {
-			// allow bodies on mouse to rotate
-			angularStiffness: 0,
-			render: {
-				visible: false
-			}
-		}
-	});
+    mouseConstraint = MouseConstraint.create( engine, {
+        mouse: mouse,
+        constraint: {
+            // allow bodies on mouse to rotate
+            angularStiffness: 0,
+            render: {
+                visible: false
+            }
+        }
+    });
 
 function createCircularMotion( radius )
 {
@@ -72,11 +75,8 @@ function createCircularMotion( radius )
         } )
     );
     
-    Body.setAngularVelocity( body, Math.PI/6);
     World.add( engine.world, demVar.objects );
 }
-
-
 
 World.add( engine.world, mouseConstraint );
 
@@ -85,7 +85,13 @@ Render.run( render );
 // run the engine
 Engine.run( engine );
 
-createCircularMotion( 100 );
+var tick = 0;
+var radius = 100;
+createCircularMotion( radius );
+
+Events.on( engine, "beforeTick", function(event) 
+{   
+});
 
 //trace circle path
 var trail = [];
@@ -120,32 +126,33 @@ var trail = [];
         
     });
 
-	document.getElementById('equations').innerHTML = `
-			<p>Equations</p>
-			
-			<div style="text-align: center">
-				Radius: <input type="text" id="radiusInput">
-				<button id="radius">Apply</button>
-			</div>
-	`;
+    document.getElementById('equations').innerHTML = `
+            <p>Equations</p>
+            
+            <div style="text-align: center">
+                Radius: <input type="text" id="radiusInput">
+                <button id="radius">Apply</button>
+            </div>
+    `;
 
-	// Variables 
+    // Variables 
 
-	document.getElementById("radius").onclick = function()
-	{   
-		World.remove( engine.world, demVar.objects );
-		demVar.objects = [];
-		
-		radius = document.getElementById("radiusInput").value;
-		createCircularMotion( radius );
-	}
+    document.getElementById("radius").onclick = function()
+    {   
+        World.remove( engine.world, demVar.objects );
+        demVar.objects = [];
+        
+        tick = 0;
+        radius = document.getElementById("radiusInput").value;
+        createCircularMotion( radius );
+    }
 
-	    return {
-	        engine: engine,
-	        render: render,
-	        canvas: render.canvas,
-	        stop: function() {
-	            Matter.Render.stop(render);
-	        }
-	    };
+        return {
+            engine: engine,
+            render: render,
+            canvas: render.canvas,
+            stop: function() {
+                Matter.Render.stop(render);
+            }
+        };
 };
