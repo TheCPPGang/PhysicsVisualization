@@ -87,11 +87,16 @@ var speed = 20;
 var radius = 100;
 createCircularMotion( radius );
 
+// Gravity is set to 0 to ensure that
+// gravitational acceleration does not interfere with
+// circular motion of the particle
 engine.world.gravity.y = 0;
 
 Events.on( engine, 'beforeTick', function() 
 {	
-	var angularVelocity = speed / radius;
+	// Every tick we need to update the velocity of the particle
+	// to ensure that the speed is always constant due to matter.js
+	// applying friction over time
 	var Dx = body.position.x - 350;
 	var Dy = body.position.y - 200;
 	var theta = Math.atan2(Dy, Dx);
