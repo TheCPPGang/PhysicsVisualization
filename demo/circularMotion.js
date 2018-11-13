@@ -2,13 +2,11 @@ var Example = Example || {};
 
 Example.circularMotion = function(){
 
-    var canvas = document.getElementById('diagram');
+var canvas = document.getElementById('diagram');
 
 var demVar = 
 {
     objects: [],
-        lastTimeStamp: 0,
-    timeInPeriod: 0
 }
 
 // module aliases
@@ -16,10 +14,10 @@ var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
-    Body = Matter.Body;
-    Constraint = Matter.Constraint;
-    Mouse = Matter.Mouse;
-    MouseConstraint = Matter.MouseConstraint;
+	Body = Matter.Body;
+	Constraint = Matter.Constraint;
+	Mouse = Matter.Mouse;
+	MouseConstraint = Matter.MouseConstraint;
     Events = Matter.Events,
     Vector = Matter.Vector;
 
@@ -39,7 +37,7 @@ var render = Render.create({
         enabled: true,
         wireframes: false,
         showVelocity: true,
-        showAngleIndicator: true,
+        showAngleIndicator: false,
         showCollisions: false,
         pixelRatio: 1
     }
@@ -47,35 +45,35 @@ var render = Render.create({
 
  // add mouse control
 var mouse = Mouse.create( render.canvas ),
-    mouseConstraint = MouseConstraint.create( engine, {
-        mouse: mouse,
-        constraint: {
-            // allow bodies on mouse to rotate
-            angularStiffness: 0,
-            render: {
-                visible: false
-            }
-        }
-    });
+	mouseConstraint = MouseConstraint.create( engine, {
+		mouse: mouse,
+		constraint: {
+			// allow bodies on mouse to rotate
+			angularStiffness: 0,
+			render: {
+				visible: false
+			}
+		}
+	});
 
 function createCircularMotion( radius )
 {
-    // add revolute constraint
-     demVar.objects.push( body = Bodies.circle( 400, 100, 25, {frictionAir: 0} ) );
-    
-     demVar.objects.push( constraint = Constraint.create( {
-            pointA: { x: 350, y: 200 },
-            bodyB: body,
-            length: radius,
-            render: 
-            {
-                lineWidth: 5.5,
-                strokeStyle: '#666'
-            }
-        } )
-    );
-    
-    World.add( engine.world, demVar.objects );
+	// add revolute constraint
+	demVar.objects.push( body = Bodies.circle( 350 + radius, 200, 25, { frictionAir: 0 } ) );
+	
+	demVar.objects.push( constraint = Constraint.create( {
+			pointA: { x: 350, y: 200 },
+			bodyB: body,
+			length: radius,
+			render: 
+			{
+				lineWidth: 5.5,
+				strokeStyle: '#666'
+			}
+		} )
+	);
+	
+	World.add( engine.world, demVar.objects );
 }
 
 World.add( engine.world, mouseConstraint );
@@ -85,12 +83,27 @@ Render.run( render );
 // run the engine
 Engine.run( engine );
 
-var tick = 0;
+var speed = 20;
 var radius = 100;
 createCircularMotion( radius );
 
-Events.on( engine, "beforeTick", function(event) 
-{   
+// Gravity is set to 0 to ensure that
+// gravitational acceleration does not interfere with
+// circular motion of the particle
+engine.world.gravity.y = 0;
+
+Events.on( engine, 'beforeTick', function() 
+{	
+	// Every tick we need to update the velocity of the particle
+	// to ensure that the speed is always constant due to matter.js
+	// applying friction over time
+	var Dx = body.position.x - 350;
+	var Dy = body.position.y - 200;
+	var theta = Math.atan2(Dy, Dx);
+
+	var Vx = speed * -Math.sin( theta );
+	var Vy = speed * Math.cos( theta );
+	Body.setVelocity( body, {x: Vx, y: Vy } );
 });
 
 //trace circle path
@@ -126,33 +139,45 @@ var trail = [];
         
     });
 
-    document.getElementById('equations').innerHTML = `
-            <p>Equations</p>
-            
-            <div style="text-align: center">
-                Radius: <input type="text" id="radiusInput">
-                <button id="radius">Apply</button>
-            </div>
-    `;
+	document.getElementById('equations').innerHTML = `
+			<p>Equations</p>
+			
+			<div style="text-align: center">
+				Radius: <input type="text" id="radiusInput">
+				<button id="radius">Apply</button>
+				
+				<p></p>
+				
+				Speed: <input type="text" id="speedInput">
+				<button id="speed">Apply</button>
+			</div>
+	`;
 
-    // Variables 
+	// Variables 
 
-    document.getElementById("radius").onclick = function()
-    {   
-        World.remove( engine.world, demVar.objects );
-        demVar.objects = [];
-        
-        tick = 0;
-        radius = document.getElementById("radiusInput").value;
-        createCircularMotion( radius );
-    }
+	document.getElementById( "radius" ).onclick = function()
+	{   
+		World.remove( engine.world, demVar.objects );
+		demVar.objects = [];
+		trail = [];
+		
+		radius = parseFloat( document.getElementById( "radiusInput" ).value );
+		createCircularMotion( radius );
+	}
+	
+	document.getElementById( "speed" ).onclick = function()
+	{   
+		trail = [];
+		
+		speed = parseFloat( document.getElementById( "speedInput" ).value );
+	}
 
-        return {
-            engine: engine,
-            render: render,
-            canvas: render.canvas,
-            stop: function() {
-                Matter.Render.stop(render);
-            }
-        };
+	    return {
+	        engine: engine,
+	        render: render,
+	        canvas: render.canvas,
+	        stop: function() {
+	            Matter.Render.stop(render);
+	        }
+	    };
 };
