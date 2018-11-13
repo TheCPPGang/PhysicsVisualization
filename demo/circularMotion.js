@@ -83,6 +83,7 @@ Render.run( render );
 // run the engine
 Engine.run( engine );
 
+var speed = 20;
 var radius = 100;
 createCircularMotion( radius );
 
@@ -90,7 +91,6 @@ engine.world.gravity.y = 0;
 
 Events.on( engine, 'beforeTick', function() 
 {	
-	var speed = 20;
 	var angularVelocity = speed / radius;
 	var Dx = body.position.x - 350;
 	var Dy = body.position.y - 200;
@@ -140,6 +140,11 @@ var trail = [];
 			<div style="text-align: center">
 				Radius: <input type="text" id="radiusInput">
 				<button id="radius">Apply</button>
+				
+				<p></p>
+				
+				Speed: <input type="text" id="speedInput">
+				<button id="speed">Apply</button>
 			</div>
 	`;
 
@@ -153,6 +158,13 @@ var trail = [];
 		
 		radius = parseFloat( document.getElementById( "radiusInput" ).value );
 		createCircularMotion( radius );
+	}
+	
+	document.getElementById( "speed" ).onclick = function()
+	{   
+		trail = [];
+		
+		speed = parseFloat( document.getElementById( "speedInput" ).value );
 	}
 
 	    return {
