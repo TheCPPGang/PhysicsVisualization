@@ -10,7 +10,7 @@ var demVar =
     trails: [],
     speed: 10,
     radius: 100,
-    playing: false
+    playing: true
 }
 
 // module aliases
@@ -116,34 +116,36 @@ engine.world.gravity.y = 0;
 	}
 
 	function renderTrails(){
-        demVar.trails.push({
-            position: Vector.clone(body.position),
-            speed: body.speed
-        });
+		if(demVar.playing){
+	        demVar.trails.push({
+	            position: Vector.clone(body.position),
+	            speed: body.speed
+        	});
 
-        Render.startViewTransform(render);
-        //color intensity: up to 1
-        render.context.globalAlpha = 0.7;
+	        Render.startViewTransform(render);
+	        //color intensity: up to 1
+	        render.context.globalAlpha = 0.7;
 
-        for (var i = 0; i < demVar.trails.length; i++) {
-            var point = demVar.trails[i].position;
-            
-            //color of the trace    
-            render.context.fillStyle = 'black';
-            //size of the dots
-            render.context.fillRect(point.x, point.y, 2, 2);
-        }
+	        for (var i = 0; i < demVar.trails.length; i++) {
+	            var point = demVar.trails[i].position;
+	            
+	            //color of the trace    
+	            render.context.fillStyle = 'black';
+	            //size of the dots
+	            render.context.fillRect(point.x, point.y, 2, 2);
+	        }
 
-        render.context.globalAlpha = 1;
-        Render.endViewTransform(render);
-        
-		var Dx = body.position.x - 350;
-		var Dy = body.position.y - 200;
-		var theta = Math.atan2(Dy, Dx);
+	        render.context.globalAlpha = 1;
+	        Render.endViewTransform(render);
+	        
+			var Dx = body.position.x - 350;
+			var Dy = body.position.y - 200;
+			var theta = Math.atan2(Dy, Dx);
 
-        if(theta > 3){
-        	demVar.trails = [];
-        }
+	        if(theta > 3){
+	        	demVar.trails = [];
+	        }
+		}
 	}
 
     Events.on(render, 'afterRender', function() {
@@ -154,7 +156,7 @@ engine.world.gravity.y = 0;
 			<p>Equations</p>
 			
 			<div style="text-align: center">
-				<button id="play-pause">Play</button>
+				<button id="play-pause">Pause</button>
 				<br/><br/>
 				Radius: <input type="text" id="radiusInput">
 				<button id="radius">Apply</button>

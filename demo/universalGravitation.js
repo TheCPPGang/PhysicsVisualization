@@ -16,9 +16,10 @@ Example.universalGravitation = function(){
         offset: 25,
         lastTimeStamp: 0,
         objects: [],
-        playing: false,
+        playing: true,
         firstTime: true,
-        smallObjectVelocity: []
+        smallObjectVelocity: [],
+        defaultCat: 0x0001,
     }
 
     function resetSettings(){
@@ -52,7 +53,7 @@ Example.universalGravitation = function(){
             enabled: true,
             wireframes: false,
             showVelocity: true,
-            showAngleIndicator: true,
+            showAngleIndicator: false,
             showCollisions: false,
             pixelRatio: 1
         }
@@ -70,6 +71,9 @@ Example.universalGravitation = function(){
                     fillStyle: randomColor(),
                     strokeStyle: 'black',
                     lineWidth: 3
+                },
+                collisionFilter: {
+                    mask: null
                 }
             })
         );
@@ -82,16 +86,6 @@ Example.universalGravitation = function(){
         demVar.smallObjectVelocity.push({x: Vx, y: Vy});
     }
 
-    function createWall(x, y, width, height){
-        return Bodies.rectangle(x, y, width, height, {
-            isStatic: true,
-            render: {
-                restitution: 1,
-                fillStyle: 'white',
-                strokeStyle: 'black'
-            }
-        });
-    }
 
     function simpleOrbit(){
         resetSettings();
@@ -155,7 +149,7 @@ Example.universalGravitation = function(){
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
         <div style="text-align:center">
-            <button id="play-pause">Play</button>
+            <button id="play-pause">Pause</button>
         </div>
     `;
 
