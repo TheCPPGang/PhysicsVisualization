@@ -15,7 +15,10 @@ Example.universalGravitation = function(){
         velocityVector: true,
         offset: 25,
         lastTimeStamp: 0,
-        objects: []
+        objects: [],
+        playing: false,
+        firstTime: true,
+        smallObjectVelocity: []
     }
 
     function resetSettings(){
@@ -29,7 +32,8 @@ Example.universalGravitation = function(){
         World = Matter.World,
         Events = Matter.Events,
         Bodies = Matter.Bodies,
-        Runner = Matter.Runner;
+        Runner = Matter.Runner,
+        Body = Matter.Body;
 
 
 
@@ -75,6 +79,7 @@ Example.universalGravitation = function(){
             y: Vy
         });
         World.add(engine.world, demVar.objects[index]);
+        demVar.smallObjectVelocity.push({x: Vx, y: Vy});
     }
 
     function createWall(x, y, width, height){
@@ -89,28 +94,11 @@ Example.universalGravitation = function(){
     }
 
     function simpleOrbit(){
-      resetSettings();
-      World.clear(engine.world, true);
-      demVar.objects = [];
-      addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
-      addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
-    }
-
-    function gravity() {
-      var length = demVar.objects.length;
-      for (var i = 1; i < length; i++) {
-        for (var j = 0; j < length; j++) {
-          if (i != j) {
-            var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
-            var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
-            var force = (engine.timing.timestamp-demVar.lastTimeStamp)*demVar.gravity * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
-            var angle = Math.atan2(Dy, Dx);
-            demVar.objects[i].force.x += force * Math.cos(angle);
-            demVar.objects[i].force.y += force * Math.sin(angle);
-          }
-        }
-      }
-      demVar.lastTimeStamp = engine.timing.timestamp;
+        resetSettings();
+        World.clear(engine.world, true);
+        demVar.objects = [];
+        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
+        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
     }
 
     engine.velocityIterations = 4;
@@ -119,10 +107,44 @@ Example.universalGravitation = function(){
 
     simpleOrbit()
 
-    World.add( engine.world, [] );
+    function gravity() {
+        if(demVar.playing){
+            var length = demVar.objects.length;
+            for (var i = 1; i < length; i++) {
+                for (var j = 0; j < length; j++) {
+                        if (i != j) {
+                            var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
+                            var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
+                            var force = (engine.timing.timestamp-demVar.lastTimeStamp)*demVar.gravity * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
+                            var angle = Math.atan2(Dy, Dx);
+                            demVar.objects[i].force.x += force * Math.cos(angle);
+                            demVar.objects[i].force.y += force * Math.sin(angle);
+                            demVar.smallObjectVelocity[i].x = demVar.objects[i].velocity.x;
+                            demVar.smallObjectVelocity[i].y = demVar.objects[i].velocity.y;
+                        }
+                }
+            }
+        }else{
+            Body.setVelocity(demVar.objects[1], {x: 0, y: 0});
+        }
+        demVar.lastTimeStamp = engine.timing.timestamp;
+    }
+
+    function playPause(){
+        if(demVar.playing && demVar.firstTime){
+            for(var i = 0; i < demVar.objects.length; i++){
+                Body.setVelocity(demVar.objects[i], {
+                    x: demVar.smallObjectVelocity[i].x,
+                    y: demVar.smallObjectVelocity[i].y
+                });
+            }
+            demVar.firstTime = false;
+        }
+        gravity();
+    }
 
     Events.on( engine, "beforeTick", function(event) {
-      gravity();
+        playPause();
     } );
 
     // run the engine
@@ -133,9 +155,15 @@ Example.universalGravitation = function(){
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
         <div style="text-align:center">
-            <button> Test Final Test #1</button>
+            <button id="play-pause">Play</button>
         </div>
     `;
+
+    document.getElementById('play-pause').onclick = function(){
+        demVar.playing = !demVar.playing;
+        demVar.firstTime = true;
+        document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
+    };
 
     return {
         engine: engine,

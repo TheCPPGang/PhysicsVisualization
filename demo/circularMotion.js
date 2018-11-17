@@ -7,6 +7,10 @@ var canvas = document.getElementById('diagram');
 var demVar = 
 {
     objects: [],
+    trails: [],
+    speed: 10,
+    radius: 100,
+    playing: false
 }
 
 // module aliases
@@ -59,7 +63,7 @@ var mouse = Mouse.create( render.canvas ),
 function createCircularMotion( radius )
 {
 	// add revolute constraint
-	demVar.objects.push( body = Bodies.circle( 350 + radius, 200, 25, { frictionAir: 0 } ) );
+	demVar.objects.push( body = Bodies.circle( 350 - radius, 200, 25, { frictionAir: 0 } ) );
 	
 	demVar.objects.push( constraint = Constraint.create( {
 			pointA: { x: 350, y: 200 },
@@ -83,34 +87,36 @@ Render.run( render );
 // run the engine
 Engine.run( engine );
 
-var speed = 20;
-var radius = 100;
-createCircularMotion( radius );
+createCircularMotion( demVar.radius );
 
 // Gravity is set to 0 to ensure that
 // gravitational acceleration does not interfere with
 // circular motion of the particle
 engine.world.gravity.y = 0;
 
-Events.on( engine, 'beforeTick', function() 
-{	
-	// Every tick we need to update the velocity of the particle
-	// to ensure that the speed is always constant due to matter.js
-	// applying friction over time
-	var Dx = body.position.x - 350;
-	var Dy = body.position.y - 200;
-	var theta = Math.atan2(Dy, Dx);
+	Events.on( engine, 'beforeTick', function() 
+	{	
+		runCircularMotion();
+	});
 
-	var Vx = speed * -Math.sin( theta );
-	var Vy = speed * Math.cos( theta );
-	Body.setVelocity( body, {x: Vx, y: Vy } );
-});
+	function runCircularMotion(){
+		if(demVar.playing){
+			// Every tick we need to update the velocity of the particle
+			// to ensure that the speed is always constant due to matter.js
+			// applying friction over time
+			var Dx = body.position.x - 350;
+			var Dy = body.position.y - 200;
+			var theta = Math.atan2(Dy, Dx);
+			var Vx = demVar.speed * -Math.sin( theta );
+			var Vy = demVar.speed * Math.cos( theta );
+			Body.setVelocity( body, {x: Vx, y: Vy } );
+		}else{
+			Body.setVelocity( body, {x:0, y: 0});
+		}
+	}
 
-//trace circle path
-var trail = [];
-
-    Events.on(render, 'afterRender', function() {
-        trail.unshift({
+	function renderTrails(){
+        demVar.trails.push({
             position: Vector.clone(body.position),
             speed: body.speed
         });
@@ -119,9 +125,8 @@ var trail = [];
         //color intensity: up to 1
         render.context.globalAlpha = 0.7;
 
-        for (var i = 0; i < trail.length; i += 1) {
-            var point = trail[i].position,
-                speed = trail[i].speed;
+        for (var i = 0; i < demVar.trails.length; i++) {
+            var point = demVar.trails[i].position;
             
             //color of the trace    
             render.context.fillStyle = 'black';
@@ -132,21 +137,29 @@ var trail = [];
         render.context.globalAlpha = 1;
         Render.endViewTransform(render);
         
-        //disappear when length is greater than specified amount
-        if (trail.length > 500) {
-            trail.pop();
+		var Dx = body.position.x - 350;
+		var Dy = body.position.y - 200;
+		var theta = Math.atan2(Dy, Dx);
+
+        if(theta > 3){
+        	demVar.trails = [];
         }
-        
+	}
+
+    Events.on(render, 'afterRender', function() {
+		renderTrails();        
     });
 
 	document.getElementById('equations').innerHTML = `
 			<p>Equations</p>
 			
 			<div style="text-align: center">
+				<button id="play-pause">Play</button>
+				<br/><br/>
 				Radius: <input type="text" id="radiusInput">
 				<button id="radius">Apply</button>
 				
-				<p></p>
+				<br/><br/>
 				
 				Speed: <input type="text" id="speedInput">
 				<button id="speed">Apply</button>
@@ -159,25 +172,30 @@ var trail = [];
 	{   
 		World.remove( engine.world, demVar.objects );
 		demVar.objects = [];
-		trail = [];
+		demVar.trails = [];
 		
-		radius = parseFloat( document.getElementById( "radiusInput" ).value );
-		createCircularMotion( radius );
+		demVar.radius = parseFloat( document.getElementById( "radiusInput" ).value );
+		createCircularMotion( demVar.radius );
 	}
 	
 	document.getElementById( "speed" ).onclick = function()
 	{   
-		trail = [];
-		
-		speed = parseFloat( document.getElementById( "speedInput" ).value );
+		demVar.trails = [];
+		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value );
 	}
 
-	    return {
-	        engine: engine,
-	        render: render,
-	        canvas: render.canvas,
-	        stop: function() {
-	            Matter.Render.stop(render);
-	        }
-	    };
+	document.getElementById( "play-pause" ).onclick = function()
+	{
+		demVar.playing = !demVar.playing;
+		document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
+	}
+
+    return {
+        engine: engine,
+        render: render,
+        canvas: render.canvas,
+        stop: function() {
+            Matter.Render.stop(render);
+        }
+    };
 };
