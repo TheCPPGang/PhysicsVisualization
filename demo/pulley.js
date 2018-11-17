@@ -1,6 +1,6 @@
 var Example = Example || {};
 
-Example.demo1 = function(){
+Example.pulley = function(){
     var canvas = document.getElementById('diagram');
 
     var demoVariables = {

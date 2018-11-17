@@ -27,9 +27,9 @@
                 init: Example.universalGravitation,
 	        },
 	        {
-                name: 'Two Box',
-                id: 'demo1',
-                init: Example.demo1,
+                name: 'Pulley',
+                id: 'Pulley',
+                init: Example.pulley,
 	        },
             {
                 name: 'Circular Motion',
