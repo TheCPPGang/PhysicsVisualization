@@ -8,6 +8,8 @@ var demVar =
 {
     objects: [],
     trails: [],
+	width: 700,
+	height: 400,
     speed: 10,
     radius: 100,
     playing: true
@@ -34,8 +36,8 @@ var render = Render.create({
     engine: engine,
     options:
     {
-        width: 700,
-        height: 400,
+        width: demVar.width,
+        height: demVar.height,
         background: 'white',
         wireframeBackground: '#222',
         enabled: true,
@@ -63,10 +65,10 @@ var mouse = Mouse.create( render.canvas ),
 function createCircularMotion( radius )
 {
 	// add revolute constraint
-	demVar.objects.push( body = Bodies.circle( 350 - radius, 200, 25, { frictionAir: 0 } ) );
+	demVar.objects.push( body = Bodies.circle( demVar.width/2 - radius, demVar.height/2, 25, { frictionAir: 0 } ) );
 	
 	demVar.objects.push( constraint = Constraint.create( {
-			pointA: { x: 350, y: 200 },
+			pointA: { x: demVar.width/2, y: demVar.height/2 },
 			bodyB: body,
 			length: radius,
 			render: 
@@ -89,10 +91,10 @@ Engine.run( engine );
 
 createCircularMotion( demVar.radius );
 
-// Gravity is set to 0 to ensure that
-// gravitational acceleration does not interfere with
-// circular motion of the particle
-engine.world.gravity.y = 0;
+	// Gravity is set to 0 to ensure that
+	// gravitational acceleration does not interfere with
+	// circular motion of the particle
+	engine.world.gravity.y = 0;
 
 	Events.on( engine, 'beforeTick', function() 
 	{	
@@ -104,8 +106,8 @@ engine.world.gravity.y = 0;
 			// Every tick we need to update the velocity of the particle
 			// to ensure that the speed is always constant due to matter.js
 			// applying friction over time
-			var Dx = body.position.x - 350;
-			var Dy = body.position.y - 200;
+			var Dx = body.position.x - demVar.width/2;
+			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
 			var Vx = demVar.speed * -Math.sin( theta );
 			var Vy = demVar.speed * Math.cos( theta );
@@ -118,34 +120,32 @@ engine.world.gravity.y = 0;
 	function renderTrails(){
 		if(demVar.playing){
 	        demVar.trails.push({
-	            position: Vector.clone(body.position),
-	            speed: body.speed
+	            position: Vector.clone(body.position)
         	});
 
-	        Render.startViewTransform(render);
-	        //color intensity: up to 1
-	        render.context.globalAlpha = 0.7;
-
-	        for (var i = 0; i < demVar.trails.length; i++) {
-	            var point = demVar.trails[i].position;
-	            
-	            //color of the trace    
-	            render.context.fillStyle = 'black';
-	            //size of the dots
-	            render.context.fillRect(point.x, point.y, 2, 2);
-	        }
-
-	        render.context.globalAlpha = 1;
-	        Render.endViewTransform(render);
-	        
-			var Dx = body.position.x - 350;
-			var Dy = body.position.y - 200;
+			var Dx = body.position.x - demVar.width/2;
+			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
 
 	        if(theta > 3){
 	        	demVar.trails = [];
 	        }
 		}
+        Render.startViewTransform(render);
+        //color intensity: up to 1
+        render.context.globalAlpha = 0.7;
+
+        for (var i = 0; i < demVar.trails.length; i++) {
+            var point = demVar.trails[i].position;
+            
+            //color of the trace    
+            render.context.fillStyle = 'black';
+            //size of the dots
+            render.context.fillRect(point.x, point.y, 2, 2);
+        }
+
+        render.context.globalAlpha = 1;
+        Render.endViewTransform(render);
 	}
 
     Events.on(render, 'afterRender', function() {
