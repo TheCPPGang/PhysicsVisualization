@@ -31,11 +31,16 @@
                 id: 'pulley',
                 init: Example.pulley,
 	        },
-            {
+            	{
                 name: 'Circular Motion',
                 id: 'circularMotion',
                 init: Example.circularMotion,
-            }
+            	},
+		{
+		name: 'Dielectrics',
+		id: 'dielectric',
+		init: Example.dielectric,
+		}
         ],
 	});
 
