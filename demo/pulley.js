@@ -1,6 +1,6 @@
 var Example = Example || {};
 
-Example.demo1 = function(){
+Example.pulley = function(){
     var canvas = document.getElementById('diagram');
 
     var demoVariables = {
@@ -18,6 +18,9 @@ Example.demo1 = function(){
         Bodies = Matter.Bodies;
         Body = Matter.Body,
         Runner = Matter.Runner;
+        Constraint = Matter.Constraint;
+        Composites = Matter.Composites;
+        Common = Matter.Common;
 
     // create an engine
     var engine = Engine.create();
@@ -54,8 +57,24 @@ Example.demo1 = function(){
     });
 
     // create two boxes and a ground
-    var boxA = Bodies.rectangle( 400, 200, 80, 80 );
-    var boxB = Bodies.rectangle( 450, 50, 80, 80 );
+    var boxA = Bodies.rectangle( 150, 200, 60, 60 );
+    var boxB = Bodies.rectangle( 450, 50, 60, 60 );
+    
+    var cliff = Bodies.rectangle(100, 350, 350, 250, { 
+            isStatic: true,
+            
+        });
+    
+    var mount = Bodies.rectangle(275, 235, 60, 20, { 
+        isStatic: true,
+        angle: -Math.PI * .2
+    });
+    
+    //use a sprite
+    var pulley = Bodies.circle(300, 220, 20, {
+        isStatic: true,
+        friction: 0,
+    });
 
     function createWall(x, y, width, height){
         return Bodies.rectangle(x, y, width, height, {
@@ -72,9 +91,49 @@ Example.demo1 = function(){
     var floor = createWall(400, demoVariables.height + demoVariables.offset, demoVariables.width * 2 + 2 * demoVariables.offset, 50);
     var leftWall = createWall(-demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
     var rightWall = createWall(demoVariables.width + demoVariables.offset, 300, 50, demoVariables.height * 2 + 2 * demoVariables.offset);
+    
+    var group = Body.nextGroup(true);
+
+    var bridge = Composites.stack(160, 290, 15, 1, 0, 0, function(x, y) {
+        return Bodies.rectangle(x - 20, y, 30, 20, { 
+            collisionFilter: { group: group },
+            chamfer: 5,
+            density: 0.005,
+            frictionAir: 0.005,
+            render: {
+                fillStyle: '#575375'
+            }
+        });
+    });
+    
+    Composites.chain(bridge, 0.3, 0, -0.3, 0, { 
+        stiffness: 1,
+        length: 0,
+        render: {
+            visible: false
+        }
+    });
 
     // add all of the bodies to the world
-    World.add( engine.world, [boxA, boxB, ceiling, floor, leftWall, rightWall, mouseConstraint] );
+    World.add( engine.world, [boxA, boxB, cliff, mount, pulley, ceiling, floor, leftWall, rightWall, mouseConstraint, bridge,
+        
+        Constraint.create({ 
+            bodyA: boxA,
+            pointA:{x:5, y:30},
+            bodyB: bridge.bodies[0], 
+            pointB: { x: -25, y: 0 },
+            length: 2,
+            stiffness: 0.9
+        }),
+        Constraint.create({ 
+            bodyA: boxB,
+            pointA: { x: 5, y: 30 }, 
+            bodyB: bridge.bodies[bridge.bodies.length - 1], 
+            pointB: { x: 25, y: 0 },
+            length: 2,
+            stiffness: 0.9
+        })
+]);
 
     // run the engine
     Engine.run( engine );
