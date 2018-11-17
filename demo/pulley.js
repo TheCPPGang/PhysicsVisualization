@@ -58,8 +58,8 @@ Example.pulley = function(){
 
     // create two boxes and a ground
     var boxA = Bodies.rectangle( 150, 200, 60, 60 );
-    var boxB = Bodies.rectangle( 450, 50, 60, 60 );
-    
+    var boxB = Bodies.rectangle( 150, 250, 60, 60 );
+    boxB.mass = 10;
     var cliff = Bodies.rectangle(100, 350, 350, 250, { 
             isStatic: true,
             
@@ -94,44 +94,67 @@ Example.pulley = function(){
     
     var group = Body.nextGroup(true);
 
-    var bridge = Composites.stack(160, 290, 15, 1, 0, 0, function(x, y) {
-        return Bodies.rectangle(x - 20, y, 30, 20, { 
-            collisionFilter: { group: group },
-            chamfer: 5,
-            density: 0.005,
-            frictionAir: 0.005,
-            render: {
-                fillStyle: '#575375'
-            }
-        });
-    });
-    
-    Composites.chain(bridge, 0.3, 0, -0.3, 0, { 
-        stiffness: 1,
-        length: 0,
-        render: {
-            visible: false
-        }
-    });
+    var rows = 20;
+    var columns = 1;
+    var columnGap = 0;
+    var rowGap = 0;
 
+    var rope = Composites.stack(boxA.position.x, boxA.bounds.max.y, columns, rows, columnGap, rowGap, function(x, y) {
+            return Bodies.circle(x, y, 2, {
+                collisionFilter: {
+                    group: group
+                },
+                render: {
+                    fillStyle: 'black',
+                    strokeStyle: 'black',
+                    lineWidth: 0
+                },
+                frictionAir: 0.005,
+                friction: 0
+            });
+    });
+    Composites.chain(rope, 0.5, 0, -0.5, 0, {
+            stiffness: 0.8,
+            length: 1,
+            collisionFilter: {
+                group: group
+            },
+            render: {
+                    fillStyle: 'black',
+                    strokeStyle: 'black',
+                    lineWidth: 2
+                }
+    });
+    boxA.collisionFilter.group = group;
+    boxB.collisionFilter.group = group;
     // add all of the bodies to the world
-    World.add( engine.world, [boxA, boxB, cliff, mount, pulley, ceiling, floor, leftWall, rightWall, mouseConstraint, bridge,
+    World.add( engine.world, [boxA, boxB, cliff, mount, pulley, ceiling, floor, leftWall, rightWall, mouseConstraint, rope,
         
         Constraint.create({ 
             bodyA: boxA,
-            pointA:{x:5, y:30},
-            bodyB: bridge.bodies[0], 
-            pointB: { x: -25, y: 0 },
-            length: 2,
-            stiffness: 0.9
+            bodyB: rope.bodies[0],
+            render: {
+                fillStyle: 'black',
+                strokeStyle: 'black',
+                lineWidth: 2
+            },
+            stiffness: 0.5,
+            collisionFilter: {
+                group: group
+            }
         }),
         Constraint.create({ 
             bodyA: boxB,
-            pointA: { x: 5, y: 30 }, 
-            bodyB: bridge.bodies[bridge.bodies.length - 1], 
-            pointB: { x: 25, y: 0 },
-            length: 2,
-            stiffness: 0.9
+            bodyB: rope.bodies[rope.bodies.length - 1],
+            render: {
+                fillStyle: 'black',
+                strokeStyle: 'black',
+                lineWidth: 2
+            },
+            stiffness: 0.5,
+            collisionFilter: {
+                group: group
+            }
         })
 ]);
 
