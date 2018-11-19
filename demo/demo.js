@@ -36,6 +36,11 @@
                 id: 'circularMotion',
                 init: Example.circularMotion,
         	},
+            {
+                name: 'Falling Objects',
+                id: 'projectile',
+                init: Example.projectile,
+            },
     		{
         		name: 'Dielectrics',
         		id: 'dielectric',
