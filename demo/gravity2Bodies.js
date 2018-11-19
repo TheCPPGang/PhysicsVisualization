@@ -144,15 +144,12 @@ Example.gravity2Bodies = function(){
         gravity();
     }
 
-    function getColor(index){
-        var rgb = [255,255,255];
-        var it = index % 3;
-        for (var i = 0; i < rgb.length; i++) {
-            if(it != i){
-                rgb[i] = 0;
-            }
-        }
-        var ret = `rgba(`+rgb[0]+`,`+rgb[1]+`,`+rgb[2]+`,`+ 255 +`)`;
+    function getColor(bodyIndex, currentTrail, maxTrail){
+        var rgb = [255/4,255/4,255/4];
+        var i = bodyIndex % 2 + 1;
+        rgb[i] = 255;
+        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
         return ret;
     }
 
@@ -167,27 +164,24 @@ Example.gravity2Bodies = function(){
 
             for (var i = 0; i < demVar.objectsTrails.length; i++) {
                 for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
-                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 100){
+                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 40){
                         demVar.objectsTrails[i].shift();
                     }
                 }
             }
         }
         Render.startViewTransform(render);
-        //color intensity: up to 1
-        render.context.globalAlpha = 0.7;
-
         for (var i = 0; i < demVar.objectsTrails.length; i++) {
-            for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
+            var len = demVar.objectsTrails[i].length;
+            for (var j = 0; j < len; j++) {
                 var point = demVar.objectsTrails[i][j].position;
                 
                 //color of the trace    
-                render.context.fillStyle = getColor(i);
+                render.context.fillStyle = getColor( i, j, len );
                 //size of the dots
                 render.context.fillRect(point.x, point.y, 2, 2);
             }
         }
-        render.context.globalAlpha = 1;
         Render.endViewTransform(render);
     }
 
