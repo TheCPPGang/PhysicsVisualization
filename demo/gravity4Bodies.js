@@ -1,6 +1,6 @@
 var Example = Example || {};
 
-Example.gravity2Bodies = function(){
+Example.gravity4Bodies = function(){
     var canvas = document.getElementById('diagram');
 
     var demVar = {
@@ -95,8 +95,10 @@ Example.gravity2Bodies = function(){
         World.clear(engine.world, true);
         demVar.objects = [];
         demVar.objectsTrails = [];
-        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1);
-        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, 1, 0);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-1, 0);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1);
     }
 
     engine.velocityIterations = 4;
@@ -144,11 +146,16 @@ Example.gravity2Bodies = function(){
     }
 
     function getColor(bodyIndex, currentTrail, maxTrail){
-        var rgb = [255/4,255/4,255/4];
-        var i = bodyIndex % 2 + 1;
-        rgb[i] = 255;
+        var rgb;
+        if(bodyIndex > 2){
+            rgb = [255,215,0];
+        }else{
+            var i = bodyIndex % 3;
+            rgb = [0,0,0];
+            rgb[i] = 255;
+        }
         var alpha = 1-((maxTrail-currentTrail)/maxTrail);
-        var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
+        var ret = `rgba(` + rgb[0]+ `,` +rgb[1]+ `,` + rgb[2] + `,` + alpha + `)`;
         return ret;
     }
 
@@ -163,7 +170,7 @@ Example.gravity2Bodies = function(){
 
             for (var i = 0; i < demVar.objectsTrails.length; i++) {
                 for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
-                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 40){
+                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 10){
                         demVar.objectsTrails[i].shift();
                     }
                 }

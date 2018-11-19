@@ -50,8 +50,13 @@
                 name: 'Gravitation w/ 2 Bodies',
                 id: 'gravity2Bodies',
                 init: Example.gravity2Bodies,
+            },
+                        {
+                name: 'Gravitation w/ 4 Bodies',
+                id: 'gravity4Bodies',
+                init: Example.gravity4Bodies,
             }
-        ],
+        ]
 	});
 
     document.getElementById('topBar').appendChild(demo.dom.root);
