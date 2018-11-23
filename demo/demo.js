@@ -41,6 +41,11 @@
                 id: 'projectile',
                 init: Example.projectile,
             },
+            {
+                name: '2-D Motion',
+                id: 'motion',
+                init: Example.motion,
+            },
     		{
         		name: 'Dielectrics',
         		id: 'dielectric',
