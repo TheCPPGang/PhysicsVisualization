@@ -90,7 +90,6 @@ Example.universalGravitation = function(){
         });
         World.add(engine.world, demVar.objects[index]);
         demVar.smallObjectVelocity.push({x: Vx, y: Vy});
-        console.log(index, demVar.objects[index].mass);
     }
 
 
@@ -150,7 +149,7 @@ Example.universalGravitation = function(){
         var rgb = [255/4,255/4,255/4];
         var i = bodyIndex % 2 + 1;
         rgb[i] = 255;
-        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var alpha = currentTrail/maxTrail;
         var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
         return ret;
     }

@@ -160,7 +160,7 @@ Example.gravity4Bodies = function(){
             rgb = [0,0,0];
             rgb[i] = 255;
         }
-        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var alpha = currentTrail/maxTrail;
         var ret = `rgba(` + rgb[0]+ `,` +rgb[1]+ `,` + rgb[2] + `,` + alpha + `)`;
         return ret;
     }

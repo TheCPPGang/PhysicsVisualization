@@ -20,7 +20,8 @@ Example.dielectric = function(){
 		World = Matter.World,
 		Bodies = Matter.Bodies,
 		Body = Matter.Body,
-		Composites = Matter.Composites;
+		Composites = Matter.Composites,
+		Runner = Matter.Runner;
 		
 	// create an engine
 	var engine = Engine.create();
@@ -42,6 +43,12 @@ Example.dielectric = function(){
 			pixelRatio: 1
 		}
 	});
+
+    Render.run( render );
+    
+    // create runner
+    var runner = Runner.create();
+    Runner.run(runner, engine);
 
 	// Color
 	var RED = '#FF0000',
@@ -192,12 +199,6 @@ Example.dielectric = function(){
 
 	createEnvironment();
 
-	// run the engine
-	Engine.run( engine );
-
-	// run the renderer
-	Render.run( render );
-
 	document.getElementById('equations').innerHTML = `
 			<p>Equations</p>
 			
@@ -245,10 +246,12 @@ Example.dielectric = function(){
 
     return {
         engine: engine,
+        runner: runner,
         render: render,
         canvas: render.canvas,
         stop: function() {
             Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
         }
     };
 };

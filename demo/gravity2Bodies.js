@@ -153,7 +153,7 @@ Example.gravity2Bodies = function(){
         var rgb = [255/4,255/4,255/4];
         var i = bodyIndex % 2 + 1;
         rgb[i] = 255;
-        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var alpha = currentTrail/maxTrail;
         var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
         return ret;
     }
@@ -194,7 +194,7 @@ Example.gravity2Bodies = function(){
         playPause();
     } );
 
-    Events.on(render, 'afterRender', function() {
+    Events.on( render, 'afterRender', function() {
         renderTrails();        
     });
 
