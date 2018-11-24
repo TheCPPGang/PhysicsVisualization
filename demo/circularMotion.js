@@ -156,15 +156,16 @@ createCircularMotion( demVar.radius );
 			<p>Equations</p>
 			
 			<div style="text-align: center">
-				<button id="play-pause">Pause</button>
+				<button type="button" class="btn btn-primary" id="play-pause">Pause</button>
 				<br/><br/>
 				Radius: <input type="text" id="radiusInput">
-				<button id="radius">Apply</button>
+				<button type="button" class="btn btn-primary" id="radius">Apply</button>
 				
 				<br/><br/>
 				
 				Speed: <input type="text" id="speedInput">
-				<button id="speed">Apply</button>
+				<button type="button" class="btn btn-primary" id="speed">Apply</button>
+				<br><br>
 			</div>
 	`;
 
