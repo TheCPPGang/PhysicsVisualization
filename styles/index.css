@@ -112,4 +112,22 @@ footer {
   content: " ";
 }
 
-    
+.button {
+    color: rgb(81, 152, 36);
+    font-size: 16px;
+    line-height: 16px;
+    padding: 4px;
+    border-radius: 5px;
+    font-family: Georgia, serif;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    border: 2px solid rgb(28, 110, 164);
+    display: inline-block;
+}
+.button:hover {
+    background: #1C6EA4; }
+.button:active {
+    background: #144E75; }

@@ -45,7 +45,7 @@ Example.motion = function() {
     var xVelocity = 0,
         yVelocity = 0,
         xGravity = 0,
-        yGravity = 0,
+        yGravity = 0;
 
     // add bodies
     var groundOptions = {
@@ -93,8 +93,8 @@ Example.motion = function() {
 			<p>Equations & Variables</p>
 			
 			 <div style="text-align: center">
-			    <button id="updateVariables">Apply Changes</button>
-			    <button id="clearWorld">Clear World</button>
+			    <button class="button" id="updateVariables">Apply Changes</button>
+			    <button class="button" id="clearWorld">Clear World</button>
 			    <br><br>
                 X-Velocity: <input type="text" id="enteredXVel">
                 <br>
