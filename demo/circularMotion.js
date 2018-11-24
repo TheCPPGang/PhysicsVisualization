@@ -165,7 +165,14 @@ Example.circularMotion = function(){
     });
     
      document.getElementById('problemDescription').innerHTML = 
-        '<p style="text-align: center"> A ball moves in a horizontal circle of radius <span id="radiusIn">100</span>m. The speed of the ball is <span id="speedIn">10<span>m/s.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
+        `<p style="text-align: center"> 
+        	A ball moves in a horizontal circle of radius 
+	        <span id="radiusIn">100</span>m. The speed of the ball is 
+	        <span id="speedIn">10<span>m/s.
+        </p> 
+        <p>
+        	Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) 
+        </p>`;
 
 	document.getElementById('settings').innerHTML = `
 			<div class="mult-btn">
