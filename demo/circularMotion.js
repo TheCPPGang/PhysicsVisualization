@@ -73,10 +73,10 @@ Example.circularMotion = function(){
 	function createCircularMotion( radius )
 	{
 		// add revolute constraint
-		demVar.objects.push( body = Bodies.circle( demVar.width/2 - radius, demVar.height/2, 25, { frictionAir: 0 } ) );
+		demVar.objects.push( body = Bodies.circle( demVar.width / 2 - radius, demVar.height / 2, 25, { frictionAir: 0 } ) );
 		
 		demVar.objects.push( constraint = Constraint.create( {
-				pointA: { x: demVar.width/2, y: demVar.height/2 },
+				pointA: { x: demVar.width / 2, y: demVar.height / 2 },
 				bodyB: body,
 				length: radius,
 				render: 
@@ -156,7 +156,7 @@ Example.circularMotion = function(){
     });
     
      document.getElementById('problemDescription').innerHTML = 
-        '<p style="text-align: center"> A ball moves in a horizontal circle of radius 100. The speed of the ball is 10.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
+        '<p style="text-align: center"> A ball moves in a horizontal circle of radius <span id="radiusIn">100</span>m. The speed of the ball is <span id="speedIn">10<span>m/s.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
 
 	document.getElementById('settings').innerHTML = `
 			<p class="h3">Settings</p>
@@ -189,13 +189,17 @@ Example.circularMotion = function(){
 		
 		demVar.radius = parseFloat( document.getElementById( "radiusInput" ).value );
 		createCircularMotion( demVar.radius );
+        
+        document.getElementById("radiusIn").innerHTML = document.getElementById("radiusInput").value;
 	}
 	
 	document.getElementById( "speed" ).onclick = function()
 	{   
 		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
 		demVar.trails = [];
-		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.008333;
+		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.01666;
+        
+        document.getElementById("speedIn").innerHTML = document.getElementById("speedInput").value + "m/s.";
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
