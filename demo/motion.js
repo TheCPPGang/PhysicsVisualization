@@ -90,18 +90,23 @@ Example.motion = function() {
     });
 
     document.getElementById('settings').innerHTML = `
-			<p>Settings</p>
-			    <button type="button" class="btn btn-primary" id="updateVariables">Apply Changes</button>
-			    <button type="button" class="btn btn-primary" id="clearWorld">Clear World</button>
-			    <br><br>
-                X-Velocity: <input type="text" id="enteredXVel">
-                <br>
-                Y-Velocity: <input type="text" id="enteredYVel">
-                <br><br>
-                X-Acceleration: <input type="text" id="enteredXAcc">
-                <br>
-                Y-Acceleration: <input type="text" id="enteredYAcc">
-
+			<p class="h3">Settings</p>
+            <div class="mult-btn">
+                    <button class="btn btn-primary" type="button" id="updateVariables">Apply Changes</button>
+                    <button class="btn btn-primary" type="button" id="clearWorld">Clear World</button>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="X Velocity" aria-label="X Velocity" aria-describedby="basic-addon2" id="enteredXVel">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Y Velocity" aria-label="Y Velocity" aria-describedby="basic-addon2" id="enteredYVel">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="X Acceleration" aria-label="X Acceleration" aria-describedby="basic-addon2" id="enteredXAcc">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Y Acceleration" aria-label="Y Acceleration" aria-describedby="basic-addon2" id="enteredYAcc">
+            </div>
 	`;
 
     document.getElementById("updateVariables").onclick = function()

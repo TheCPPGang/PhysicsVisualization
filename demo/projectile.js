@@ -104,9 +104,8 @@ Example.projectile = function() {
         min: { x: 0, y: 0 },
         max: { x: 800, y: 600 }
     });
-    document.getElementById('equations').innerHTML = `
-			<p>Equations</p>
-
+    document.getElementById('settings').innerHTML = `
+			<p class="h3">Settings</p>
 	`;
     // context for MatterTools.Demo
     return {

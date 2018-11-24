@@ -156,18 +156,23 @@ Example.circularMotion = function(){
     });
 
 	document.getElementById('settings').innerHTML = `
-			<p>Settings</p>
+			<p class="h3">Settings</p>
 			<div style="text-align: center">
-				<button type="button" class="btn btn-primary" id="play-pause">Pause</button>
-				<br/><br/>
-				Radius: <input type="text" id="radiusInput">
-				<button type="button" class="btn btn-primary" id="radius">Apply</button>
-				
-				<br/><br/>
-				
-				Speed: <input type="text" id="speedInput">
-				<button type="button" class="btn btn-primary" id="speed">Apply</button>
-				<br><br>
+				<div class="mult-btn">
+						<button class="btn btn-primary" type="button" id="play-pause">Pause</button>
+				</div>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="radius">Apply</button>
+					</div>
+				</div>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="speed">Apply</button>
+					</div>
+				</div>
 			</div>
 	`;
 

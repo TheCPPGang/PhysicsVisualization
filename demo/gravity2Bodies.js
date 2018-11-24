@@ -199,7 +199,7 @@ Example.gravity2Bodies = function(){
     });
 
     document.getElementById('settings').innerHTML = `
-        <p>Settings</p>
+        <p class="h3">Settings</p>
         <div style="text-align:center">
             <button type="button" class="btn btn-primary" id="play-pause">Play</button>
             <br><br>

@@ -199,23 +199,28 @@ Example.dielectric = function(){
 
 	createEnvironment();
 
-	document.getElementById('equations').innerHTML = `
-			<p>Equations</p>
+	document.getElementById('settings').innerHTML = `
+			<p class="h3">Settings</p>
 			
 			<div style="text-align: center">
-				Dielectric Constant: <input type="text" id="kInput">
-				<button type="button" class="btn btn-primary" id="kConstant">Apply</button>
-				
-				<br/><br/>
-				
-				Plate Area: <input type="text" id="areaInput">
-				<button type="button" class="btn btn-primary" id="area">Apply</button>
-				
-				<br/><br/>
-				
-				Distance Between Plates: <input type="text" id="distanceInput">
-				<button type="button" class="btn btn-primary" id="distance">Apply</button>
-				<br><br>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Dielectric Constant" aria-label="Dielectric Constant" aria-describedby="basic-addon2" id="kInput">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="kConstant">Apply</button>
+					</div>
+				</div>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="area">Apply</button>
+					</div>
+				</div>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="distance">Apply</button>
+					</div>
+				</div>
 			</div>
 	`;
 
