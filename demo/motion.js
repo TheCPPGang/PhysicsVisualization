@@ -91,8 +91,8 @@ Example.motion = function() {
 
     document.getElementById('settings').innerHTML = `
             <div class="mult-btn">
-                    <button class="btn btn-secondary text-white" type="button" id="updateVariables">Apply Changes</button>
-                    <button class="btn btn-secondary text-white" type="button" id="clearWorld">Clear World</button>
+                    <button class="btn btn-outline-secondary text-white" type="button" id="updateVariables">Apply Changes</button>
+                    <button class="btn btn-outline-secondary text-white" type="button" id="clearWorld">Clear World</button>
             </div>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="X Velocity" aria-label="X Velocity" aria-describedby="basic-addon2" id="enteredXVel">
