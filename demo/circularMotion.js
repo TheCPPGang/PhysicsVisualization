@@ -10,7 +10,7 @@ Example.circularMotion = function(){
 	    trails: [],
 		width: 700,
 		height: 400,
-	    speed: 10,
+	    speed: 0.208325,
 	    radius: 100,
 	    playing: true
 	}
@@ -154,24 +154,25 @@ Example.circularMotion = function(){
     Events.on(render, 'afterRender', function() {
 		renderTrails();        
     });
+    
+     document.getElementById('problemDescription').innerHTML = 
+        '<p style="text-align: center"> A ball moves in a horizontal circle of radius 100. The speed of the ball is 10.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
 
 	document.getElementById('settings').innerHTML = `
 			<p class="h3">Settings</p>
-			<div style="text-align: center">
-				<div class="mult-btn">
-						<button class="btn btn-primary" type="button" id="play-pause">Pause</button>
+			<div class="mult-btn">
+					<button class="btn btn-primary" type="button" id="play-pause">Pause</button>
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="radius">Apply</button>
 				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="radius">Apply</button>
-					</div>
-				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="speed">Apply</button>
-					</div>
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="speed">Apply</button>
 				</div>
 			</div>
 	`;
@@ -190,8 +191,9 @@ Example.circularMotion = function(){
 	
 	document.getElementById( "speed" ).onclick = function()
 	{   
+		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
 		demVar.trails = [];
-		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value );
+		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.008333;
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()

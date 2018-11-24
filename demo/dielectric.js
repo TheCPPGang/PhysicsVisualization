@@ -118,16 +118,38 @@ Example.dielectric = function(){
 		World.remove( engine.world, demVar.charges );
 		demVar.charges = [];
 		
-		for ( var i = 0; i < Math.floor( demVar.Area / 5 ); i++ )
+		// Our capacitors can fit twice as many rows as columns, so calculate the desired amount of each based on charge count
+		// Equation to calculate is: Charge = rows^2 / 2
+		nCharges = Math.floor( demVar.Area ) * Math.floor( demVar.k );
+		nRows = Math.ceil( Math.sqrt( 2 * nCharges ) );
+		nColumns = Math.ceil( Math.sqrt( 2 * nCharges ) /2 );
+		
+		// Don't make more than 10 rows at most
+		// Columns shouldn't exceed the area
+		if ( nRows > 10 || demVar.Area <= nColumns )
 		{
-			for ( var j = 0; j < 5; j++ )
+			nRows = 10;
+			nColumns = Math.ceil( nCharges / 10 );
+		}
+
+		for ( var i = 1; i <= nRows; i++ )
+		{
+			for ( var j = 1; j <= nColumns; j++ )
 			{
+				// Check if we've created enough charges
+				if ( nCharges == 0 )
+				{
+					break;
+				}
+				
 				// One charge for each plate		
-				demVar.charges.push( createNegativeCharge( 375 + ( 5 * demVar.distance ) + ( 50 * i ), 40 + ( 30 * j ), 20 ) );
-				demVar.charges.push( createPositiveCharge( 325 - ( 5 * demVar.distance ) - ( 50 * i ), 40 + ( 30 * j ), 20 ) );
+				demVar.charges.push( createNegativeCharge( 350 + ( 5 * demVar.distance ) + ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
+				demVar.charges.push( createPositiveCharge( 350 - ( 5 * demVar.distance ) - ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
+				
+				nCharges--;
 			}
 		}
-		
+
 		World.add( engine.world, demVar.charges );
 	}
 	
@@ -201,25 +223,22 @@ Example.dielectric = function(){
 
 	document.getElementById('settings').innerHTML = `
 			<p class="h3">Settings</p>
-			
-			<div style="text-align: center">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Dielectric Constant" aria-label="Dielectric Constant" aria-describedby="basic-addon2" id="kInput">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="kConstant">Apply</button>
-					</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Dielectric Constant" aria-label="Dielectric Constant" aria-describedby="basic-addon2" id="kInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="kConstant">Apply</button>
 				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="area">Apply</button>
-					</div>
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="area">Apply</button>
 				</div>
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="distance">Apply</button>
-					</div>
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" id="distance">Apply</button>
 				</div>
 			</div>
 	`;
