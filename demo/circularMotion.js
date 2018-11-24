@@ -138,8 +138,7 @@ Example.circularMotion = function(){
 			var Dx = body.position.x - demVar.width/2;
 			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
-
-	        if(theta > 3){
+	        if(theta > 3.1 || theta < -3.1){
 	        	demVar.trails = [];
 	        }
 		}
