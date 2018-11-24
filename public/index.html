@@ -17,7 +17,6 @@
         <script src="../libraries/matter-tools.demo.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/universalGravitation.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/circularMotion.js"></script>
-        <script language="javascript" type="text/javascript" src="../demo/pulley.js"></script>
 		<script language="javascript" type="text/javascript" src="../demo/dielectric.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/gravity2Bodies.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/gravity4Bodies.js"></script>
@@ -36,34 +35,51 @@
                 <p>Choose any of the topics below to get started!</p>
             </div>
             
-            <div class="container" id="topics">
-                <ul class="nav" id="rotationalMotion"> <u>Rotational Motion</u>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                </ul>
-                
-                <ul class="nav" id="fluids"> <u>Fluids</u>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                </ul>
-                
-                <ul class="nav" id="magneticFields"><u>Magnetic Fields</u>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                    <li>Preset</li>
-                </ul>
-                
+             <div class="container-fluid" id="topics">
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col">
+                        <ul class="list-group" id="rotationalMotion"> <u>Rotational Motion</u>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group" id="fluids"> <u>Fluids</u>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group" id="magneticFields"><u>Magnetic Fields</u>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                            <li class="list-group-item border-0">Preset</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
             </div>
+            
              
             <div class="container" id="problemDescription" style="text-align:center">
                 	<p>This is where the problem description will go using color as reference for the size</p>		
             </div>
             
-            <div class="container" id="diagram"></div>
+            <div class="container" >
+                <div class="row">
+                    <div class="canvasDiag" id="diagram"></div>
+                    <div class="rColumn">
+                        <div id="settings" style="text-align: center">
+                        </div>
+                    </div>
+                </div>
+            </div>
     		
     		<div class="container" id="equations" style="text-align:center">
+                <h3>Equations</h3>
     		</div>
         </section>
     </body>

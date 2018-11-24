@@ -154,20 +154,22 @@ Example.circularMotion = function(){
     Events.on(render, 'afterRender', function() {
 		renderTrails();        
     });
+    
+     document.getElementById('problemDescription').innerHTML = 
+        '<p style="text-align: center"> A ball moves in a horizontal circle of radius 100. The speed of the ball is 10.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
 
-	document.getElementById('equations').innerHTML = `
-			<p>Equations</p>
-			
+	document.getElementById('settings').innerHTML = `
+			<p>Settings</p>
 			<div style="text-align: center">
 				<button type="button" class="btn btn-primary" id="play-pause">Pause</button>
 				<br/><br/>
-				Radius: <input type="text" id="radiusInput">
-				<button type="button" class="btn btn-primary" id="radius">Apply</button>
+				Radius: <input type="text" id="radiusInput" size="5">
+				m <button type="button" class="btn btn-primary" id="radius">Apply</button>
 				
 				<br/><br/>
 				
-				Speed: <input type="text" id="speedInput">
-				<button type="button" class="btn btn-primary" id="speed">Apply</button>
+				Speed: <input type="text" id="speedInput" size="5">
+				m/s <button type="button" class="btn btn-primary" id="speed">Apply</button>
 				<br><br>
 			</div>
 	`;
