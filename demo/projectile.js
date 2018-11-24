@@ -105,7 +105,6 @@ Example.projectile = function() {
         max: { x: 800, y: 600 }
     });
     document.getElementById('settings').innerHTML = `
-			<p class="h3">Settings</p>
 	`;
     // context for MatterTools.Demo
     return {

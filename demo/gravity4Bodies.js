@@ -207,11 +207,7 @@ Example.gravity4Bodies = function(){
 
 
     document.getElementById('settings').innerHTML = `
-        <p class="h3">Settings</p>
-        <div style="text-align:center">
-            <button type="button" class="btn btn-primary" id="play-pause">Play</button>
-            <br><br>
-        </div>
+            <button type="button" class="btn btn-secondary text-white" id="play-pause">Play</button>
     `;
 
     document.getElementById('play-pause').onclick = function(){

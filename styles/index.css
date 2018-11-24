@@ -25,14 +25,14 @@ body {
     
 }
 
-#topics {
+/*#topics {
 
     border-radius: 10px;
     text-align: center;
     border-style: solid;
     border-width: 2px;
 	
-}
+}*/
 
 .nav {
     
@@ -47,10 +47,13 @@ body {
     
 }
 
-#problemDescription {
+.rounded-5{
+  border-radius: 5px;
+}
+
+/*#problemDescription {
 
 	border-radius: 10px;
-  background-color: lightgray;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -58,14 +61,13 @@ body {
   border-style: solid;
   border-width: 1px;
   text-align: center;
-}
+}*/
 
 #diagram{
 	
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
-    background-color: aliceblue;
     border-style: solid;
     border-width: 1px;
 }
@@ -83,20 +85,14 @@ body {
     
 }
 
-footer {
-  margin-top: 10px;
-  border-top: 1px solid black;
-  background-color: white;
-  padding: 5px;
+.foot {
+
+  background-color: black;
     
 }
 
 .container {
   width: 100%;
-}
-
-.container-fluid{
-  background-color: white;
 }
 
 .row:after {
@@ -108,7 +104,6 @@ footer {
   margin-top: 30px;
   margin-left: 10px;
   margin-right: auto;
-  background-color: aliceblue;
   border-style: solid;
   border-width: 1px;
 }
@@ -120,8 +115,9 @@ footer {
   margin: auto;
 }
 
-#settings{
+.settings{
   padding: 10px;
+  text-align: center;
 }
 
 .eye {
@@ -156,3 +152,4 @@ footer {
 .logo, .logo:visited, .logo:hover, .logo:active{
   text-decoration: none;
 }
+
