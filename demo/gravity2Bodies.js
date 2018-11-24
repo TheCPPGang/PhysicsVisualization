@@ -200,7 +200,8 @@ Example.gravity2Bodies = function(){
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
         <div style="text-align:center">
-            <button id="play-pause">Pause</button>
+            <button type="button" class="btn btn-primary" id="play-pause">Pause</button>
+            <br><br>
         </div>
     `;
 

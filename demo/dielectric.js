@@ -203,17 +203,18 @@ Example.dielectric = function(){
 			
 			<div style="text-align: center">
 				Dielectric Constant: <input type="text" id="kInput">
-				<button id="kConstant">Apply</button>
+				<button type="button" class="btn btn-primary" id="kConstant">Apply</button>
 				
 				<br/><br/>
 				
 				Plate Area: <input type="text" id="areaInput">
-				<button id="area">Apply</button>
+				<button type="button" class="btn btn-primary" id="area">Apply</button>
 				
 				<br/><br/>
 				
 				Distance Between Plates: <input type="text" id="distanceInput">
-				<button id="distance">Apply</button>
+				<button type="button" class="btn btn-primary" id="distance">Apply</button>
+				<br><br>
 			</div>
 	`;
 
