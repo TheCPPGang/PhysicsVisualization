@@ -17,7 +17,7 @@ Example.gravity4Bodies = function(){
         lastTimeStamp: 0,
         objects: [],
         objectsTrails: [],
-        playing: true,
+        playing: false,
         firstTime: true,
         smallObjectVelocity: []
     }
@@ -59,6 +59,12 @@ Example.gravity4Bodies = function(){
             pixelRatio: 1
         }
     });
+
+    Render.run( render );
+    
+    // create runner
+    var runner = Runner.create();
+    Runner.run(runner, engine);
 
     function addObjectInEnviroment(x, y, r, sides, Vx, Vy){
         var index = demVar.objects.length;
@@ -191,7 +197,7 @@ Example.gravity4Bodies = function(){
         Render.endViewTransform(render);
     }
 
-    Events.on( engine, "beforeTick", function(event) {
+    Events.on( runner, "beforeTick", function(event) {
         playPause();
     } );
 
@@ -199,10 +205,6 @@ Example.gravity4Bodies = function(){
         renderTrails();        
     });
 
-    // run the engine
-    Engine.run( engine );
-
-    Render.run( render );
 
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
@@ -219,10 +221,12 @@ Example.gravity4Bodies = function(){
 
     return {
         engine: engine,
+        runner: runner,
         render: render,
         canvas: render.canvas,
         stop: function() {
             Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
         }
     };
 };
