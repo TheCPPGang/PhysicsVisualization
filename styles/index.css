@@ -44,9 +44,7 @@ body {
 }
 
 #problemDescription {
-    
-    height:100px;
-    width: 500px;
+
     background-color: lightgray;
     margin-left: auto;
     margin-right: auto;
@@ -58,9 +56,7 @@ body {
 }
 
 #diagram{
-    
-    width: 700px;
-    height:400px;
+
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -74,8 +70,6 @@ body {
     
     margin-left: auto;
     margin-right: auto;
-    height: 200px;
-    width: 500px;
     margin-top: 10px; 
     background-color: antiquewhite;
     border-style: solid;
@@ -112,22 +106,3 @@ footer {
   content: " ";
 }
 
-.button {
-    color: rgb(81, 152, 36);
-    font-size: 16px;
-    line-height: 16px;
-    padding: 4px;
-    border-radius: 5px;
-    font-family: Georgia, serif;
-    font-weight: normal;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: normal;
-    text-transform: none;
-    border: 2px solid rgb(28, 110, 164);
-    display: inline-block;
-}
-.button:hover {
-    background: #1C6EA4; }
-.button:active {
-    background: #144E75; }
