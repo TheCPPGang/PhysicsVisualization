@@ -122,10 +122,19 @@ Example.circularMotion = function(){
 
 	function renderTrails(){
 		if(demVar.playing){
-	        demVar.trails.push({
-	            position: Vector.clone(body.position)
-        	});
-
+			var dist = 3;
+			if(demVar.trails.length !== 0){
+				var len = demVar.trails.length-1;
+				var prevPos = demVar.trails[len];
+				var Dy = body.position.y - prevPos.position.y;
+				var Dx = body.position.x - prevPos.position.x;
+				dist = Math.sqrt(Dx * Dx + Dy * Dy);
+			}
+			if(dist > 2){
+				demVar.trails.push({
+            		position: Vector.clone(body.position)
+    			});
+			}
 			var Dx = body.position.x - demVar.width/2;
 			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
@@ -140,11 +149,12 @@ Example.circularMotion = function(){
 
         for (var i = 0; i < demVar.trails.length; i++) {
             var point = demVar.trails[i].position;
+            var context = render.context;
             
-            //color of the trace    
-            render.context.fillStyle = 'black';
-            //size of the dots
-            render.context.fillRect(point.x, point.y, 2, 2);
+            context.beginPath();
+            context.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
+            context.fillStyle = 'black';
+            context.fill();
         }
 
         render.context.globalAlpha = 1;
