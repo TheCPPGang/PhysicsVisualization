@@ -149,3 +149,7 @@ footer {
   text-align: center;
   padding-bottom: 5px;
 }
+
+.logo, .logo:visited, .logo:hover, .logo:active{
+  text-decoration: none;
+}

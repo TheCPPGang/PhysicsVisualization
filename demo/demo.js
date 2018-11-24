@@ -42,12 +42,10 @@
 
     document.getElementById('topBar').appendChild(demo.dom.root);
     document.getElementById('physics-logo').innerHTML = `
-        <div class='container'>
-            <a href="/">
+            <a href="/" class="logo">
                 <h1 id="title">S<div class='eye'></div>
                 <div class='eye'></div> Physics</h1> 
             </a>
-        </div>
     `;
     MatterTools.Demo.start(demo);
 })();
