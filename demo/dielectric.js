@@ -232,12 +232,14 @@ Example.dielectric = function(){
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
 				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" disabled="true">cm<sup>2</sup></button>
 					<button class="btn btn-outline-secondary" type="button" id="area">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
 				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" disabled="true">cm</button>
 					<button class="btn btn-outline-secondary" type="button" id="distance">Apply</button>
 				</div>
 			</div>

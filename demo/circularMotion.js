@@ -166,12 +166,14 @@ Example.circularMotion = function(){
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
 				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" disabled="true">m</button>
 					<button class="btn btn-outline-secondary" type="button" id="radius">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
 				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button" disabled="true">m/s</button>
 					<button class="btn btn-outline-secondary" type="button" id="speed">Apply</button>
 				</div>
 			</div>
