@@ -91,11 +91,11 @@ footer {
   display: flex; 
 }
 
-.column{
+.rColumn{
   flex: 25%;
   margin-top: 30px;
   margin-left: 10px;
-  margin-right: 10px;
+  margin-right: auto;
   background-color: aliceblue;
   border-style: solid;
   border-width: 1px;
