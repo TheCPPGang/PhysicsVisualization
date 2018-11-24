@@ -25,7 +25,8 @@ Example.circularMotion = function(){
 		Mouse = Matter.Mouse;
 		MouseConstraint = Matter.MouseConstraint;
 	    Events = Matter.Events,
-	    Vector = Matter.Vector;
+	    Vector = Matter.Vector,
+	    Runner = Matter.Runner;
 
 
 	// create an engine
