@@ -17,7 +17,6 @@
         <script src="../libraries/matter-tools.demo.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/universalGravitation.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/circularMotion.js"></script>
-        <script language="javascript" type="text/javascript" src="../demo/pulley.js"></script>
 		<script language="javascript" type="text/javascript" src="../demo/dielectric.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/gravity2Bodies.js"></script>
         <script language="javascript" type="text/javascript" src="../demo/gravity4Bodies.js"></script>
@@ -61,9 +60,18 @@
                 	<p>This is where the problem description will go using color as reference for the size</p>		
             </div>
             
-            <div class="container" id="diagram"></div>
+            <div class="container" >
+                <div class="row">
+                    <div class="canvasDiag" id="diagram"></div>
+                    <div class="rColumn">
+                        <div id="settings" style="text-align: center">
+                        </div>
+                    </div>
+                </div>
+            </div>
     		
     		<div class="container" id="equations" style="text-align:center">
+                <h3>Equations</h3>
     		</div>
         </section>
     </body>

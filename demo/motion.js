@@ -89,12 +89,10 @@ Example.motion = function() {
         max: { x: 800, y: 600 }
     });
 
-    document.getElementById('equations').innerHTML = `
-			<p>Equations & Variables</p>
-			
-			 <div style="text-align: center">
-			    <button class="button" id="updateVariables">Apply Changes</button>
-			    <button class="button" id="clearWorld">Clear World</button>
+    document.getElementById('settings').innerHTML = `
+			<p>Settings</p>
+			    <button type="button" class="btn btn-primary" id="updateVariables">Apply Changes</button>
+			    <button type="button" class="btn btn-primary" id="clearWorld">Clear World</button>
 			    <br><br>
                 X-Velocity: <input type="text" id="enteredXVel">
                 <br>
@@ -103,7 +101,6 @@ Example.motion = function() {
                 X-Acceleration: <input type="text" id="enteredXAcc">
                 <br>
                 Y-Acceleration: <input type="text" id="enteredYAcc">
-             </div>
 
 	`;
 

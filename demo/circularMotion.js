@@ -158,9 +158,8 @@ Example.circularMotion = function(){
      document.getElementById('problemDescription').innerHTML = 
         '<p style="text-align: center"> A ball moves in a horizontal circle of radius 100. The speed of the ball is 10.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
 
-	document.getElementById('equations').innerHTML = `
-			<p>Equations</p>
-			
+	document.getElementById('settings').innerHTML = `
+			<p>Settings</p>
 			<div style="text-align: center">
 				<button type="button" class="btn btn-primary" id="play-pause">Pause</button>
 				<br/><br/>

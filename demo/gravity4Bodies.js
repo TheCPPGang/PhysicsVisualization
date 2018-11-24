@@ -160,7 +160,7 @@ Example.gravity4Bodies = function(){
             rgb = [0,0,0];
             rgb[i] = 255;
         }
-        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var alpha = currentTrail/maxTrail;
         var ret = `rgba(` + rgb[0]+ `,` +rgb[1]+ `,` + rgb[2] + `,` + alpha + `)`;
         return ret;
     }
@@ -206,10 +206,10 @@ Example.gravity4Bodies = function(){
     });
 
 
-    document.getElementById('equations').innerHTML = `
-        <p>Equations</p>
+    document.getElementById('settings').innerHTML = `
+        <p>Settings</p>
         <div style="text-align:center">
-            <button type="button" class="btn btn-primary" id="play-pause">Pause</button>
+            <button type="button" class="btn btn-primary" id="play-pause">Play</button>
             <br><br>
         </div>
     `;
