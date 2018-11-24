@@ -198,8 +198,8 @@ Example.gravity2Bodies = function(){
         renderTrails();        
     });
 
-    document.getElementById('equations').innerHTML = `
-        <p>Equations</p>
+    document.getElementById('settings').innerHTML = `
+        <p>Settings</p>
         <div style="text-align:center">
             <button type="button" class="btn btn-primary" id="play-pause">Play</button>
             <br><br>

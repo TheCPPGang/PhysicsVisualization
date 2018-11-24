@@ -86,6 +86,29 @@ footer {
 .container {
   width: 100%;
 }
+
+.row:after {
+  display: flex; 
+}
+
+.column{
+  flex: 25%;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: aliceblue;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.canvasDiag{
+  flex: 45%;
+}
+
+#settings{
+  padding: 10px;
+}
+
 .eye {
   position: relative;
   display: inline-block;
