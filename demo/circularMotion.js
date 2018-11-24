@@ -73,10 +73,10 @@ Example.circularMotion = function(){
 	function createCircularMotion( radius )
 	{
 		// add revolute constraint
-		demVar.objects.push( body = Bodies.circle( demVar.width/2 - radius, demVar.height/2, 25, { frictionAir: 0 } ) );
+		demVar.objects.push( body = Bodies.circle( demVar.width / 2 - radius, demVar.height / 2, 25, { frictionAir: 0 } ) );
 		
 		demVar.objects.push( constraint = Constraint.create( {
-				pointA: { x: demVar.width/2, y: demVar.height/2 },
+				pointA: { x: demVar.width / 2, y: demVar.height / 2 },
 				bodyB: body,
 				length: radius,
 				render: 
@@ -193,7 +193,7 @@ Example.circularMotion = function(){
 	{   
 		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
 		demVar.trails = [];
-		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.008333;
+		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.01666;
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
