@@ -10,7 +10,7 @@ Example.circularMotion = function(){
 	    trails: [],
 		width: 700,
 		height: 400,
-	    speed: 10,
+	    speed: 0.208325,
 	    radius: 100,
 	    playing: true
 	}
@@ -188,8 +188,9 @@ Example.circularMotion = function(){
 	
 	document.getElementById( "speed" ).onclick = function()
 	{   
+		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
 		demVar.trails = [];
-		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value );
+		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.008333;
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
