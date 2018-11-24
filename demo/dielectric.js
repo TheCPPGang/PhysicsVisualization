@@ -6,8 +6,8 @@ Example.dielectric = function(){
 	var demVar = 
 	{
 		k: 1,
-		Area: 1,
-		distance: 1,
+		Area: 5,
+		distance: 5,
 		objects: [],
 		particles: [],
 		charges: [],
@@ -93,11 +93,11 @@ Example.dielectric = function(){
 		World.remove( engine.world, demVar.particles );
 		demVar.particles = [];
 		
-		for ( var i = 0; i < demVar.distance; i++ )
+		for ( var i = 0; i < Math.floor( demVar.distance / 5 ); i++ )
 		{
 			for ( var j = 0; j < 3; j++ )
 			{
-				demVar.particles.push( createParticle( 375 - ( 25 * demVar.distance ) + ( 50 * i ), 50 + ( 50 * j ) ) );
+				demVar.particles.push( createParticle( 375 - ( 5 * demVar.distance ) + ( 50 * i ), 50 + ( 50 * j ) ) );
 			}
 		}
 		
@@ -111,13 +111,13 @@ Example.dielectric = function(){
 		World.remove( engine.world, demVar.charges );
 		demVar.charges = [];
 		
-		for ( var i = 0; i < demVar.Area; i++ )
+		for ( var i = 0; i < Math.floor( demVar.Area / 5 ); i++ )
 		{
 			for ( var j = 0; j < 5; j++ )
 			{
 				// One charge for each plate		
-				//demVar.charges.push( createNegativeCharge( 425 - ( 25 * demVar.Area ) + ( 50 * i ), 40 + ( 30 * j ), 20 ) );
-				//demVar.charges.push( createPositiveCharge( 325 - ( 25 * demVar.Area ) + ( 50 * i ), 40 + ( 30 * j ), 20 ) );
+				demVar.charges.push( createNegativeCharge( 375 + ( 5 * demVar.distance ) + ( 50 * i ), 40 + ( 30 * j ), 20 ) );
+				demVar.charges.push( createPositiveCharge( 325 - ( 5 * demVar.distance ) - ( 50 * i ), 40 + ( 30 * j ), 20 ) );
 			}
 		}
 		
@@ -126,28 +126,28 @@ Example.dielectric = function(){
 	
 	// When creating the capacitor the offset is adjusted based on the area of the plates as well as the 
 	// distance between the plates specified by the user.
-	// 1m = 25px
+	// 1cm = 10px horizontally
 	function createCapacitor()
 	{
 		World.remove( engine.world, demVar.capacitor );
 		demVar.capacitor = [];
 		
 		// Left capacitor plate
-		demVar.capacitor.push( leftPlate = Bodies.rectangle( 350 + ( 25 * demVar.Area )  + ( 25 * demVar.distance ), 100, 50 * demVar.Area, 150, 
+		demVar.capacitor.push( leftPlate = Bodies.rectangle( 350 + ( 5 * ( demVar.distance + demVar.Area ) ), 100, 10 * demVar.Area, 150, 
 		{ 
 			isStatic: true,
 			render: { fillStyle: BLACK },  
 		} ) );
 		
 		// Right capacitor plate
-		demVar.capacitor.push( rightPlate = Bodies.rectangle( 350 - ( 25 * demVar.Area ) - ( 25 * demVar.distance ), 100, 50 * demVar.Area, 150, 
+		demVar.capacitor.push( rightPlate = Bodies.rectangle( 350 - ( 5 * ( demVar.distance + demVar.Area ) ), 100, 10 * demVar.Area, 150, 
 		{ 
 			isStatic: true,
 			render: { fillStyle: BLACK }, 
 		} ) );
 		
 		// Dielectric
-		demVar.capacitor.push( dielectric = Bodies.rectangle( 350 , 100, 50 * demVar.distance, 150, 
+		demVar.capacitor.push( dielectric = Bodies.rectangle( 350 , 100, 10 * demVar.distance, 150, 
 		{
 			isStatic: true,
 			render: { fillStyle: YELLOW },
