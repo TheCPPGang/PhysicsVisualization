@@ -111,16 +111,38 @@ Example.dielectric = function(){
 		World.remove( engine.world, demVar.charges );
 		demVar.charges = [];
 		
-		for ( var i = 0; i < Math.floor( demVar.Area / 5 ); i++ )
+		// Our capacitors can fit twice as many rows as columns, so calculate the desired amount of each based on charge count
+		// Equation to calculate is: Charge = rows^2 / 2
+		nCharges = Math.floor( demVar.Area ) * Math.floor( demVar.k );
+		nRows = Math.ceil( Math.sqrt( 2 * nCharges ) );
+		nColumns = Math.ceil( Math.sqrt( 2 * nCharges ) /2 );
+		
+		// Don't make more than 10 rows at most
+		// Columns shouldn't exceed the area
+		if ( nRows > 10 || demVar.Area <= nColumns )
 		{
-			for ( var j = 0; j < 5; j++ )
+			nRows = 10;
+			nColumns = Math.ceil( nCharges / 10 );
+		}
+
+		for ( var i = 1; i <= nRows; i++ )
+		{
+			for ( var j = 1; j <= nColumns; j++ )
 			{
+				// Check if we've created enough charges
+				if ( nCharges == 0 )
+				{
+					break;
+				}
+				
 				// One charge for each plate		
-				demVar.charges.push( createNegativeCharge( 375 + ( 5 * demVar.distance ) + ( 50 * i ), 40 + ( 30 * j ), 20 ) );
-				demVar.charges.push( createPositiveCharge( 325 - ( 5 * demVar.distance ) - ( 50 * i ), 40 + ( 30 * j ), 20 ) );
+				demVar.charges.push( createNegativeCharge( 350 + ( 5 * demVar.distance ) + ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
+				demVar.charges.push( createPositiveCharge( 350 - ( 5 * demVar.distance ) - ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
+				
+				nCharges--;
 			}
 		}
-		
+
 		World.add( engine.world, demVar.charges );
 	}
 	
@@ -202,17 +224,17 @@ Example.dielectric = function(){
 			<p>Equations</p>
 			
 			<div style="text-align: center">
-				Dielectric Constant: <input type="text" id="kInput">
+				Dielectric Constant: <input type="text" size="2" id="kInput">
 				<button type="button" class="btn btn-primary" id="kConstant">Apply</button>
 				
 				<br/><br/>
 				
-				Plate Area: <input type="text" id="areaInput">
+				Plate Area: <input type="text" size="2" id="areaInput"> cm<sup>2</sup>
 				<button type="button" class="btn btn-primary" id="area">Apply</button>
 				
 				<br/><br/>
 				
-				Distance Between Plates: <input type="text" id="distanceInput">
+				Distance Between Plates: <input type="text" size="2" id="distanceInput"> cm
 				<button type="button" class="btn btn-primary" id="distance">Apply</button>
 				<br><br>
 			</div>
