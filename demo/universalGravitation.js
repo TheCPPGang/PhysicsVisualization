@@ -6,7 +6,7 @@ Example.universalGravitation = function(){
     var demVar = {
         width: 700,
         height: 400,
-        gravity: 0.001,
+        gravityConstant: 6.67408e-11,
         ballSize: 10,
         friction: 0,
         frictionStatic: 1,
@@ -16,14 +16,15 @@ Example.universalGravitation = function(){
         offset: 25,
         lastTimeStamp: 0,
         objects: [],
-        playing: true,
+        playing: false,
         firstTime: true,
+        objectsTrails: [],
         smallObjectVelocity: [],
-        defaultCat: 0x0001,
+        test: 0
     }
 
     function resetSettings(){
-        demVar.gravity = 0.001;
+        demVar.gravityConstant = 6.67408e-11;
         demVar.friction = 0;
     }
 
@@ -34,7 +35,8 @@ Example.universalGravitation = function(){
         Events = Matter.Events,
         Bodies = Matter.Bodies,
         Runner = Matter.Runner,
-        Body = Matter.Body;
+        Body = Matter.Body,
+        Vector = Matter.Vector;
 
 
 
@@ -58,8 +60,14 @@ Example.universalGravitation = function(){
             pixelRatio: 1
         }
     });
+    
+    Render.run( render );
+    
+    // create runner
+    var runner = Runner.create();
+    Runner.run(runner, engine);
 
-    function addObjectInEnviroment(x, y, r, sides, Vx, Vy){
+    function addObjectInEnviroment(x, y, r, sides, Vx, Vy, mass){
         var index = demVar.objects.length;
         demVar.objects.push(
             Bodies.polygon(x, y, sides,r, {
@@ -72,18 +80,17 @@ Example.universalGravitation = function(){
                     strokeStyle: 'black',
                     lineWidth: 3
                 },
-                collisionFilter: {
-                    mask: null
-                }
+                mass: mass*10e7
             })
         );
-
+        demVar.objectsTrails.push([]);
         Matter.Body.setVelocity(demVar.objects[index], {
             x: Vx,
             y: Vy
         });
         World.add(engine.world, demVar.objects[index]);
         demVar.smallObjectVelocity.push({x: Vx, y: Vy});
+        console.log(index, demVar.objects[index].mass);
     }
 
 
@@ -91,8 +98,10 @@ Example.universalGravitation = function(){
         resetSettings();
         World.clear(engine.world, true);
         demVar.objects = [];
-        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
-        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
+        demVar.objectsTrails = [];
+        // 5.609375
+        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0, 1);
+        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 5.609375, 1/333000);
     }
 
     engine.velocityIterations = 4;
@@ -109,10 +118,10 @@ Example.universalGravitation = function(){
                         if (i != j) {
                             var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
                             var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
-                            var force = (engine.timing.timestamp-demVar.lastTimeStamp)*demVar.gravity * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
+                            var force = (engine.timing.timestamp-demVar.lastTimeStamp) * demVar.gravityConstant * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
                             var angle = Math.atan2(Dy, Dx);
-                            demVar.objects[i].force.x += force * Math.cos(angle);
-                            demVar.objects[i].force.y += force * Math.sin(angle);
+                            demVar.objects[i].force.x += force * Math.cos(angle)
+                            demVar.objects[i].force.y += force * Math.sin(angle)
                             demVar.smallObjectVelocity[i].x = demVar.objects[i].velocity.x;
                             demVar.smallObjectVelocity[i].y = demVar.objects[i].velocity.y;
                         }
@@ -137,19 +146,66 @@ Example.universalGravitation = function(){
         gravity();
     }
 
-    Events.on( engine, "beforeTick", function(event) {
+    function getColor(bodyIndex, currentTrail, maxTrail){
+        var rgb = [255/4,255/4,255/4];
+        var i = bodyIndex % 2 + 1;
+        rgb[i] = 255;
+        var alpha = 1-((maxTrail-currentTrail)/maxTrail);
+        var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
+        return ret;
+    }
+
+    function renderTrails(){
+        if(demVar.playing){
+            for (var i = 0; i <  demVar.objectsTrails.length; i++) {
+                demVar.objectsTrails[i].push({
+                    position: Vector.clone(demVar.objects[i].position),
+                    timestamp: engine.timing.timestamp,
+                });
+            }
+
+            for (var i = 0; i < demVar.objectsTrails.length; i++) {
+                for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
+                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 1){
+                        demVar.objectsTrails[i].shift();
+                    }
+                }
+            }
+        }
+        Render.startViewTransform(render);
+        for (var i = 0; i < demVar.objectsTrails.length; i++) {
+            var len = demVar.objectsTrails[i].length;
+            for (var j = 0; j < len; j++) {
+                var point = demVar.objectsTrails[i][j].position;
+                
+                //color of the trace    
+                render.context.fillStyle = getColor( i, j, len );
+                //size of the dots
+                render.context.fillRect(point.x, point.y, 2, 2);
+            }
+        }
+        Render.endViewTransform(render);
+    }
+
+    Events.on( runner, "beforeTick", function(event) {
         playPause();
     } );
 
-    // run the engine
-    Engine.run( engine );
+    Events.on( render, 'afterRender', function() {
+        renderTrails();        
+    });
 
-    Render.run( render );
+    Events.on( runner, 'collisionStart', ({ pairs }) => {
+        pairs.forEach(({ bodyA, bodyB }) => {
+            if (bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
+            if (bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
+        });
+    });
 
     document.getElementById('equations').innerHTML = `
         <p>Equations</p>
         <div style="text-align:center">
-            <button type="button" class="btn btn-primary" id="play-pause">Pause</button>
+            <button type="button" class="btn btn-primary" id="play-pause">Play</button>
             <br><br>
         </div>
     `;
@@ -162,10 +218,12 @@ Example.universalGravitation = function(){
 
     return {
         engine: engine,
+        runner: runner,
         render: render,
         canvas: render.canvas,
         stop: function() {
             Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
         }
     };
 };

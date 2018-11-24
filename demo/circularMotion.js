@@ -2,101 +2,103 @@ var Example = Example || {};
 
 Example.circularMotion = function(){
 
-var canvas = document.getElementById('diagram');
+	var canvas = document.getElementById('diagram');
 
-var demVar = 
-{
-    objects: [],
-    trails: [],
-	width: 700,
-	height: 400,
-    speed: 10,
-    radius: 100,
-    playing: true
-}
+	var demVar = 
+	{
+	    objects: [],
+	    trails: [],
+		width: 700,
+		height: 400,
+	    speed: 10,
+	    radius: 100,
+	    playing: true
+	}
 
-// module aliases
-var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Bodies = Matter.Bodies;
-	Body = Matter.Body;
-	Constraint = Matter.Constraint;
-	Mouse = Matter.Mouse;
-	MouseConstraint = Matter.MouseConstraint;
-    Events = Matter.Events,
-    Vector = Matter.Vector;
+	// module aliases
+	var Engine = Matter.Engine,
+	    Render = Matter.Render,
+	    World = Matter.World,
+	    Bodies = Matter.Bodies;
+		Body = Matter.Body;
+		Constraint = Matter.Constraint;
+		Mouse = Matter.Mouse;
+		MouseConstraint = Matter.MouseConstraint;
+	    Events = Matter.Events,
+	    Vector = Matter.Vector;
 
 
-// create an engine
-var engine = Engine.create();
+	// create an engine
+	var engine = Engine.create();
 
-var render = Render.create({
-    element: canvas,
-    engine: engine,
-    options:
-    {
-        width: demVar.width,
-        height: demVar.height,
-        background: 'white',
-        wireframeBackground: '#222',
-        enabled: true,
-        wireframes: false,
-        showVelocity: true,
-        showAngleIndicator: false,
-        showCollisions: false,
-        pixelRatio: 1
-    }
-});
-
- // add mouse control
-var mouse = Mouse.create( render.canvas ),
-	mouseConstraint = MouseConstraint.create( engine, {
-		mouse: mouse,
-		constraint: {
-			// allow bodies on mouse to rotate
-			angularStiffness: 0,
-			render: {
-				visible: false
-			}
-		}
+	var render = Render.create({
+	    element: canvas,
+	    engine: engine,
+	    options:
+	    {
+	        width: demVar.width,
+	        height: demVar.height,
+	        background: 'white',
+	        wireframeBackground: '#222',
+	        enabled: true,
+	        wireframes: false,
+	        showVelocity: true,
+	        showAngleIndicator: false,
+	        showCollisions: false,
+	        pixelRatio: 1
+	    }
 	});
 
-function createCircularMotion( radius )
-{
-	// add revolute constraint
-	demVar.objects.push( body = Bodies.circle( demVar.width/2 - radius, demVar.height/2, 25, { frictionAir: 0 } ) );
-	
-	demVar.objects.push( constraint = Constraint.create( {
-			pointA: { x: demVar.width/2, y: demVar.height/2 },
-			bodyB: body,
-			length: radius,
-			render: 
-			{
-				lineWidth: 5.5,
-				strokeStyle: '#666'
+    Render.run( render );
+    
+    // create runner
+    var runner = Runner.create();
+    Runner.run(runner, engine);
+
+ 	// add mouse control
+	var mouse = Mouse.create( render.canvas ),
+		mouseConstraint = MouseConstraint.create( engine, {
+			mouse: mouse,
+			constraint: {
+				// allow bodies on mouse to rotate
+				angularStiffness: 0,
+				render: {
+					visible: false
+				}
 			}
-		} )
+		}
 	);
-	
-	World.add( engine.world, demVar.objects );
-}
 
-World.add( engine.world, mouseConstraint );
+	function createCircularMotion( radius )
+	{
+		// add revolute constraint
+		demVar.objects.push( body = Bodies.circle( demVar.width/2 - radius, demVar.height/2, 25, { frictionAir: 0 } ) );
+		
+		demVar.objects.push( constraint = Constraint.create( {
+				pointA: { x: demVar.width/2, y: demVar.height/2 },
+				bodyB: body,
+				length: radius,
+				render: 
+				{
+					lineWidth: 5.5,
+					strokeStyle: '#666'
+				}
+			} )
+		);
+		
+		World.add( engine.world, demVar.objects );
+	}
 
-Render.run( render );
+	World.add( engine.world, mouseConstraint );
 
-// run the engine
-Engine.run( engine );
-
-createCircularMotion( demVar.radius );
+	createCircularMotion( demVar.radius );
 
 	// Gravity is set to 0 to ensure that
 	// gravitational acceleration does not interfere with
 	// circular motion of the particle
 	engine.world.gravity.y = 0;
 
-	Events.on( engine, 'beforeTick', function() 
+	Events.on( runner, 'beforeTick', function() 
 	{	
 		runCircularMotion();
 	});
@@ -195,10 +197,12 @@ createCircularMotion( demVar.radius );
 
     return {
         engine: engine,
+        runner: runner,
         render: render,
         canvas: render.canvas,
         stop: function() {
             Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
         }
     };
 };
