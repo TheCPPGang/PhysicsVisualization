@@ -128,7 +128,27 @@ body {
   text-align: center;
   padding-bottom: 5px;
 }
-
+body.dark-mode {
+    background: black;
+    background-image: none;
+}
+.dark-mode h3 {
+    color: #949494;
+}
+.dark-mode p {
+    color: grey;
+}
+.dark-mode ul {
+    color: grey;
+    background: black;
+}
+.dark-mode li {
+    color: grey;
+    background: black;
+}
+.dark-mode div.row {
+    background: black;
+}
 .logo, .logo:visited, .logo:hover, .logo:active{
   text-decoration: none;
 }

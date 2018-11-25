@@ -35,13 +35,16 @@
         <title>Physics Visualizer</title>
     </head>
    
-    <body>
+    <body id="body" class="dark-mode">
         <section class="move-area"> 
             <div class="container" id="topBar">
             </div>
             <div class="container welcome">
                 <h3>Visualize physics online - for free!</h3>
                 <p>Choose any of the topics below to get started!</p>
+               
+                <label for='mode'><input id="mode" type="checkbox">Dark Mode</label>
+                <br>
             </div>
             
              <div class="container-fluid bg-white border border-dark rounded-5 text-center" id="topics">
@@ -77,7 +80,7 @@
                 	<p>This is where the problem description will go using color as reference for the size</p>		
             </div>
             
-            <div class="container" >
+            <div class="container">
                 <div class="row">
                     <div class="canvasDiag bg-dark" id="diagram"></div>
                     <div class="rColumn bg-dark">
@@ -102,4 +105,5 @@
     </footer>
     <script language="javascript" type="text/javascript" src="../libraries/eyes.js"></script>
 	<script language="javascript" type="text/javascript" src="../demo/demo.js"></script>
+    <script language="javascript" type="text/javascript" src="../styles/darkMode.js"></script>
 </html>
