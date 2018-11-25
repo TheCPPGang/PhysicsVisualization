@@ -140,3 +140,23 @@ footer {
   text-align: center;
   padding-bottom: 5px;
 }
+
+body.dark-mode {
+    background: black;
+}
+.dark-mode h3 {
+    color: #949494;
+}
+.dark-mode p {
+    color: grey;
+}
+.dark-mode u {
+    color: grey;
+}
+.dark-mode li {
+    color: grey;
+    background: black;
+}
+.dark-mode .problemDescription {
+    background: black;
+}
