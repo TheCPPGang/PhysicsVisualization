@@ -201,12 +201,17 @@ Example.universalGravitation = function(){
         });
     });
 
+     document.getElementById('problemDescription').innerHTML = 
+        `<p class="text-white text-center"> 
+            Formula: $$F = {GM_1M_2 \\over R^2}$$
+        </p>`;
+
+    if(window.MathJax){
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('problemDescription')[0]]);
+    }
+
     document.getElementById('settings').innerHTML = `
-        <p class="h3">Settings</p>
-        <div style="text-align:center">
-            <button type="button" class="btn btn-primary" id="play-pause">Play</button>
-            <br><br>
-        </div>
+            <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
     `;
 
     document.getElementById('play-pause').onclick = function(){

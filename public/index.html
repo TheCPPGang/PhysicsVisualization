@@ -4,14 +4,23 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../styles/index.css">
         <link rel="stylesheet" href="../styles/matter-demo.css">
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script
+              src="https://code.jquery.com/jquery-3.3.1.min.js"
+              integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+              crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
               integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <script language="javascript" type="text/javascript" src="../libraries/matter.js"></script>
-        <script
-          src="https://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-          crossorigin="anonymous"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              showMathMenu: false,
+              tex2jax: {
+                  inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                  processEscapes: true
+                }
+            });
+        </script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
         <script src="../libraries/matter-tools.gui.js"></script>
         <script src="../libraries/matter-tools.inspector.js"></script>
         <script src="../libraries/matter-tools.demo.js"></script>
@@ -30,7 +39,7 @@
         <section class="move-area"> 
             <div class="container" id="topBar">
             </div>
-            <div class="container" id="welcome">
+            <div class="container welcome">
                 <h3>Visualize physics online - for free!</h3>
                 <p>Choose any of the topics below to get started!</p>
                
@@ -38,7 +47,7 @@
                 <br>
             </div>
             
-             <div class="container-fluid" id="topics">
+             <div class="container-fluid bg-white border border-dark rounded-5 text-center" id="topics">
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col">
@@ -67,31 +76,33 @@
             </div>
             
              
-            <div class="container" id="problemDescription" style="text-align:center">
+            <div class="container bg-dark text-white border border-secondary mt-3 p-3 text-center rounded-5" id="problemDescription">
                 	<p>This is where the problem description will go using color as reference for the size</p>		
             </div>
             
             <div class="container">
                 <div class="row">
-                    <div class="canvasDiag" id="diagram"></div>
-                    <div class="rColumn">
-                        <div id="settings" style="text-align: center">
+                    <div class="canvasDiag bg-dark" id="diagram"></div>
+                    <div class="rColumn bg-dark">
+                        <div class="settings">
+                            <p class="h3 text-white">Settings</p>
+                            <div id="settings">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
     		
-    		<div class="container" id="equations" style="text-align:center">
-                <h3>Equations</h3>
+    		<div class="container" id="equations">
+                <p class="h3 text-center">Equations</p>
     		</div>
         </section>
     </body>
-    <hr>
-
-    <footer>
-        <a href="">References</a>
+    <footer class="my-md-3 py-md-3 border-top">
+        <div class="container">
+            <a href="">References</a>
+        </div>
     </footer>
-    
     <script language="javascript" type="text/javascript" src="../libraries/eyes.js"></script>
 	<script language="javascript" type="text/javascript" src="../demo/demo.js"></script>
     <script language="javascript" type="text/javascript" src="../styles/darkMode.js"></script>

@@ -1,5 +1,7 @@
 body {
-    
+
+    background-image: url("../images/bg.png");
+    background-repeat: repeat;
     margin: 0;
     font-family: 'Poppins', sans-serif;
     
@@ -17,18 +19,10 @@ body {
     
 }
 
-#welcome {
+.welcome {
     
     text-align: center;
     
-}
-
-#topics {
-    border-radius: 10px;
-    text-align: center;
-    border-style: solid;
-    border-width: 2px;
-	
 }
 
 .nav {
@@ -38,31 +32,33 @@ body {
 
 }
 .nav li {
-    
+
     text-align: center;
     padding: 5px;
     
 }
 
-#problemDescription {
+.rounded-5{
+  border-radius: 5px;
+}
+
+/*#problemDescription {
 
 	border-radius: 10px;
-    background-color: lightgray;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    padding: 10px;
-    border-style: solid;
-    border-width: 1px;
-    
-}
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+}*/
 
 #diagram{
 	
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
-    background-color: aliceblue;
     border-style: solid;
     border-width: 1px;
 }
@@ -71,18 +67,18 @@ body {
 #equations {
     
 	border-radius: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px; 
-    background-color: antiquewhite;
-    border-style: solid;
-    border-width: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px; 
+  background-color: antiquewhite;
+  border-style: solid;
+  border-width: 1px;
     
 }
 
-footer {
-    
-    padding: 5px;
+.foot {
+
+  background-color: black;
     
 }
 
@@ -99,17 +95,20 @@ footer {
   margin-top: 30px;
   margin-left: 10px;
   margin-right: auto;
-  background-color: aliceblue;
   border-style: solid;
   border-width: 1px;
 }
 
 .canvasDiag{
-  flex: 45%;
+  flex: 75%;
+  max-width: 702px;
+  max-height: 402px;
+  margin: auto;
 }
 
-#settings{
+.settings{
   padding: 10px;
+  text-align: center;
 }
 
 .eye {
@@ -141,6 +140,7 @@ footer {
   padding-bottom: 5px;
 }
 
+<<<<<<< HEAD
 body.dark-mode {
     background: black;
 }
@@ -160,3 +160,9 @@ body.dark-mode {
 .dark-mode .problemDescription {
     background: black;
 }
+=======
+.logo, .logo:visited, .logo:hover, .logo:active{
+  text-decoration: none;
+}
+
+>>>>>>> 6c81e6fee9e50b8e127d2763f618f4e4224850b4

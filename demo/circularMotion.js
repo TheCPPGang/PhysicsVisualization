@@ -122,15 +122,23 @@ Example.circularMotion = function(){
 
 	function renderTrails(){
 		if(demVar.playing){
-	        demVar.trails.push({
-	            position: Vector.clone(body.position)
-        	});
-
+			var dist = 3;
+			if(demVar.trails.length !== 0){
+				var len = demVar.trails.length-1;
+				var prevPos = demVar.trails[len];
+				var Dy = body.position.y - prevPos.position.y;
+				var Dx = body.position.x - prevPos.position.x;
+				dist = Math.sqrt(Dx * Dx + Dy * Dy);
+			}
+			if(dist > 2){
+				demVar.trails.push({
+            		position: Vector.clone(body.position)
+    			});
+			}
 			var Dx = body.position.x - demVar.width/2;
 			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
-
-	        if(theta > 3){
+	        if(theta > 3.1 || theta < -3.1){
 	        	demVar.trails = [];
 	        }
 		}
@@ -140,11 +148,12 @@ Example.circularMotion = function(){
 
         for (var i = 0; i < demVar.trails.length; i++) {
             var point = demVar.trails[i].position;
+            var context = render.context;
             
-            //color of the trace    
-            render.context.fillStyle = 'black';
-            //size of the dots
-            render.context.fillRect(point.x, point.y, 2, 2);
+            context.beginPath();
+            context.arc(point.x, point.y, 2, 0, 2 * Math.PI, false);
+            context.fillStyle = 'black';
+            context.fill();
         }
 
         render.context.globalAlpha = 1;
@@ -156,25 +165,31 @@ Example.circularMotion = function(){
     });
     
      document.getElementById('problemDescription').innerHTML = 
-        '<p style="text-align: center"> A ball moves in a horizontal circle of radius <span id="radiusIn">100</span>m. The speed of the ball is <span id="speedIn">10<span>m/s.</p> <p>Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) </p>';
+        `<p style="text-align: center"> 
+        	A ball moves in a horizontal circle of radius 
+	        <span id="radiusIn">100</span>m. The speed of the ball is 
+	        <span id="speedIn">10<span>m/s.
+        </p> 
+        <p>
+        	Blue line on ball: Velocity vector. <br> Grey Line: Centripetal Force (pointing inwards) 
+        </p>`;
 
 	document.getElementById('settings').innerHTML = `
-			<p class="h3">Settings</p>
 			<div class="mult-btn">
-					<button class="btn btn-primary" type="button" id="play-pause">Pause</button>
+					<button class="btn btn-outline-secondary text-white" type="button" id="play-pause">Pause</button>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button" disabled="true">m</button>
-					<button class="btn btn-outline-secondary" type="button" id="radius">Apply</button>
+					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">m</button>
+					<button class="btn btn-outline-secondary text-white" type="button" id="radius">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button" disabled="true">m/s</button>
-					<button class="btn btn-outline-secondary" type="button" id="speed">Apply</button>
+					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">m/s</button>
+					<button class="btn btn-outline-secondary text-white" type="button" id="speed">Apply</button>
 				</div>
 			</div>
 	`;

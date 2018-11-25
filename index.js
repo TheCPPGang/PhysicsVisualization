@@ -6,6 +6,7 @@ app.use(express.static(path.join(__dirname)));
 app.use("/demo", express.static(__dirname + '/demo'));
 app.use("/libraries", express.static(__dirname + '/libraries'));
 app.use("/styles", express.static(__dirname + '/styles'));
+app.use("/images", express.static(__dirname + '/images'));
 
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname + '/public/index.html'));
