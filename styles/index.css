@@ -139,10 +139,9 @@ body {
   text-align: center;
   padding-bottom: 5px;
 }
-
-<<<<<<< HEAD
 body.dark-mode {
     background: black;
+    background-image: none;
 }
 .dark-mode h3 {
     color: #949494;
@@ -150,19 +149,18 @@ body.dark-mode {
 .dark-mode p {
     color: grey;
 }
-.dark-mode u {
+.dark-mode ul {
     color: grey;
+    background: black;
 }
 .dark-mode li {
     color: grey;
     background: black;
 }
-.dark-mode .problemDescription {
+.dark-mode div.row {
     background: black;
 }
-=======
 .logo, .logo:visited, .logo:hover, .logo:active{
   text-decoration: none;
 }
 
->>>>>>> 6c81e6fee9e50b8e127d2763f618f4e4224850b4
