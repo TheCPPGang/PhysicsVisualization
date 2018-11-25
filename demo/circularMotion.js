@@ -132,8 +132,8 @@ Example.circularMotion = function(){
 			}
 			if(dist > 2){
 				demVar.trails.push({
-            		position: Vector.clone(body.position)
-    			});
+					position: Vector.clone(body.position)
+				});
 			}
 			var Dx = body.position.x - demVar.width/2;
 			var Dy = body.position.y - demVar.height/2;
