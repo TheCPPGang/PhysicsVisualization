@@ -278,24 +278,26 @@ Example.dielectric = function(){
 					$$C = { Q\\over V }$$
 					
 					
-					<h3>Variables</h3>
-					<div class="row">
-						<div class="col">
-							<ul class="equationDesc list-group border-0" id="variablesA">
-								<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
-								<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ m^2 }$$</li>
-								<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
-								<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
-							</ul>
+					<p class="h3">Variables</p>
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<ul class="equationDesc list-group border-0" id="variablesA">
+									<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
+									<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ m^2 }$$</li>
+									<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
+									<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
+								</ul>
+							</div>
+							<div class="col">
+								<ul class="equationDesc list-group border-0" id="variablesB">
+									<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`m$$</li>
+									<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e^{-12} \\space _{ F \\over m } }$$</li>
+									<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
+								</ul>
+							</div>
 						</div>
-						<div class="col">
-							<ul class="equationDesc list-group border-0" id="variablesB">
-								<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`m$$</li>
-								<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e^{-12} \\space _{ F \\over m } }$$</li>
-								<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
-							</ul>
-						</div>
-					</div>
+					<div>
 		`;
 		if ( window.MathJax )
 		{

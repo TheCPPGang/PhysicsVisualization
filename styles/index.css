@@ -134,7 +134,7 @@ body {
   padding-bottom: 5px;
 }
 body.dark-mode {
-    background: black;
+    background: rgb(19,19,19);
     background-image: none;
 }
 .dark-mode h3 {
@@ -145,14 +145,14 @@ body.dark-mode {
 }
 .dark-mode ul {
     color: grey;
-    background: black;
+    background: rgb(18,18,18);
 }
 .dark-mode li {
     color: grey;
-    background: black;
+    background: #303030;
 }
 .dark-mode div.row {
-    background: black;
+    background: #303030;
 }
 .logo, .logo:visited, .logo:hover, .logo:active{
   text-decoration: none;
