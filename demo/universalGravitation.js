@@ -117,7 +117,7 @@ Example.universalGravitation = function(){
         addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1, 1);
         addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
         demVar.colorSwap = true;
-        demVar.trailMaxTime = 40;
+        demVar.trailMaxTime = 10;
     }
 
     function grav2Bodies(){
@@ -197,7 +197,7 @@ Example.universalGravitation = function(){
                     timestamp: engine.timing.timestamp,
                 });
             }
-
+            console.log('max time', demVar.trailMaxTime);
             for (var i = 0; i < demVar.objectsTrails.length; i++) {
                 for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
                     if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > demVar.trailMaxTime){
