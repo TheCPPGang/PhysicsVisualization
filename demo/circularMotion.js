@@ -243,7 +243,6 @@ Example.circularMotion = function(){
 	document.getElementById( "speed" ).onclick = function()
 	{   
 		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
-		demVar.trails = [];
 		demVar.speed = document.getElementById("speedInput").value;
 		demVar.speedScale = parseFloat(demVar.speed) * 0.01666;
         updatePeriodAccel();
