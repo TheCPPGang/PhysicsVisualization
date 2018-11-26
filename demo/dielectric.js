@@ -8,6 +8,8 @@ Example.dielectric = function(){
 		k: 1,
 		Area: 5,
 		distance: 5,
+		voltage: 1.5,
+		bVoltageNegative: false,
 		objects: [],
 		particles: [],
 		charges: [],
@@ -54,20 +56,23 @@ Example.dielectric = function(){
 	var RED = '#FF0000',
 		BLUE = '#0000FF',
 		YELLOW = '#999900',
+		GRAY = '#CCCCCC';
 		BLACK = '#000000';
 
 	// Create a particle in the dielectric
 	function createParticle( x, y ) 
 	{
-		// Offset charge positions in the particle depending on the current value of k
-		var plusA = Bodies.rectangle( x + demVar.k , y, 12.5, 1, { render: { fillStyle: RED } } ),
-			plusB = Bodies.rectangle( x + demVar.k, y,  1, 12.5, { render: { fillStyle: RED } } ),
-			minus = createNegativeCharge( x - demVar.k, y, 12.5 ),
-			particle = Bodies.circle( x, y, 20, { render: { fillStyle: BLACK, opacity: .05 } } );
+		// Offset charge positions in the particle depending on the current value of k and the voltage
+		offset = Math.min( 15, ( demVar.k * demVar.voltage ) ) * ( demVar.bVoltageNegative ? 1 : -1 );
+		
+		var plusA = Bodies.rectangle( x + offset , y, 12.5, 1, { render: { fillStyle: RED } } ),
+			plusB = Bodies.rectangle( x + offset, y,  1, 12.5, { render: { fillStyle: RED } } ),
+			minus = createNegativeCharge( x - offset, y, 12.5 ),
+			particle = Bodies.circle( x, y, 20, { render: { fillStyle: BLACK, opacity: .25 } } );
 
 		return Body.create({
 			isStatic: true,
-			parts: [plusA, plusB, minus, particle],
+			parts: [particle, plusA, plusB, minus],
 		});
 	}
 
@@ -120,7 +125,7 @@ Example.dielectric = function(){
 		
 		// Our capacitors can fit twice as many rows as columns, so calculate the desired amount of each based on charge count
 		// Equation to calculate is: Charge = rows^2 / 2
-		nCharges = Math.floor( ( demVar.Area * demVar.k ) / ( demVar.distance ) );
+		nCharges = Math.floor( ( demVar.voltage * demVar.Area * demVar.k ) / ( demVar.distance ) );
 		nRows = Math.ceil( Math.sqrt( 2 * nCharges ) );
 		nColumns = Math.ceil( Math.sqrt( 2 * nCharges ) /2 );
 		
@@ -142,9 +147,12 @@ Example.dielectric = function(){
 					break;
 				}
 				
-				// One charge for each plate		
-				demVar.charges.push( createNegativeCharge( 350 + ( 5 * demVar.distance ) + ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
-				demVar.charges.push( createPositiveCharge( 350 - ( 5 * demVar.distance ) - ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j ), 25 + ( ( 150 / ( nRows + 1 ) ) * i ), 7.5 ) );
+				xOffset = ( 5 * demVar.distance ) + ( ( ( demVar.Area * 10 ) / ( nColumns + 1 ) ) * j );
+				yOffset = 25 + ( ( 150 / ( nRows + 1 ) ) * i );
+				
+				// Charge of each plate changes depending on the current flow of electricity (is the voltage positive or negative?)		
+				demVar.charges.push( createNegativeCharge( ( demVar.bVoltageNegative ? 350 - xOffset : 350 + xOffset ), yOffset, 7.5 ) );
+				demVar.charges.push( createPositiveCharge( ( demVar.bVoltageNegative ? 350 + xOffset : 350 - xOffset ), yOffset, 7.5 ) );
 				
 				nCharges--;
 			}
@@ -165,14 +173,14 @@ Example.dielectric = function(){
 		demVar.capacitor.push( leftPlate = Bodies.rectangle( 350 + ( 5 * ( demVar.distance + demVar.Area ) ), 100, 10 * demVar.Area, 150, 
 		{ 
 			isStatic: true,
-			render: { fillStyle: BLACK },  
+			render: { fillStyle: GRAY },  
 		} ) );
 		
 		// Right capacitor plate
 		demVar.capacitor.push( rightPlate = Bodies.rectangle( 350 - ( 5 * ( demVar.distance + demVar.Area ) ), 100, 10 * demVar.Area, 150, 
 		{ 
 			isStatic: true,
-			render: { fillStyle: BLACK }, 
+			render: { fillStyle: GRAY }, 
 		} ) );
 		
 		// Dielectric
@@ -190,6 +198,8 @@ Example.dielectric = function(){
 	// work fine for now.
 	function createEnvironment()
 	{
+		World.remove( engine.world, demVar.objects );
+		demVar.objects= [];
 		
 		// Left wall 
 		demVar.objects.push( Bodies.rectangle( 75, 225, 1, 250, { isStatic: true } ) );
@@ -206,11 +216,9 @@ Example.dielectric = function(){
 		// Bottom wall right side
 		demVar.objects.push( Bodies.rectangle( 495, 350, 262, 1, { isStatic: true } ) );
 		
-		// Battery +
-		demVar.objects.push( Bodies.rectangle( 337, 350, 1, 75, { isStatic: true } ) );
-		
-		// Battery -
-		demVar.objects.push( Bodies.rectangle( 363, 350, 1, 50, { isStatic: true } ) );
+		// Battery + and - flip depending on whether the voltage is postive or negative
+		demVar.objects.push( Bodies.rectangle( 337, 350, 1, ( demVar.bVoltageNegative ? 50 : 75 ), { isStatic: true } ) );
+		demVar.objects.push( Bodies.rectangle( 363, 350, 1, ( demVar.bVoltageNegative ? 75 : 50 ), { isStatic: true } ) );
 		
 		World.add( engine.world, demVar.objects );
 		
@@ -242,6 +250,13 @@ Example.dielectric = function(){
 					<button class="btn btn-outline-secondary text-white" type="button" id="distance">Apply</button>
 				</div>
 			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Voltage" aria-label="Voltage" aria-describedby="basic-addon2" id="voltageInput">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">v</button>
+					<button class="btn btn-outline-secondary text-white" type="button" id="voltage">Apply</button>
+				</div>
+			</div>
 	`;
 
 	// Variables 
@@ -251,7 +266,7 @@ Example.dielectric = function(){
 		demVar.k = parseFloat( document.getElementById( "kInput" ).value );
 		createParticleArray();
 		createChargeArray();
-	}	
+	}
 
 	document.getElementById( "area" ).onclick = function()
 	{   		
@@ -259,7 +274,7 @@ Example.dielectric = function(){
 		createCapacitor();
 		createParticleArray();
 		createChargeArray();
-	}	
+	}
 
 	document.getElementById( "distance" ).onclick = function()
 	{   		
@@ -267,8 +282,29 @@ Example.dielectric = function(){
 		createCapacitor();
 		createParticleArray();
 		createChargeArray();
-	}	
+	}
 
+	document.getElementById( "voltage" ).onclick = function()
+	{   		
+		demVar.voltage = parseFloat( document.getElementById( "voltageInput" ).value );
+		
+		// Check if the voltage is negative so we can invert the charge flow
+		if ( demVar.voltage < 0 )
+		{
+			demVar.voltage = -demVar.voltage;
+			demVar.bVoltageNegative = true;
+		}
+		else
+		{
+			demVar.bVoltageNegative = false;
+		}
+		
+		createEnvironment();
+		createCapacitor();
+		createParticleArray();
+		createChargeArray();
+	}	
+	
     return {
         engine: engine,
         runner: runner,
