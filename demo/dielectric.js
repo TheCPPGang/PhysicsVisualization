@@ -291,7 +291,7 @@ Example.dielectric = function(){
 						<div class="col">
 							<ul class="equationDesc list-group border-0" id="variablesB">
 								<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`m$$</li>
-								<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e-12 _{ F \\over m } }$$</li>
+								<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e^{-12} \\space _{ F \\over m } }$$</li>
 								<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
 							</ul>
 						</div>

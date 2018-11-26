@@ -25,7 +25,9 @@ Example.universalGravitation = function(){
         currentPreset: 'uniGrav',
         trailMaxTime: 1,
         settingInputs: '',
-        initialVelocity: 6
+        initialVelocity: 6,
+        baseVelocity: [6,1],
+        inputVelocity: 360
     }
 
     // module aliases
@@ -136,20 +138,20 @@ Example.universalGravitation = function(){
 
     function grav4Bodies(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, 1, 0, 1);
-        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-1, 0, 1);
-        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1, 1);
-        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, demVar.initialVelocity, 0);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-demVar.initialVelocity, 0);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, demVar.initialVelocity);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-demVar.initialVelocity);
         demVar.colorSwap = true;
         demVar.trailMaxTime = 10;
-        demVar.settingInputs = grav2BodInputs;
+        demVar.settingInputs = gravBodInputs;
         updateSettings();
     }
 
     function grav2Bodies(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1);
-        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1);
+        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -demVar.initialVelocity, -demVar.initialVelocity);
+        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, demVar.initialVelocity, demVar.initialVelocity);
         demVar.trailMaxTime = 10;
         demVar.settingInputs = gravBodInputs;
         updateSettings();
@@ -164,16 +166,16 @@ Example.universalGravitation = function(){
             var length = demVar.objects.length;
             for (var i = (demVar.currentPreset == 'uniGrav' ? 1 : 0); i < length; i++) {
                 for (var j = 0; j < length; j++) {
-                        if (i != j) {
-                            var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
-                            var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
-                            var force = (engine.timing.timestamp-demVar.lastTimeStamp) * demVar.gravityConstant * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
-                            var angle = Math.atan2(Dy, Dx);
-                            demVar.objects[i].force.x += force * Math.cos(angle)
-                            demVar.objects[i].force.y += force * Math.sin(angle)
-                            demVar.smallObjectVelocity[i].x = demVar.objects[i].velocity.x;
-                            demVar.smallObjectVelocity[i].y = demVar.objects[i].velocity.y;
-                        }
+                    if (i != j) {
+                        var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
+                        var Dy = demVar.objects[j].position.y - demVar.objects[i].position.y;
+                        var force = (engine.timing.timestamp-demVar.lastTimeStamp) * demVar.gravityConstant * demVar.objects[j].mass * demVar.objects[i].mass / (Math.sqrt(Dx * Dx + Dy * Dy))
+                        var angle = Math.atan2(Dy, Dx);
+                        demVar.objects[i].force.x += force * Math.cos(angle)
+                        demVar.objects[i].force.y += force * Math.sin(angle)
+                        demVar.smallObjectVelocity[i].x = demVar.objects[i].velocity.x;
+                        demVar.smallObjectVelocity[i].y = demVar.objects[i].velocity.y;
+                    }
                 }
             }
         }else{
@@ -326,7 +328,8 @@ Example.universalGravitation = function(){
 
         document.getElementById('veloButton').onclick = function(){
             if(document.getElementById('veloInput').value.length !== 0){
-                demVar.initialVelocity = parseFloat( document.getElementById( "veloInput" ).value ) * 0.01666;
+                demVar.inputVelocity = parseFloat( document.getElementById( "veloInput" ).value );
+                demVar.initialVelocity = demVar.inputVelocity * 0.01666;
                 console.log(demVar.initialVelocity);
                 demVar.playing = false;
                 demVar.firstTime = true;
@@ -354,6 +357,8 @@ Example.universalGravitation = function(){
             demVar.currentPreset = id;
             demVar.playing = false;
             demVar.firstTime = true;
+            demVar.initialVelocity = (id == 'uniGrav' ? demVar.baseVelocity[0] : demVar.baseVelocity[1]);
+            demVar.inputVelocity = (id == 'uniGrav' ? demVar.baseVelocity[0] : demVar.baseVelocity[1]) * 60;
             updatePlayPause();
             loadPreset();
         }
@@ -364,10 +369,16 @@ Example.universalGravitation = function(){
     }
 
     function updateProblemDescription(){
+        var desc;
+        if(demVar.currentPreset == 'uniGrav'){
+            desc = `A small object orbits around a larger object.
+            The initial velocity of the small object is ${demVar.inputVelocity} m/s`;
+        }else{
+            desc = `The initial velocity of the all small objects is ${demVar.inputVelocity} m/s`;
+        }
         document.getElementById('problemDescription').innerHTML = `
             <p class='text-center'> 
-                A small object orbits around a larger object.
-                The initial velocity of the small object is `+Math.round(demVar.initialVelocity/0.0166)+` m/s
+                ${desc}
             </p> 
         `;
     }
