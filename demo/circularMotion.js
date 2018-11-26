@@ -27,6 +27,8 @@ Example.circularMotion = function(){
 	    Events = Matter.Events,
 	    Vector = Matter.Vector,
 	    Runner = Matter.Runner;
+    
+    var speeds = 10;
 
 
 	// create an engine
@@ -201,7 +203,7 @@ Example.circularMotion = function(){
         $$Speed = {2piR \\over T}$$, $$Acceleration = {v^2 \\over R}$$
     </p>
     <p class="text-center">
-        v = Speed = <span id="speedIns">10</span>m/s,  R = <span id="radiusIns">100</span>m, T = Period = <span id=period></span>
+        v = Speed = <span id="speedIns">10</span>m/s,  R = <span id="radiusIns">100</span>m, T = Period = <span id=period>62.83</span> seconds
     </p>
     </div>
     
@@ -223,7 +225,7 @@ Example.circularMotion = function(){
         
         document.getElementById("radiusIns").innerHTML = document.getElementById("radiusInput").value;
         
-        document.getElementById("period").innerHTML = (demVar.radius * 2 * Math.PI)/(demVar.speed);
+        document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/speeds).toFixed(2);
 	}
 	
 	document.getElementById( "speed" ).onclick = function()
@@ -232,11 +234,13 @@ Example.circularMotion = function(){
 		demVar.trails = [];
 		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.01666;
         
+        speeds = document.getElementById("speedInput").value;
+        
         document.getElementById("speedIn").innerHTML = document.getElementById("speedInput").value ;
         
         document.getElementById("speedIns").innerHTML = document.getElementById("speedInput").value ;
         
-        document.getElementById("period").innerHTML = (demVar.radius * 2 * Math.PI)/demVar.speed;
+        document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/document.getElementById("speedInput").value).toFixed(2);
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
