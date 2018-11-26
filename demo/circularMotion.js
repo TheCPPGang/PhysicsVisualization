@@ -10,9 +10,12 @@ Example.circularMotion = function(){
 	    trails: [],
 		width: 700,
 		height: 400,
-	    speed: 0.208325,
+	    speedScale: 0.208325,
+	    speed: 10,
 	    radius: 100,
-	    playing: true
+	    playing: true,
+	    period: 0,
+	    acceleration: 0,
 	}
 
 	// module aliases
@@ -114,8 +117,8 @@ Example.circularMotion = function(){
 			var Dx = body.position.x - demVar.width/2;
 			var Dy = body.position.y - demVar.height/2;
 			var theta = Math.atan2(Dy, Dx);
-			var Vx = demVar.speed * -Math.sin( theta );
-			var Vy = demVar.speed * Math.cos( theta );
+			var Vx = demVar.speedScale * -Math.sin( theta );
+			var Vy = demVar.speedScale * Math.cos( theta );
 			Body.setVelocity( body, {x: Vx, y: Vy } );
 		}else{
 			Body.setVelocity( body, {x:0, y: 0});
@@ -196,28 +199,37 @@ Example.circularMotion = function(){
 			</div>
 	`;
     
-    document.getElementById('equations').innerHTML = `
-    <div>
-        <p class="h3 text-center">Equations</p> 
-    <p>
-        $$v = {2 \\pi R \\over T}$$, $$a_c = {v^2 \\over R}$$
-    </p>
-    <p >
-        <ul class="text-center" style="list-style: none;">
-            <li>v = <span id="speedIns">10</span><sub>m/s</sub></li>  
-            <li>R = <span id="radiusIns">100</span><sub>m</sub></li>
-            <li>T = Period = <span id=period>62.83</span> <sub>seconds<sub></li>  
-            <li>a<sub>c</sub> = <span id="acceleration">1</span> <sub>m/s&sup2<sub></li>
-        </ul>
-    </p>
-    </div> 
-    `;
-    if(window.MathJax){
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
-    }
+	function updateDescription(){
+	     document.getElementById('problemDescription').innerHTML = `
+	        <p style="text-align: center"> 
+	        	A ball moves in a horizontal circle of radius 
+		        <span id="radiusIn">`+demVar.radius+`</span> m. The velocity of the ball is 
+		        <span id="speedIn">`+demVar.speed+`</span> m/s.
+	        </p> 
+	        <p>
+	            Grey Line: Centripetal Force (pointing inwards) 
+	        </p>
+        `;
+	    document.getElementById('equations').innerHTML = `
+		    <div class="container text-center">
+		        <p class="h3 text-center">Equations</p> 
+		        $$v = {2 \\pi R \\over T}$$ 
+		        $$a_c = {v^2 \\over R}$$
+		        $$v = `+demVar.speed+`_{m \\over s}$$
+		        $$R = `+demVar.radius+`_m$$
+		        $$T = Period = `+demVar.period+`\\space seconds$$
+		        $$a_c = `+demVar.acceleration+`_{m \\over s^2}$$
+		    </div> 
+	    `;
+	    if(window.MathJax){
+	        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
+	    }
+	}
     
-
-	// Variables 
+	function updatePeriodAccel(){
+		demVar.period = ((demVar.radius * 2 * Math.PI)/demVar.speed).toFixed(2);
+		demVar.acceleration = (Math.pow(demVar.speed, 2) / demVar.radius);
+	}
 
 	document.getElementById( "radius" ).onclick = function()
 	{   
@@ -227,31 +239,18 @@ Example.circularMotion = function(){
 		
 		demVar.radius = parseFloat( document.getElementById( "radiusInput" ).value );
 		createCircularMotion( demVar.radius );
-        
-        document.getElementById("radiusIn").innerHTML = document.getElementById("radiusInput").value;
-        
-        document.getElementById("radiusIns").innerHTML = document.getElementById("radiusInput").value;
-        
-        document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/speeds).toFixed(2);
-        
-        document.getElementById("acceleration").innerHTML = (Math.pow(speeds, 2) / demVar.radius);
+        updatePeriodAccel();
+        updateDescription();
 	}
 	
 	document.getElementById( "speed" ).onclick = function()
 	{   
 		// 1 speed in matter.js = 1px / 16.666ms so convert our speed to a px/s value
 		demVar.trails = [];
-		demVar.speed = parseFloat( document.getElementById( "speedInput" ).value ) * 0.01666;
-        
-        speeds = document.getElementById("speedInput").value;
-        
-        document.getElementById("speedIn").innerHTML = document.getElementById("speedInput").value ;
-        
-        document.getElementById("speedIns").innerHTML = document.getElementById("speedInput").value ;
-        
-        document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/document.getElementById("speedInput").value).toFixed(2);
-        
-        document.getElementById("acceleration").innerHTML = (Math.pow(speeds, 2) / demVar.radius);
+		demVar.speed = document.getElementById("speedInput").value;
+		demVar.speedScale = parseFloat(demVar.speed) * 0.01666;
+        updatePeriodAccel();
+        updateDescription();
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
@@ -259,6 +258,9 @@ Example.circularMotion = function(){
 		demVar.playing = !demVar.playing;
 		document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
 	}
+
+	updatePeriodAccel();
+	updateDescription();
 
     return {
         engine: engine,
