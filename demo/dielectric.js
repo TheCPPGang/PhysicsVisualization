@@ -5,6 +5,9 @@ Example.dielectric = function(){
 
 	var demVar = 
 	{
+		PERMITIVITY_OF_FREE_SPACE: 0.00000000000885,
+		capacitance: 0,
+		charge: 0,
 		k: 1,
 		Area: 5,
 		distance: 5,
@@ -63,7 +66,7 @@ Example.dielectric = function(){
 	function createParticle( x, y ) 
 	{
 		// Offset charge positions in the particle depending on the current value of k and the voltage
-		offset = Math.min( 15, ( demVar.k * demVar.voltage ) ) * ( demVar.bVoltageNegative ? 1 : -1 );
+		offset = Math.min( 15, ( demVar.k * demVar.voltage ) ) * ( demVar.bVoltageNegative ? -1 : 1 );
 		
 		var plusA = Bodies.rectangle( x + offset , y, 12.5, 1, { render: { fillStyle: RED } } ),
 			plusB = Bodies.rectangle( x + offset, y,  1, 12.5, { render: { fillStyle: RED } } ),
@@ -221,25 +224,9 @@ Example.dielectric = function(){
 		demVar.objects.push( Bodies.rectangle( 363, 350, 1, ( demVar.bVoltageNegative ? 75 : 50 ), { isStatic: true } ) );
 		
 		World.add( engine.world, demVar.objects );
-		
-		createCapacitor();
-		createParticleArray();
-		createChargeArray();
 	}
 
-	createEnvironment();
-	
-	 document.getElementById('problemDescription').innerHTML = 
-        `<p style="text-align: center"> 
-        	A parallel-plate capacitor with an area of  
-	        <span id="areaIn">5</span><sub>cm<sup>2</sup></sub> has a dielectric rested between itself with a dielectric constant of 
-	        <span id="kConstantIn">1</span> and a distance of 
-			<span id="distanceIn">5</span><sub>cm</sub>. This demo visualizes how capacitance and charge of a parallel-plate capacitor can change depending on various factors.
-        </p> 
-        <p>
-           <div>Capacitor Plate: <img src="../images/plate.jpg"></div>
-		   <div>Dielectric: <img src="../images/dielectric.jpg"></div>
-        </p>`;
+	update();
 
 	document.getElementById('settings').innerHTML = `
 			<div class="input-group">
@@ -270,31 +257,89 @@ Example.dielectric = function(){
 				</div>
 			</div>
 	`;
+	
+	function updateHTML()
+	{
+		document.getElementById('problemDescription').innerHTML = `
+				<p style="text-align: center"> 
+					A parallel-plate capacitor with an area of  
+					`+ demVar.Area + `cm<sup>2</sup> has a dielectric rested between itself with a dielectric constant of 
+					`+ demVar.k + ` and a distance of 
+					`+ demVar.distance + `cm. This demo visualizes how capacitance and charge of a parallel-plate capacitor can change depending on various factors.
+				</p> 
+				<p>
+				   <div>Capacitor Plate: <img src="../images/plate.jpg"></div>
+				   <div>Dielectric: <img src="../images/dielectric.jpg"></div>
+				</p>
+		`;
+	
+		document.getElementById('equations').innerHTML = `
+					$$C = { kε_0A \\over d }$$
+					$$C = { Q\\over V }$$
+					
+					
+					<h3>Variables</h3>
+					<div class="row">
+						<div class="col">
+							<ul class="equationDesc list-group border-0" id="variablesA">
+								<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
+								<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ m^2 }$$</li>
+								<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
+								<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
+							</ul>
+						</div>
+						<div class="col">
+							<ul class="equationDesc list-group border-0" id="variablesB">
+								<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`m$$</li>
+								<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e-12 _{ F \\over m } }$$</li>
+								<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
+							</ul>
+						</div>
+					</div>
+		`;
+		if ( window.MathJax )
+		{
+			MathJax.Hub.Queue( ['Typeset', MathJax.Hub, document.getElementById( 'equations' )[0]] );
+		}
+	}
+	
+	// Variable changed. Update objects and compute output
+	function update()
+	{	
+		// Refresh canvas
+		createEnvironment();
+		createCapacitor();
+		createParticleArray();
+		createChargeArray();
+		
+		// Compute capacitance and charge
+		demVar.capacitance = ( demVar.k * demVar.PERMITIVITY_OF_FREE_SPACE * demVar.Area ) / ( demVar.distance * 100 );
+		demVar.charge = demVar.capacitance * demVar.voltage;
+		
+		// Update HTML values
+		updateHTML();
+	}
 
+	
 	// Variables 
 	
 	document.getElementById( "kConstant" ).onclick = function()
 	{   		
 		demVar.k = parseFloat( document.getElementById( "kInput" ).value );
-		createParticleArray();
-		createChargeArray();
+		update();
 	}
 
 	document.getElementById( "area" ).onclick = function()
 	{   		
 		demVar.Area = parseFloat( document.getElementById( "areaInput" ).value );
-		createCapacitor();
-		createParticleArray();
-		createChargeArray();
+		update();
 	}
 
 	document.getElementById( "distance" ).onclick = function()
 	{   		
 		demVar.distance = parseFloat( document.getElementById( "distanceInput" ).value );
-		createCapacitor();
-		createParticleArray();
-		createChargeArray();
-	}
+		update();
+		}
 
 	document.getElementById( "voltage" ).onclick = function()
 	{   		
@@ -311,10 +356,7 @@ Example.dielectric = function(){
 			demVar.bVoltageNegative = false;
 		}
 		
-		createEnvironment();
-		createCapacitor();
-		createParticleArray();
-		createChargeArray();
+		update();
 	}	
 	
     return {

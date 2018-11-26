@@ -42,5 +42,20 @@
     document.getElementById('physics-logo').innerHTML = `
              <img src="../images/logo.png"" alt="SeePhysics Logo"> 
     `;
+    
+    document.getElementById("circularMotion").onclick = function() {
+        MatterTools.Demo.setExampleById(demo, 'circularMotion')
+    };
+    
+    document.getElementById("universalGravitation").onclick = function() 
+    {
+        MatterTools.Demo.setExampleById(demo, 'universalGravitation')
+    };
+    
+    document.getElementById("dielectrics").onclick = function() {
+        MatterTools.Demo.setExampleById(demo, 'dielectric')
+    };
+    
     MatterTools.Demo.start(demo);
+    
 })();

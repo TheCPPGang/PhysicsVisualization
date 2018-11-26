@@ -225,7 +225,7 @@ Example.circularMotion = function(){
     
 	function updatePeriodAccel(){
 		demVar.period = ((demVar.radius * 2 * Math.PI)/demVar.speed).toFixed(2);
-		demVar.acceleration = (Math.pow(demVar.speed, 2) / demVar.radius);
+		demVar.acceleration = ((Math.pow(demVar.speed, 2) / demVar.radius)).toFixed(2);
 	}
 
 	document.getElementById( "radius" ).onclick = function()
