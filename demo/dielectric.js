@@ -276,13 +276,26 @@ Example.dielectric = function(){
 		document.getElementById('equations').innerHTML = `
 					$$C = { kε_0A \\over d }$$
 					$$C = { Q\\over V }$$
-					$$V = `+ demVar.voltage +`v$$
-					$$A = `+ demVar.Area +`{ m^2 }$$
-					$$k = `+ demVar.k +`$$
-					$$d = `+ demVar.distance +`m$$
-					$$ε_0 = { 8.854e-12 { F \\over m } }$$
-					$$C = `+ demVar.capacitance + `F$$
-					$$Q = `+ demVar.charge + `C$$
+					
+					
+					<h3>Variables</h3>
+					<div class="row">
+						<div class="col">
+							<ul class="equationDesc list-group border-0" id="variablesA">
+								<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
+								<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ m^2 }$$</li>
+								<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
+								<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
+							</ul>
+						</div>
+						<div class="col">
+							<ul class="equationDesc list-group border-0" id="variablesB">
+								<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`m$$</li>
+								<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e-12 _{ F \\over m } }$$</li>
+								<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
+							</ul>
+						</div>
+					</div>
 		`;
 		if ( window.MathJax )
 		{
