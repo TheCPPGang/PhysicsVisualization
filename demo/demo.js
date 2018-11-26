@@ -15,8 +15,6 @@
     addDemo('2-D Motion', 'motion', Example.motion);
     addDemo('Dielectrics', 'dielectric', Example.dielectric);
     addDemo('Universal Gravitation', 'universalGravitation', Example.universalGravitation);
-    addDemo('Gravitation w/ 2 Bodies', 'gravity2Bodies', Example.gravity2Bodies);
-    addDemo('Gravitation w/ 4 Bodies', 'gravity4Bodies', Example.gravity4Bodies);
     // Add demos here ^
 
     var demo = MatterTools.Demo.create({

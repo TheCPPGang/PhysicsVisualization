@@ -6,7 +6,7 @@ Example.universalGravitation = function(){
     var demVar = {
         width: 700,
         height: 400,
-        gravityConstant: 6.67408e-11,
+        gravityConstant: 0.001,
         ballSize: 10,
         friction: 0,
         frictionStatic: 1,
@@ -21,7 +21,10 @@ Example.universalGravitation = function(){
         objectsTrails: [],
         smallObjectVelocity: [],
         colorSwap: false,
-        uniGrav: false
+        uniGrav: false,
+        presets: [],
+        currentPreset: 'uniGrav',
+        trailMaxTime: 1,
     }
 
     // module aliases
@@ -63,7 +66,7 @@ Example.universalGravitation = function(){
     var runner = Runner.create();
     Runner.run(runner, engine);
 
-    function addObjectInEnviroment(x, y, r, sides, Vx, Vy, mass){
+    function addObjectInEnviroment(x, y, r, sides, Vx, Vy){
         var index = demVar.objects.length;
         demVar.objects.push(
             Bodies.polygon(x, y, sides,r, {
@@ -75,8 +78,7 @@ Example.universalGravitation = function(){
                     fillStyle: randomColor(),
                     strokeStyle: 'black',
                     lineWidth: 3
-                },
-                mass: mass*10e7
+                }
             })
         );
         demVar.objectsTrails.push([]);
@@ -90,7 +92,7 @@ Example.universalGravitation = function(){
 
 
     function resetSettings(){
-        demVar.gravityConstant = 6.67408e-11;
+        demVar.gravityConstant = 0.001;
         demVar.friction = 0;
         World.clear(engine.world, true);
         demVar.objects = [];
@@ -105,9 +107,10 @@ Example.universalGravitation = function(){
 
     function simpleOrbit(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0, 1);
-        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 5.609375, 1/333000);
+        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
+        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
         demVar.uniGrav = true;
+        demVar.trailMaxTime = 1;
     }
 
     function grav4Bodies(){
@@ -117,12 +120,14 @@ Example.universalGravitation = function(){
         addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1, 1);
         addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
         demVar.colorSwap = true;
+        demVar.trailMaxTime = 40;
     }
 
     function grav2Bodies(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1, 1);
-        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1, 1);
+        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1);
+        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1);
+        demVar.trailMaxTime = 10;
     }
 
     engine.velocityIterations = 4;
@@ -132,7 +137,7 @@ Example.universalGravitation = function(){
     function gravity() {
         if(demVar.playing){
             var length = demVar.objects.length;
-            for (var i = 1; i < length; i++) {
+            for (var i = (demVar.currentPreset == 'uniGrav' ? 1 : 0); i < length; i++) {
                 for (var j = 0; j < length; j++) {
                         if (i != j) {
                             var Dx = demVar.objects[j].position.x - demVar.objects[i].position.x;
@@ -147,7 +152,9 @@ Example.universalGravitation = function(){
                 }
             }
         }else{
-            Body.setVelocity(demVar.objects[1], {x: 0, y: 0});
+            for (var i = 0; i < demVar.objects.length; i++) {
+                Body.setVelocity(demVar.objects[i], {x: 0, y: 0});
+            }
         }
         demVar.lastTimeStamp = engine.timing.timestamp;
     }
@@ -196,7 +203,7 @@ Example.universalGravitation = function(){
 
             for (var i = 0; i < demVar.objectsTrails.length; i++) {
                 for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
-                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > 1){
+                    if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > demVar.trailMaxTime){
                         demVar.objectsTrails[i].shift();
                     }
                 }
@@ -246,15 +253,38 @@ Example.universalGravitation = function(){
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('problemDescription')[0]]);
     }
 
+    function loadPreset(){
+        if(demVar.currentPreset == 'uniGrav'){
+            simpleOrbit();
+        }else if(demVar.currentPreset == '2Bodies'){
+            grav2Bodies();
+        }else{
+            grav4Bodies();
+        }
+    }
+
+    function addPreset(id, name){
+        demVar.presets.push({
+            id: id,
+            name: name
+        });
+    }
+
+    addPreset('uniGrav', 'Universal Gravitation');
+    addPreset('2Bodies', 'Gravitation with 2 Bodies');
+    addPreset('4Bodies', 'Gravitation with 4 Bodies');
+
+    var presetOptions = demVar.presets.map(function (preset) {
+        return '<a class="dropdown-item" href="javascript:void(0)" id="' + preset.id + '">' + preset.name + '</a>';
+    }).join(' ');
+
     document.getElementById('settings').innerHTML = `
         <div class="container">
             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="preset">
             Presets
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0)">Universal Gravitation</a>
-                <a class="dropdown-item" href="javascript:void(0)">Gravitation with 2 Bodies</a>
-                <a class="dropdown-item" href="javascript:void(0)">Gravitation with 4 Bodies</a>
+                ${presetOptions}
             </div>
             <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
         </div>
@@ -267,10 +297,20 @@ Example.universalGravitation = function(){
         document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
     };
 
-    
+
+    function createFunction(id){
+        document.getElementById(id).onclick = function(){
+            demVar.currentPreset = id;
+            loadPreset();
+        }
+    }
+
+    for (var i = 0; i < demVar.presets.length; i++) {
+        createFunction(demVar.presets[i].id);
+    }
 
     // Default demo
-    simpleOrbit()
+    loadPreset()
 
     return {
         engine: engine,
