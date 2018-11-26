@@ -19,12 +19,9 @@ Example.universalGravitation = function(){
         playing: false,
         firstTime: true,
         objectsTrails: [],
-        smallObjectVelocity: []
-    }
-
-    function resetSettings(){
-        demVar.gravityConstant = 6.67408e-11;
-        demVar.friction = 0;
+        smallObjectVelocity: [],
+        colorSwap: false,
+        uniGrav: false
     }
 
     // module aliases
@@ -92,32 +89,45 @@ Example.universalGravitation = function(){
     }
 
 
-    function simpleOrbit(){
-        resetSettings();
+    function resetSettings(){
+        demVar.gravityConstant = 6.67408e-11;
+        demVar.friction = 0;
         World.clear(engine.world, true);
         demVar.objects = [];
         demVar.objectsTrails = [];
-        // 5.609375
+        demVar.lastTimeStamp = 0;
+        demVar.playing = false;
+        demVar.smallObjectVelocity = [];
+        demVar.firstTime = true;
+        demVar.colorSwap = false;
+        demVar.uniGrav = false;
+    }
+
+    function simpleOrbit(){
+        resetSettings();
         addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0, 1);
         addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 5.609375, 1/333000);
+        demVar.uniGrav = true;
     }
 
     function grav4Bodies(){
         resetSettings();
-        World.clear(engine.world, true);
-        demVar.objects = [];
-        demVar.objectsTrails = [];
         addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, 1, 0, 1);
         addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-1, 0, 1);
         addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1, 1);
         addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
+        demVar.colorSwap = true;
+    }
+
+    function grav2Bodies(){
+        resetSettings();
+        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1, 1);
+        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1, 1);
     }
 
     engine.velocityIterations = 4;
     engine.positionIterations = 6;
     engine.world.gravity.y = 0;
-
-    simpleOrbit()
 
     function gravity() {
         if(demVar.playing){
@@ -156,9 +166,20 @@ Example.universalGravitation = function(){
     }
 
     function getColor(bodyIndex, currentTrail, maxTrail){
-        var rgb = [255/4,255/4,255/4];
-        var i = bodyIndex % 2 + 1;
-        rgb[i] = 255;
+        var rgb;
+        if(demVar.colorSwap){
+            if(bodyIndex > 2){
+                rgb = [255,215,0];
+            }else{
+                var i = bodyIndex % 3;
+                rgb = [0,0,0];
+                rgb[i] = 255;
+            }
+        }else{
+            rgb = [255/4,255/4,255/4];
+            var i = bodyIndex % 2 + 1;
+            rgb[i] = 255;
+        }
         var alpha = currentTrail/maxTrail;
         var ret = `rgba(`+rgb[1]+`,`+rgb[0]+`,`+rgb[2]+`,`+ alpha +`)`;
         return ret;
@@ -206,8 +227,13 @@ Example.universalGravitation = function(){
 
     Events.on( runner, 'collisionStart', ({ pairs }) => {
         pairs.forEach(({ bodyA, bodyB }) => {
-            if (bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
-            if (bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
+            if(demVar.uniGrav){
+                if (bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
+                if (bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
+            }else{
+                Matter.World.remove(engine.world, bodyA);
+                Matter.World.remove(engine.world, bodyB);
+            }
         });
     });
 
@@ -221,7 +247,19 @@ Example.universalGravitation = function(){
     }
 
     document.getElementById('settings').innerHTML = `
-            <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
+<div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a>
+  </div>
+</div>
+        <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
     `;
 
     document.getElementById('play-pause').onclick = function(){
@@ -229,6 +267,9 @@ Example.universalGravitation = function(){
         demVar.firstTime = true;
         document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
     };
+
+    // Default demo
+    simpleOrbit()
 
     return {
         engine: engine,
