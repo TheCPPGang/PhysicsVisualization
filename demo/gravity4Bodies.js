@@ -79,9 +79,6 @@ Example.gravity4Bodies = function(){
                     strokeStyle: 'black',
                     lineWidth: 3
                 },
-                collisionFilter: {
-                    mask: null
-                }
             })
         );
 

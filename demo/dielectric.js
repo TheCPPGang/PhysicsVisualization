@@ -120,7 +120,7 @@ Example.dielectric = function(){
 		
 		// Our capacitors can fit twice as many rows as columns, so calculate the desired amount of each based on charge count
 		// Equation to calculate is: Charge = rows^2 / 2
-		nCharges = Math.floor( demVar.Area ) * Math.floor( demVar.k );
+		nCharges = Math.floor( ( demVar.Area * demVar.k ) / ( demVar.distance ) );
 		nRows = Math.ceil( Math.sqrt( 2 * nCharges ) );
 		nColumns = Math.ceil( Math.sqrt( 2 * nCharges ) /2 );
 		
@@ -129,7 +129,7 @@ Example.dielectric = function(){
 		if ( nRows > 10 || demVar.Area <= nColumns )
 		{
 			nRows = 10;
-			nColumns = Math.ceil( nCharges / 10 );
+			nColumns = Math.min( demVar.Area, Math.ceil( nCharges / 10 ) );
 		}
 
 		for ( var i = 1; i <= nRows; i++ )
