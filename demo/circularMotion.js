@@ -200,7 +200,7 @@ Example.circularMotion = function(){
     <div>
         <p class="h3 text-center">Equations</p> 
     <p>
-        $$v = {2piR \\over T}$$, $$a_c = {v^2 \\over R}$$
+        $$v = {2 \\pi R \\over T}$$, $$a_c = {v^2 \\over R}$$
     </p>
     <p >
         <ul class="text-center" style="list-style: none;">
