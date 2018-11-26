@@ -228,10 +228,22 @@ Example.dielectric = function(){
 	}
 
 	createEnvironment();
+	
+	 document.getElementById('problemDescription').innerHTML = 
+        `<p style="text-align: center"> 
+        	A parallel-plate capacitor with an area of  
+	        <span id="areaIn">5</span><sub>cm<sup>2</sup></sub> has a dielectric rested between itself with a dielectric constant of 
+	        <span id="kConstantIn">1</span> and a distance of 
+			<span id="distanceIn">5</span><sub>cm</sub>. This demo visualizes how capacitance and charge of a parallel-plate capacitor can change depending on various factors.
+        </p> 
+        <p>
+           <div>Capacitor Plate: <img src="../images/plate.jpg"></div>
+		   <div>Dielectric: <img src="../images/dielectric.jpg"></div>
+        </p>`;
 
 	document.getElementById('settings').innerHTML = `
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Dielectric Constant" aria-label="Dielectric Constant" aria-describedby="basic-addon2" id="kInput">
+				<input type="text" class="form-control" placeholder="Dielectric Constant κ" aria-label="Dielectric Constant κ" aria-describedby="basic-addon2" id="kInput">
 				<div class="input-group-append">
 					<button class="btn btn-outline-secondary text-white" type="submit" id="kConstant">Apply</button>
 				</div>
