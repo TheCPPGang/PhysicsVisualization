@@ -69,13 +69,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Matter = __webpack_require__(1);
 	var Common = Matter.Common;
 	var Demo = module.exports = {};
-	var Gui = __webpack_require__(2).Gui;
-	var Inspector = __webpack_require__(2).Inspector;
 	var ToolsCommon = __webpack_require__(3);
 
 	Demo._isIOS = window.navigator && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-	Demo._matterLink = 'http://brm.io/matter-js/';
+	Demo._matterLink = '';
 
 	/**
 	 * Creates a new demo instance.
@@ -99,34 +97,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      url: null,
 	      reset: true,
 	      source: false,
-	      inspector: false,
 	      tools: false,
-	      fullscreen: true,
 	      exampleSelect: false
-	    },
-	    tools: {
-	      inspector: null,
-	      gui: null
 	    },
 	    dom: {}
 	  }, options || {});
 
 	  if (demo.examples.length > 1 && options.toolbar.exampleSelect !== false) {
 	    demo.toolbar.exampleSelect = true;
-	  }
-
-	  if (Demo._isIOS) {
-	    demo.toolbar.fullscreen = false;
-	  }
-
-	  if (!Gui) {
-	    demo.toolbar.tools = false;
-	    demo.tools.gui = false;
-	  }
-
-	  if (!Inspector) {
-	    demo.toolbar.inspector = false;
-	    demo.tools.inspector = false;
 	  }
 
 	  demo.dom = Demo._createDom(demo);
@@ -241,100 +219,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    demo.dom.exampleSelect.value = example.id;
 
-	    setTimeout(function () {
-	      if (demo.tools.inspector) {
-	        Demo.setInspector(demo, true);
-	      }
-
-	      if (demo.tools.gui) {
-	        Demo.setGui(demo, true);
-	      }
-	    }, 500);
 	  } else {
 	    Demo.setExample(demo, demo.examples[0]);
-	  }
-	};
-
-	/**
-	 * Enables or disables the inspector tool.
-	 * If `enabled` a new `Inspector` instance will be created and the old one destroyed.
-	 * @function Demo.setInspector
-	 * @param {demo} demo
-	 * @param {bool} enabled
-	 */
-	Demo.setInspector = function (demo, enabled) {
-	  if (!enabled) {
-	    Demo._destroyTools(demo, true, false);
-	    demo.dom.root.classList.toggle('matter-inspect-active', false);
-	    return;
-	  }
-
-	  var instance = demo.example.instance;
-
-	  Demo._destroyTools(demo, true, false);
-	  demo.dom.root.classList.toggle('matter-inspect-active', true);
-
-	  demo.tools.inspector = Inspector.create(instance.engine, instance.render);
-	};
-
-	/**
-	 * Enables or disables the Gui tool.
-	 * If `enabled` a new `Gui` instance will be created and the old one destroyed.
-	 * @function Demo.setGui
-	 * @param {demo} demo
-	 * @param {bool} enabled
-	 */
-	Demo.setGui = function (demo, enabled) {
-	  if (!enabled) {
-	    Demo._destroyTools(demo, false, true);
-	    demo.dom.root.classList.toggle('matter-gui-active', false);
-	    return;
-	  }
-
-	  var instance = demo.example.instance;
-
-	  Demo._destroyTools(demo, false, true);
-	  demo.dom.root.classList.toggle('matter-gui-active', true);
-
-	  demo.tools.gui = Gui.create(instance.engine, instance.runner, instance.render);
-	};
-
-	Demo._destroyTools = function (demo, destroyInspector, destroyGui) {
-	  var inspector = demo.tools.inspector,
-	      gui = demo.tools.gui;
-
-	  if (destroyInspector && inspector && inspector !== true) {
-	    Inspector.destroy(inspector);
-	    demo.tools.inspector = null;
-	  }
-
-	  if (destroyGui && gui && gui !== true) {
-	    Gui.destroy(gui);
-	    demo.tools.gui = null;
-	  }
-	};
-
-	Demo._toggleFullscreen = function (demo) {
-	  var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-
-	  if (!fullscreenElement) {
-	    fullscreenElement = demo.dom.root;
-
-	    if (fullscreenElement.requestFullscreen) {
-	      fullscreenElement.requestFullscreen();
-	    } else if (fullscreenElement.mozRequestFullScreen) {
-	      fullscreenElement.mozRequestFullScreen();
-	    } else if (fullscreenElement.webkitRequestFullscreen) {
-	      fullscreenElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-	    }
-	  } else {
-	    if (document.exitFullscreen) {
-	      document.exitFullscreen();
-	    } else if (document.mozCancelFullScreen) {
-	      document.mozCancelFullScreen();
-	    } else if (document.webkitExitFullscreen) {
-	      document.webkitExitFullscreen();
-	    }
 	  }
 	};
 
@@ -378,44 +264,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  }
 
-	  if (dom.buttonReset) {
-	    dom.buttonReset.addEventListener('click', function () {
-	      Demo.reset(demo);
-	    });
-	  }
-
-	  if (dom.buttonInspect) {
-	    dom.buttonInspect.addEventListener('click', function () {
-	      var showInspector = !demo.tools.inspector;
-	      Demo.setInspector(demo, showInspector);
-	    });
-	  }
-
-	  if (dom.buttonTools) {
-	    dom.buttonTools.addEventListener('click', function () {
-	      var showGui = !demo.tools.gui;
-	      Demo.setGui(demo, showGui);
-	    });
-	  }
-
-	  if (dom.buttonFullscreen) {
-	    dom.buttonFullscreen.addEventListener('click', function () {
-	      Demo._toggleFullscreen(demo);
-	    });
-
-	    var fullscreenChange = function fullscreenChange() {
-	      var isFullscreen = document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen;
-	      document.body.classList.toggle('matter-is-fullscreen', isFullscreen);
-
-	      setTimeout(function () {
-	        Demo.setExample(demo, demo.example);
-	      }, 500);
-	    };
-
-	    document.addEventListener('webkitfullscreenchange', fullscreenChange);
-	    document.addEventListener('mozfullscreenchange', fullscreenChange);
-	    document.addEventListener('fullscreenchange', fullscreenChange);
-	  }
 	};
 
 	Demo._createDom = function (options) {

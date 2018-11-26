@@ -247,19 +247,18 @@ Example.universalGravitation = function(){
     }
 
     document.getElementById('settings').innerHTML = `
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Action
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">Separated link</a>
-  </div>
-</div>
-        <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
+        <div class="container">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="preset">
+            Presets
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)">Universal Gravitation</a>
+                <a class="dropdown-item" href="javascript:void(0)">Gravitation with 2 Bodies</a>
+                <a class="dropdown-item" href="javascript:void(0)">Gravitation with 4 Bodies</a>
+            </div>
+            <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
+        </div>
+
     `;
 
     document.getElementById('play-pause').onclick = function(){
@@ -267,6 +266,8 @@ Example.universalGravitation = function(){
         demVar.firstTime = true;
         document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
     };
+
+    
 
     // Default demo
     simpleOrbit()
