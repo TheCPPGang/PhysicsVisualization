@@ -21,7 +21,6 @@ Example.universalGravitation = function(){
         objectsTrails: [],
         smallObjectVelocity: [],
         colorSwap: false,
-        uniGrav: false,
         presets: [],
         currentPreset: 'uniGrav',
         trailMaxTime: 1,
@@ -102,14 +101,12 @@ Example.universalGravitation = function(){
         demVar.smallObjectVelocity = [];
         demVar.firstTime = true;
         demVar.colorSwap = false;
-        demVar.uniGrav = false;
     }
 
     function simpleOrbit(){
         resetSettings();
         addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
         addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
-        demVar.uniGrav = true;
         demVar.trailMaxTime = 1;
     }
 
@@ -234,7 +231,7 @@ Example.universalGravitation = function(){
 
     Events.on( runner, 'collisionStart', ({ pairs }) => {
         pairs.forEach(({ bodyA, bodyB }) => {
-            if(demVar.uniGrav){
+            if(demVar.currentPreset == 'uniGrav'){
                 if (bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
                 if (bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
             }else{
