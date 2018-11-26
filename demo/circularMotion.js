@@ -203,8 +203,8 @@ Example.circularMotion = function(){
 	     document.getElementById('problemDescription').innerHTML = `
 	        <p style="text-align: center"> 
 	        	A ball moves in a horizontal circle of radius 
-		        <span id="radiusIn">`+demVar.radius+`</span> m. The velocity of the ball is 
-		        <span id="speedIn">`+demVar.speed+`</span> m/s.
+		        `+demVar.radius+` m. The velocity of the ball is 
+		        `+demVar.speed+` m/s.
 	        </p> 
 	        <p>
 	            Grey Line: Centripetal Force (pointing inwards) 

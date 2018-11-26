@@ -24,6 +24,8 @@ Example.universalGravitation = function(){
         presets: [],
         currentPreset: 'uniGrav',
         trailMaxTime: 1,
+        settingInputs: '',
+        initialVelocity: 6
     }
 
     // module aliases
@@ -54,7 +56,7 @@ Example.universalGravitation = function(){
             wireframes: false,
             showVelocity: true,
             showAngleIndicator: false,
-            showCollisions: false,
+            showCollisions: true,
             pixelRatio: 1
         }
     });
@@ -103,11 +105,33 @@ Example.universalGravitation = function(){
         demVar.colorSwap = false;
     }
 
+    uniGravInputs = `
+        <div class="input-group">
+            <input type="number" class="form-control" min=0 step=any placeholder="Initial Velocity" aria-label="Initial Velocity" aria-describedby="basic-addon2" id="veloInput">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary text-white" type="button" disabled="true">m/s</button>
+                <button class="btn btn-outline-secondary text-white" type="button" id="veloButton">Apply</button>
+            </div>
+        </div>
+    `;
+
+    gravBodInputs = `
+        <div class="input-group">
+            <input type="number" class="form-control" min=0 step=any placeholder="Initial Velocity for all objects" aria-label="Initial Velocity for all objects" aria-describedby="basic-addon2" id="veloInput">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary text-white" type="button" disabled="true">m/s</button>
+                <button class="btn btn-outline-secondary text-white" type="button" id="veloButton">Apply</button>
+            </div>
+        </div>
+    `;
+
     function simpleOrbit(){
         resetSettings();
         addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
-        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 6);
+        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, demVar.initialVelocity);
         demVar.trailMaxTime = 1;
+        demVar.settingInputs = uniGravInputs;
+        updateSettings();
     }
 
     function grav4Bodies(){
@@ -118,6 +142,8 @@ Example.universalGravitation = function(){
         addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
         demVar.colorSwap = true;
         demVar.trailMaxTime = 10;
+        demVar.settingInputs = grav2BodInputs;
+        updateSettings();
     }
 
     function grav2Bodies(){
@@ -125,6 +151,8 @@ Example.universalGravitation = function(){
         addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -1, -1);
         addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, 1, 1);
         demVar.trailMaxTime = 10;
+        demVar.settingInputs = gravBodInputs;
+        updateSettings();
     }
 
     engine.velocityIterations = 4;
@@ -166,6 +194,7 @@ Example.universalGravitation = function(){
             }
             demVar.firstTime = false;
         }
+        if(demVar.currentPreset == 'uniGrav') Body.setVelocity(demVar.objects[0], {x: 0, y: 0});
         gravity();
     }
 
@@ -228,25 +257,25 @@ Example.universalGravitation = function(){
         renderTrails();        
     });
 
-    Events.on( runner, 'collisionStart', ({ pairs }) => {
+    Events.on( engine, 'collisionStart', ({ pairs }) => {
         pairs.forEach(({ bodyA, bodyB }) => {
             if(demVar.currentPreset == 'uniGrav'){
-                if (bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
-                if (bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
+                if(bodyA !== demVar.objects[0]) Matter.World.remove(engine.world, bodyA);
+                if(bodyB !== demVar.objects[0]) Matter.World.remove(engine.world, bodyB);
             }else{
                 Matter.World.remove(engine.world, bodyA);
                 Matter.World.remove(engine.world, bodyB);
             }
+
         });
     });
 
-     document.getElementById('problemDescription').innerHTML = 
-        `<p class="text-white text-center"> 
-            Formula: $$F = {GM_1M_2 \\over R^2}$$
-        </p>`;
+     document.getElementById('equations').innerHTML = `
+        $$F = {GM_1M_2 \\over R^2}$$
+     `;
 
     if(window.MathJax){
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('problemDescription')[0]]);
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
     }
 
     function loadPreset(){
@@ -257,6 +286,7 @@ Example.universalGravitation = function(){
         }else{
             grav4Bodies();
         }
+        updateProblemDescription();
     }
 
     function addPreset(id, name){
@@ -275,28 +305,56 @@ Example.universalGravitation = function(){
     }).join(' ');
 
     document.getElementById('settings').innerHTML = `
-        <div class="container">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="preset">
-            Presets
-            </button>
-            <div class="dropdown-menu">
-                ${presetOptions}
+            <div class="container p-2">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="preset">
+                Presets
+                </button>
+                <div class="dropdown-menu">
+                    ${presetOptions}
+                </div>
+                <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
             </div>
-            <button type="button" class="btn btn-outline-secondary text-white" id="play-pause">Play</button>
-        </div>
-
+            <div class="container" id="userInput">
+                    ${demVar.settingInputs}
+            </div>
     `;
+
+    function updateSettings(){
+        document.getElementById('userInput').innerHTML = `
+            ${demVar.settingInputs}
+        `;
+
+        document.getElementById('veloButton').onclick = function(){
+            if(document.getElementById('veloInput').value.length !== 0){
+                demVar.initialVelocity = parseFloat( document.getElementById( "veloInput" ).value ) * 0.01666;
+                console.log(demVar.initialVelocity);
+                demVar.playing = false;
+                demVar.firstTime = true;
+                updatePlayPause();
+                loadPreset();
+            }
+        }
+    }
+
+    function updatePlayPause(){
+        document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
+    }
 
     document.getElementById('play-pause').onclick = function(){
         demVar.playing = !demVar.playing;
         demVar.firstTime = true;
-        document.getElementById('play-pause').innerHTML = (demVar.playing ? "Pause" : "Play");
+        updatePlayPause();
     };
 
+    // Default demo
+    loadPreset()
 
     function createFunction(id){
         document.getElementById(id).onclick = function(){
             demVar.currentPreset = id;
+            demVar.playing = false;
+            demVar.firstTime = true;
+            updatePlayPause();
             loadPreset();
         }
     }
@@ -305,8 +363,14 @@ Example.universalGravitation = function(){
         createFunction(demVar.presets[i].id);
     }
 
-    // Default demo
-    loadPreset()
+    function updateProblemDescription(){
+        document.getElementById('problemDescription').innerHTML = `
+            <p class='text-center'> 
+                A small object orbits around a larger object.
+                The initial velocity of the small object is `+Math.round(demVar.initialVelocity/0.0166)+` m/s
+            </p> 
+        `;
+    }
 
     return {
         engine: engine,
