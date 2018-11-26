@@ -173,7 +173,7 @@ Example.universalGravitation = function(){
         var rgb;
         if(demVar.colorSwap){
             if(bodyIndex > 2){
-                rgb = [255,215,0];
+                rgb = [165,255,0];
             }else{
                 var i = bodyIndex % 3;
                 rgb = [0,0,0];
