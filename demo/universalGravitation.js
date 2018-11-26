@@ -19,8 +19,7 @@ Example.universalGravitation = function(){
         playing: false,
         firstTime: true,
         objectsTrails: [],
-        smallObjectVelocity: [],
-        test: 0
+        smallObjectVelocity: []
     }
 
     function resetSettings(){
@@ -101,6 +100,17 @@ Example.universalGravitation = function(){
         // 5.609375
         addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0, 1);
         addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, 5.609375, 1/333000);
+    }
+
+    function grav4Bodies(){
+        resetSettings();
+        World.clear(engine.world, true);
+        demVar.objects = [];
+        demVar.objectsTrails = [];
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, 1, 0, 1);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-1, 0, 1);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, 1, 1);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-1, 1);
     }
 
     engine.velocityIterations = 4;
