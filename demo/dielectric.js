@@ -326,8 +326,7 @@ Example.dielectric = function(){
 	document.getElementById( "kConstant" ).onclick = function()
 	{   		
 		demVar.k = parseFloat( document.getElementById( "kInput" ).value );
-		createParticleArray();
-		createChargeArray();
+		update();
 	}
 
 	document.getElementById( "area" ).onclick = function()
