@@ -197,7 +197,6 @@ Example.universalGravitation = function(){
                     timestamp: engine.timing.timestamp,
                 });
             }
-            console.log('max time', demVar.trailMaxTime);
             for (var i = 0; i < demVar.objectsTrails.length; i++) {
                 for (var j = 0; j < demVar.objectsTrails[i].length; j++) {
                     if(((engine.timing.timestamp - demVar.objectsTrails[i][j].timestamp)/1000) > demVar.trailMaxTime){
