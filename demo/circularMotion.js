@@ -169,8 +169,8 @@ Example.circularMotion = function(){
      document.getElementById('problemDescription').innerHTML = 
         `<p style="text-align: center"> 
         	A ball moves in a horizontal circle of radius 
-	        <span id="radiusIn">100</span>m. The speed of the ball is 
-	        <span id="speedIn">10</span>m/s.
+	        <span id="radiusIn">100</span> m. The velocity of the ball is 
+	        <span id="speedIn">10</span> m/s.
         </p> 
         <p>
             Grey Line: Centripetal Force (pointing inwards) 
@@ -199,15 +199,22 @@ Example.circularMotion = function(){
     document.getElementById('equations').innerHTML = `
     <div>
         <p class="h3 text-center">Equations</p> 
-    <p display="inline">
-        $$Speed = {2piR \\over T}$$, $$Acceleration = {v^2 \\over R}$$
+    <p>
+        $$v = {2piR \\over T}$$, $$a_c = {v^2 \\over R}$$
     </p>
-    <p class="text-center">
-        v = Speed = <span id="speedIns">10</span>m/s,  R = <span id="radiusIns">100</span>m, T = Period = <span id=period>62.83</span> seconds
+    <p >
+        <ul class="text-center" style="list-style: none;">
+            <li>v = <span id="speedIns">10</span><sub>m/s</sub></li>  
+            <li>R = <span id="radiusIns">100</span><sub>m</sub></li>
+            <li>T = Period = <span id=period>62.83</span> <sub>seconds<sub></li>  
+            <li>a<sub>c</sub> = <span id="acceleration">1</span> <sub>m/s&sup2<sub></li>
+        </ul>
     </p>
-    </div>
-    
+    </div> 
     `;
+    if(window.MathJax){
+        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
+    }
     
 
 	// Variables 
@@ -226,6 +233,8 @@ Example.circularMotion = function(){
         document.getElementById("radiusIns").innerHTML = document.getElementById("radiusInput").value;
         
         document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/speeds).toFixed(2);
+        
+        document.getElementById("acceleration").innerHTML = (Math.pow(speeds, 2) / demVar.radius);
 	}
 	
 	document.getElementById( "speed" ).onclick = function()
@@ -241,6 +250,8 @@ Example.circularMotion = function(){
         document.getElementById("speedIns").innerHTML = document.getElementById("speedInput").value ;
         
         document.getElementById("period").innerHTML = ((demVar.radius * 2 * Math.PI)/document.getElementById("speedInput").value).toFixed(2);
+        
+        document.getElementById("acceleration").innerHTML = (Math.pow(speeds, 2) / demVar.radius);
 	}
 
 	document.getElementById( "play-pause" ).onclick = function()
