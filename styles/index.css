@@ -58,7 +58,7 @@ body {
 }
 
 /*This holds the equations used*/
-#equations {
+.equationDesc {
     
 	border-radius: 10px;
   margin-left: auto;

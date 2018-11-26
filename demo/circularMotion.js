@@ -211,15 +211,12 @@ Example.circularMotion = function(){
 	        </p>
         `;
 	    document.getElementById('equations').innerHTML = `
-		    <div class="container text-center">
-		        <p class="h3 text-center">Equations</p> 
 		        $$v = {2 \\pi R \\over T}$$ 
 		        $$a_c = {v^2 \\over R}$$
 		        $$v = `+demVar.speed+`_{m \\over s}$$
 		        $$R = `+demVar.radius+`_m$$
 		        $$T = Period = `+demVar.period+`\\space seconds$$
 		        $$a_c = `+demVar.acceleration+`_{m \\over s^2}$$
-		    </div> 
 	    `;
 	    if(window.MathJax){
 	        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
