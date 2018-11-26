@@ -66,7 +66,7 @@ Example.dielectric = function(){
 	function createParticle( x, y ) 
 	{
 		// Offset charge positions in the particle depending on the current value of k and the voltage
-		offset = Math.min( 15, ( demVar.k * demVar.voltage ) ) * ( demVar.bVoltageNegative ? 1 : -1 );
+		offset = Math.min( 15, ( demVar.k * demVar.voltage ) ) * ( demVar.bVoltageNegative ? -1 : 1 );
 		
 		var plusA = Bodies.rectangle( x + offset , y, 12.5, 1, { render: { fillStyle: RED } } ),
 			plusB = Bodies.rectangle( x + offset, y,  1, 12.5, { render: { fillStyle: RED } } ),
