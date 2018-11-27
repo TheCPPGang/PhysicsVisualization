@@ -38,11 +38,6 @@
         examples: demoExamples
     });
 
-    
-    document.getElementById('physics-logo').innerHTML = `
-             <img src="../images/logo1.png"" alt="SeePhysics Logo"> 
-    `;
-    
     document.getElementById("circularMotion").onclick = function() {
         MatterTools.Demo.setExampleById(demo, 'circularMotion')
     };
