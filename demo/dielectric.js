@@ -62,10 +62,6 @@ Example.dielectric = function(){
 		GRAY = '#CCCCCC';
 		BLACK = '#000000';
 
-	// var vari = document.createElement('div');
-	// vari.id = 'variables';
-	
-
 	// Create a particle in the dielectric
 	function createParticle( x, y ) 
 	{
