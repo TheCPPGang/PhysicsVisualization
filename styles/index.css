@@ -103,6 +103,14 @@ body {
   background-color: #045499;
 }
 
+.navbar-nav>li{
+  border-right: 1px solid #000;
+}
+
+.navbar-nav>li:last-child{
+  border:none;
+}
+
 .navbar-def {
   background-color: #045499;
   color: white;
