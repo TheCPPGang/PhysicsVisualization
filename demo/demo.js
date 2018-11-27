@@ -24,7 +24,7 @@
             inspector: false,
             tools: false,
             fullscreen: false,
-            exampleSelect: true
+            exampleSelect: false
         },
         tools: {
             inspector: false,
@@ -38,7 +38,7 @@
         examples: demoExamples
     });
 
-    document.getElementById('topBar').appendChild(demo.dom.root);
+    
     document.getElementById('physics-logo').innerHTML = `
              <img src="../images/logo.png"" alt="SeePhysics Logo"> 
     `;

@@ -279,8 +279,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var preventZoomClass = options.preventZoom && Demo._isIOS ? 'prevent-zoom-ios' : '';
 
 	  root.innerHTML = `
-	      <div class="matter-header-outer">
-	      	<div id="physics-logo"></div>
+	      
+	      	
 	        <header class="matter-header">
 	            <div class="matter-toolbar">
 	              <div class="matter-select-wrapper">
@@ -290,7 +290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              </div>
 	            </div>
 	        </header>
-	      </div>
+	      
 	  `;
 	  var dom = {
 	    root: root.firstElementChild,

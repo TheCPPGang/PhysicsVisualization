@@ -232,28 +232,28 @@ Example.dielectric = function(){
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Dielectric Constant κ" aria-label="Dielectric Constant κ" aria-describedby="basic-addon2" id="kInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="submit" id="kConstant">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="submit" id="kConstant">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">cm<sup>2</sup></button>
-					<button class="btn btn-outline-secondary text-white" type="button" id="area">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">cm<sup>2</sup></button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="area">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">cm</button>
-					<button class="btn btn-outline-secondary text-white" type="button" id="distance">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">cm</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="distance">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Voltage" aria-label="Voltage" aria-describedby="basic-addon2" id="voltageInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">v</button>
-					<button class="btn btn-outline-secondary text-white" type="button" id="voltage">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">v</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="voltage">Apply</button>
 				</div>
 			</div>
 	`;

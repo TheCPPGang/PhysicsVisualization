@@ -181,20 +181,20 @@ Example.circularMotion = function(){
 
 	document.getElementById('settings').innerHTML = `
 			<div class="mult-btn">
-					<button class="btn btn-outline-secondary text-white" type="button" id="play-pause">Pause</button>
+					<button class="btn btn-outline-secondary text-white" type="button" style="background-color:#0062B7;" id="play-pause">Pause</button>
 			</div>
 			<div class="input-group">
 				<input type="number" class="form-control" min=0 step=any placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">m</button>
-					<button class="btn btn-outline-secondary text-white" type="button" id="radius">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="radius">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="number" class="form-control" min=0 step=any placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" type="button" disabled="true">m/s</button>
-					<button class="btn btn-outline-secondary text-white" type="button" id="speed">Apply</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m/s</button>
+					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="speed">Apply</button>
 				</div>
 			</div>
 	`;
