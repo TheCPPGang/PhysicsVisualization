@@ -78,7 +78,9 @@ Example.circularMotion = function(){
 	function createCircularMotion( radius )
 	{
 		// add revolute constraint
-		demVar.objects.push( body = Bodies.circle( demVar.width / 2 - radius, demVar.height / 2, 25, { frictionAir: 0 } ) );
+		demVar.objects.push( body = Bodies.circle( demVar.width / 2 - radius, demVar.height / 2, 25, { frictionAir: 0, render: {
+            fillStyle: '#0062B7'
+        } } ) );
 		
 		demVar.objects.push( constraint = Constraint.create( {
 				pointA: { x: demVar.width / 2, y: demVar.height / 2 },
