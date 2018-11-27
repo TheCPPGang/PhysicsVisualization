@@ -226,11 +226,6 @@ Example.dielectric = function(){
 		World.add( engine.world, demVar.objects );
 	}
 
-	var vari = document.createElement('div');
-	vari.id = 'variables';
-	vari.classList.add('m-2');
-	document.getElementById('equationHolder').appendChild(vari);
-
 	update();
 
 	document.getElementById('settings').innerHTML = `
