@@ -39,9 +39,7 @@
     });
 
     function removeVar(){
-        if(document.getElementById("variables") !== undefined){
-            document.getElementById("variables").innerHTML = "";
-        }
+        document.getElementById("variables").innerHTML = "";
     }
 
     document.getElementById("circularMotion").onclick = function() {
