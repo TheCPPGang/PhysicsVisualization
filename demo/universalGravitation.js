@@ -112,8 +112,8 @@ Example.universalGravitation = function(){
         <div class="input-group">
             <input type="number" class="form-control" min=0 step=any placeholder="Initial Velocity" aria-label="Initial Velocity" aria-describedby="basic-addon2" id="veloInput">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m/s</button>
-                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="veloButton">Apply</button>
+                <button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">m/s</button>
+                <button class="btn btn-outline-secondary text-white btn-apply" type="button" id="veloButton">Apply</button>
             </div>
         </div>
     `;
@@ -122,8 +122,8 @@ Example.universalGravitation = function(){
         <div class="input-group">
             <input type="number" class="form-control" min=0 step=any placeholder="Initial Velocity for all objects" aria-label="Initial Velocity for all objects" aria-describedby="basic-addon2" id="veloInput">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m/s</button>
-                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="veloButton">Apply</button>
+                <button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">m/s</button>
+                <button class="btn btn-outline-secondary text-white btn-apply" type="button" id="veloButton">Apply</button>
             </div>
         </div>
     `;
@@ -274,7 +274,9 @@ Example.universalGravitation = function(){
     });
 
      document.getElementById('equations').innerHTML = `
-        $$F = {GM_1M_2 \\over R^2}$$
+        <div class="p-3">
+            $$F = {GM_1M_2 \\over R^2}$$
+        </div>
      `;
 
     if(window.MathJax){
@@ -315,7 +317,7 @@ Example.universalGravitation = function(){
                 <div class="dropdown-menu">
                     ${presetOptions}
                 </div>
-                <button type="button" class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" id="play-pause">Play</button>
+                <button type="button" class="btn btn-outline-secondary text-white btn-apply" id="play-pause">Play</button>
             </div>
             <div class="container" id="userInput">
                     ${demVar.settingInputs}

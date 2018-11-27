@@ -226,34 +226,39 @@ Example.dielectric = function(){
 		World.add( engine.world, demVar.objects );
 	}
 
+	var vari = document.createElement('div');
+	vari.id = 'variables';
+	vari.classList.add('m-2');
+	document.getElementById('equationHolder').appendChild(vari);
+
 	update();
 
 	document.getElementById('settings').innerHTML = `
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Dielectric Constant κ" aria-label="Dielectric Constant κ" aria-describedby="basic-addon2" id="kInput">
+				<input type="number" class="form-control" placeholder="Dielectric Constant κ" min=0 step=any aria-label="Dielectric Constant κ" aria-describedby="basic-addon2" id="kInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="submit" id="kConstant">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="submit" id="kConstant">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Plate Area" aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
+				<input type="number" class="form-control" placeholder="Plate Area" min=0 step=any aria-label="Plate Area" aria-describedby="basic-addon2" id="areaInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">cm<sup>2</sup></button>
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="area">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">cm<sup>2</sup></button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" id="area">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Distance Between Plates" aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
+				<input type="number" class="form-control" placeholder="Distance Between Plates" min=0 step=any aria-label="Distance Between Plates" aria-describedby="basic-addon2" id="distanceInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">cm</button>
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="distance">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">cm</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" id="distance">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Voltage" aria-label="Voltage" aria-describedby="basic-addon2" id="voltageInput">
+				<input type="number" class="form-control" placeholder="Voltage" min=0 step=any aria-label="Voltage" aria-describedby="basic-addon2" id="voltageInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">v</button>
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="voltage">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">v</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" id="voltage">Apply</button>
 				</div>
 			</div>
 	`;
@@ -274,37 +279,42 @@ Example.dielectric = function(){
 		`;
 	
 		document.getElementById('equations').innerHTML = `
-					$$C = { kε_0A \\over d }$$
-					$$C = { Q\\over V }$$
-					
-					
-					<p class="h3">Variables</p>
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<ul class="equationDesc list-group border-0" id="variablesA">
-									<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
-									<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ cm^2 }$$</li>
-									<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
-									<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
-								</ul>
-							</div>
-							<div class="col">
-								<ul class="equationDesc list-group border-0" id="variablesB">
-									<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`cm$$</li>
-									<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e^{-12} \\space _{ F \\over m } }$$</li>
-									<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
-								</ul>
-							</div>
-						</div>
-					<div>
+			<div class="p-3">
+				$$C = { kε_0A \\over d }$$
+				$$C = { Q\\over V }$$
+			</div>
 		`;
+
+		document.getElementById('variables').innerHTML = `
+			<div class="container card-header bg-lightblue">
+				<p class="h3 border-bottom border-light p-3">Variables</p>
+			</div>
+			<div class="container bg-mdblue">
+				<div class="row">
+					<div class="col">
+						<ul class="equationDesc list-group border-0" id="variablesA">
+							<li class="equationDesc list-unstyled border-0">$$V = `+ demVar.voltage +`v$$</li>
+							<li class="equationDesc list-unstyled border-0">$$A = `+ demVar.Area +`{ cm^2 }$$</li>
+							<li class="equationDesc list-unstyled border-0">$$k = `+ demVar.k +`$$</li>
+							<li class="equationDesc list-unstyled border-0">$$Q = `+ demVar.charge + `C$$</li>
+						</ul>
+					</div>
+					<div class="col">
+						<ul class="equationDesc list-group border-0" id="variablesB">
+							<li class="equationDesc list-unstyled border-0">$$d = `+ demVar.distance +`cm$$</li>
+							<li class="equationDesc list-unstyled border-0">$$ε_0 = { 8.854e^{-12} \\space _{ F \\over m } }$$</li>
+							<li class="equationDesc list-unstyled border-0">$$C = `+ demVar.capacitance + `F$$</li>
+						</ul>
+					</div>
+				</div>
+			<div>
+		`;
+
 		if ( window.MathJax )
 		{
 			MathJax.Hub.Queue( ['Typeset', MathJax.Hub, document.getElementById( 'equations' )[0]] );
 		}
 	}
-	
 	// Variable changed. Update objects and compute output
 	function update()
 	{	

@@ -38,13 +38,21 @@
         examples: demoExamples
     });
 
+    function removeVar(){
+        if(document.getElementById("variables") !== undefined){
+            document.getElementById("variables").outerHTML = "";
+        }
+    }
+
     document.getElementById("circularMotion").onclick = function() {
         MatterTools.Demo.setExampleById(demo, 'circularMotion')
+        removeVar();
     };
     
     document.getElementById("universalGravitation").onclick = function() 
     {
         MatterTools.Demo.setExampleById(demo, 'universalGravitation')
+        removeVar();
     };
     
     document.getElementById("dielectrics").onclick = function() {

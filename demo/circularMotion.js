@@ -183,20 +183,20 @@ Example.circularMotion = function(){
 
 	document.getElementById('settings').innerHTML = `
 			<div class="mult-btn">
-					<button class="btn btn-outline-secondary text-white" type="button" style="background-color:#0062B7;" id="play-pause">Pause</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" id="play-pause">Pause</button>
 			</div>
 			<div class="input-group">
 				<input type="number" class="form-control" min=0 step=any placeholder="Radius" aria-label="Radius" aria-describedby="basic-addon2" id="radiusInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m</button>
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="radius">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">m</button>
+					<button class="btn btn-outline-secondary text-white btn-apply"  type="button" id="radius">Apply</button>
 				</div>
 			</div>
 			<div class="input-group">
 				<input type="number" class="form-control" min=0 step=any placeholder="Speed" aria-label="Speed" aria-describedby="basic-addon2" id="speedInput">
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m/s</button>
-					<button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="speed">Apply</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" disabled="true">m/s</button>
+					<button class="btn btn-outline-secondary text-white btn-apply" type="button" id="speed">Apply</button>
 				</div>
 			</div>
 	`;
@@ -213,12 +213,14 @@ Example.circularMotion = function(){
 	        </p>
         `;
 	    document.getElementById('equations').innerHTML = `
+	    	<div class="p-3">
 		        $$v = {2 \\pi R \\over T}$$ 
 		        $$a_c = {v^2 \\over R}$$
 		        $$v = `+demVar.speed+`_{m \\over s}$$
 		        $$R = `+demVar.radius+`_m$$
 		        $$T = Period = `+demVar.period+`\\space seconds$$
 		        $$a_c = `+demVar.acceleration+`_{m \\over s^2}$$
+	        </div>
 	    `;
 	    if(window.MathJax){
 	        MathJax.Hub.Queue(['Typeset', MathJax.Hub, document.getElementById('equations')[0]]);
