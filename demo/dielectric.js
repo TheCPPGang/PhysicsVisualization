@@ -226,12 +226,12 @@ Example.dielectric = function(){
 		World.add( engine.world, demVar.objects );
 	}
 
-	var vari = document.createElement('div');
-	vari.id = 'variables';
-	vari.classList.add('m-2');
-	document.getElementById('equationHolder').appendChild(vari);
+	// var vari = document.createElement('div');
+	// vari.id = 'variables';
+	// vari.classList.add('m-2');
+	// document.getElementById('equationHolder').appendChild(vari);
 
-	update();
+	
 
 	document.getElementById('settings').innerHTML = `
 			<div class="input-group">
@@ -370,7 +370,7 @@ Example.dielectric = function(){
 		
 		update();
 	}	
-	
+	update();
     return {
         engine: engine,
         runner: runner,

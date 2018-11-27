@@ -40,7 +40,7 @@
 
     function removeVar(){
         if(document.getElementById("variables") !== undefined){
-            document.getElementById("variables").outerHTML = "";
+            document.getElementById("variables").innerHTML = "";
         }
     }
 
