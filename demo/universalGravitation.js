@@ -69,7 +69,9 @@ Example.universalGravitation = function(){
     var runner = Runner.create();
     Runner.run(runner, engine);
 
-    function addObjectInEnviroment(x, y, r, sides, Vx, Vy){
+    function addObjectInEnviroment(x, y, r, sides, Vx, Vy, earth){
+        var imgPath = (earth ? '../images/earth.svg' : '../images/moon.png');
+        var scale = (earth ? 0.2 : 0.3);
         var index = demVar.objects.length;
         demVar.objects.push(
             Bodies.polygon(x, y, sides,r, {
@@ -80,8 +82,12 @@ Example.universalGravitation = function(){
                 render: {
                     fillStyle: randomColor(),
                     strokeStyle: 'black',
-                    lineWidth: 3
-                    
+                    lineWidth: 3,
+                    sprite:{
+                        texture: imgPath,
+                        xScale: scale,
+                        yScale: scale
+                    }
                 }
             })
         );
@@ -130,8 +136,8 @@ Example.universalGravitation = function(){
 
     function simpleOrbit(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0);
-        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, demVar.initialVelocity);
+        addObjectInEnviroment(demVar.width*0.5, demVar.height*0.5, 50, 0, 0, 0, true);
+        addObjectInEnviroment(demVar.width*0.5-150, demVar.height*0.5, 10, 0, 0, demVar.initialVelocity, false);
         demVar.trailMaxTime = 1;
         demVar.settingInputs = uniGravInputs;
         updateSettings();
@@ -139,10 +145,10 @@ Example.universalGravitation = function(){
 
     function grav4Bodies(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, demVar.initialVelocity, 0);
-        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-demVar.initialVelocity, 0);
-        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, demVar.initialVelocity);
-        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-demVar.initialVelocity);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5+100, 12, 0, demVar.initialVelocity, 0, false);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5-100, 12, 0,-demVar.initialVelocity, 0, false);
+        addObjectInEnviroment(demVar.width*0.5-100, demVar.height*0.5+100, 12, 0, 0, demVar.initialVelocity, false);
+        addObjectInEnviroment(demVar.width*0.5+100, demVar.height*0.5-100, 12, 0, 0,-demVar.initialVelocity, false);
         demVar.colorSwap = true;
         demVar.trailMaxTime = 10;
         demVar.settingInputs = gravBodInputs;
@@ -151,8 +157,8 @@ Example.universalGravitation = function(){
 
     function grav2Bodies(){
         resetSettings();
-        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -demVar.initialVelocity, -demVar.initialVelocity);
-        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, demVar.initialVelocity, demVar.initialVelocity);
+        addObjectInEnviroment(demVar.width*0.5+50, demVar.height*0.5-50, 12, 0, -demVar.initialVelocity, -demVar.initialVelocity, false);
+        addObjectInEnviroment(demVar.width*0.5-50, demVar.height*0.5+50, 12, 0, demVar.initialVelocity, demVar.initialVelocity, false);
         demVar.trailMaxTime = 10;
         demVar.settingInputs = gravBodInputs;
         updateSettings();
