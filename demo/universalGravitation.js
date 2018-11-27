@@ -122,8 +122,8 @@ Example.universalGravitation = function(){
         <div class="input-group">
             <input type="number" class="form-control" min=0 step=any placeholder="Initial Velocity for all objects" aria-label="Initial Velocity for all objects" aria-describedby="basic-addon2" id="veloInput">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary text-white" type="button" disabled="true">m/s</button>
-                <button class="btn btn-outline-secondary text-white" type="button" id="veloButton">Apply</button>
+                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" disabled="true">m/s</button>
+                <button class="btn btn-outline-secondary text-white" style="background-color:#0062B7;" type="button" id="veloButton">Apply</button>
             </div>
         </div>
     `;
